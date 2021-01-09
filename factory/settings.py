@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'factory.users',
     'factory.catalog',
+    'factory.cart',
 
     'mptt',
     'rest_framework',
