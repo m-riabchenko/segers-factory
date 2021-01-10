@@ -18,7 +18,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         item = CartItem.objects.create(**validated_data)
         cart, _ = Cart.objects.get_or_create(user=self.context['request'].user)
-        cart.total = cart.get_total_price()
+        cart.total = cart.get_total_cost()
         cart.items.add(item)
         cart.save()
         return item
@@ -28,7 +28,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         instance.product = validated_data.get('product', instance.product)
         instance.save()
         cart = Cart.objects.get(user=self.context['request'].user)
-        cart.total = cart.get_total_price()
+        cart.total = cart.get_total_cost()
         cart.save()
 
         return instance
