@@ -1,96 +1,75 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import {useStyles} from "./LoginStyle";
-import {NavLink} from "react-router-dom";
-import {useForm, Controller} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {authAPI} from "../../../api/AuthAPI";
 
 
 export const Login = () => {
-    const classes = useStyles();
-    const {control, handleSubmit} = useForm();
+    const {register, handleSubmit} = useForm();
 
     const onSubmit = (data) => {
+        console.log(data)
         return authAPI.login(data.email, data.password)
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline/>
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign in
-                </Typography>
-                <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-                    <Controller
-                        as={TextField}
-                        control={control}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        type="email"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        defaultValue=""
-                    />
-                    <Controller
-                        as={TextField}
-                        control={control}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        defaultValue=""
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign In
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant="body2" component={NavLink} to={"/register"}>
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </form>
+        <>
+            <div className="htc__login__register bg__white ptb--130">
+                <div className="container">
+                    <ul className="login__register__menu" role="tablist">
+                        <li role="presentation" className="register"><a href={"/"}>Login</a>
+                        </li>
+                    </ul>
+                    <div className="row">
+                        <div className="col-md-6 col-md-offset-3">
+
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputEmail1">Email address </label>
+                                    <input ref={register} type="email" className="form-control"
+                                           id="exampleInputEmail1"
+                                           aria-describedby="emailHelp" name="email"/>
+                                    <small id="emailHelp"
+                                           className="form-text text-muted"> error </small>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputPassword1">Password</label>
+                                    <input ref={register} type="password" className="form-control"
+                                           name="password"
+                                           id="exampleInputPassword1"/>
+                                    <small id="emailHelp"
+                                           className="form-text text-muted">errors </small>
+                                </div>
+                                <div className="form-group form-check">
+                                    <input type="checkbox" className="form-check-input"
+                                           id="exampleCheck1"/> Remember me
+                                </div>
+
+                                <button type="submit"
+                                        className="btn btn-primary center-block btn-lg">Login
+                                </button>
+                            </form>
+                            <div className="htc__social__connect">
+                                <h2>Or Login With</h2>
+                                <ul className="htc__soaial__list">
+                                    <li><a className="bg--twitter" href="/#"><i
+                                        className="zmdi zmdi-twitter"></i></a></li>
+                                    <li><a className="bg--instagram" href="/#"><i
+                                        className="zmdi zmdi-instagram"></i></a></li>
+                                    <li><a className="bg--facebook" href="/#"><i
+                                        className="zmdi zmdi-facebook"></i></a>
+                                    </li>
+                                    <li><a className="bg--googleplus" href="/#"><i
+                                        className="zmdi zmdi-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
             </div>
-        </Container>
-    );
+        </>)
 }
