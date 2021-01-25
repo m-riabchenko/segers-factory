@@ -7,15 +7,19 @@ User = get_user_model()
 
 
 class CartItem(models.Model):
-    product = models.ForeignKey(Product, null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.DecimalField("price the product", default=0.00, max_digits=10, decimal_places=2)
+    total = models.DecimalField("total price", default=0.00, max_digits=10, decimal_places=2)
     count = models.PositiveIntegerField("count of products")
 
     def __str__(self):
         return f"CartItem <product: {self.product.name}, count: {self.count}>"
 
-    def get_cost(self):
+    def get_item_total_price(self):
         return self.price * self.count
+
+    class Meta:
+        ordering = ["id"]
 
 
 class Cart(models.Model):
@@ -28,6 +32,6 @@ class Cart(models.Model):
     def __str__(self):
         return f"Cart <total: {self.total}>"
 
-    def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
+    def get_cart_total_price(self):
+        return sum(item.get_item_total_price() for item in self.items.all())
 
