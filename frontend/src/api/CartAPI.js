@@ -1,33 +1,23 @@
-const axios = require("axios");
-
-
-const api = axios.create({
-    withCredentials: true,
-    baseURL: 'http://127.0.0.1:8000/',
-    headers: {
-        "Content-Type": "application/json",
-        "Authorization": 'Bearer ' + localStorage.getItem("auth-token")
-    }
-})
+import {axiosWithCredentials} from "./utils";
 
 
 const getUserCart = async () => {
-    const response = await api.get(`shop/cart/`)
+    const response = await axiosWithCredentials.get(`shop/cart-me`)
     return response.data
 }
 
 const addProductToCart = async (productId, count = 1) => {
-    const response = await api.post(`shop/cart/`, {product: productId, count})
+    const response = await axiosWithCredentials.post(`shop/cart/`, {product: productId, count})
     return response.data
 }
 
 const updateCartItem = async (cartItemId, count) => {
-    const response = await api.patch(`shop/cart/${cartItemId}/`, {count})
+    const response = await axiosWithCredentials.patch(`shop/cart/${cartItemId}/`, {count})
     return response.data
 }
 
 const removeCartItem = async (cartItemId) => {
-    const response = await api.delete(`shop/cart/${cartItemId}/`)
+    const response = await axiosWithCredentials.delete(`shop/cart/${cartItemId}/`)
     return response.data
 }
 
