@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {GoodCard} from "./GoodCard/GoodCard";
+import {ProductCard} from "./ProductCard/ProductCard";
 import {Breadcrumb} from "../Breadcrumb/Breadcrumb";
 import {productAPI} from "../../api/ProductAPI";
+import {BounceLoader, PacmanLoader, RingLoader} from "react-spinners";
+
 
 export function Shop() {
-    let [products, setProducts] = useState([])
-    console.log("render")
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         (async () => {
-            const products_list = await productAPI.getProduct();
-            console.log(products_list);
+            const products_list = await productAPI.getProducts();
             setProducts(products_list)
+            setLoading(false)
         })()
     }, [])
 
@@ -31,10 +34,12 @@ export function Shop() {
                         </div>
                         <div className="row">
                             <div className="product__list another-product-style">
-                                {products.map((product) => <GoodCard key={product.id}
-                                                                     productId={product.id}
-                                                                    name={product.name}
-                                                                    price={product.price}/>)}
+                                {loading ? <PacmanLoader/> : null}
+
+                                {products.map((product) => <ProductCard key={product.id}
+                                                                        productId={product.id}
+                                                                        name={product.name}
+                                                                        price={product.price}/>)}
                             </div>
                         </div>
                         <div className="row mt--60">
