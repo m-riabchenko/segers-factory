@@ -1,9 +1,10 @@
 import React from 'react';
 import image from "../../../resources/images/product/1.png";
 import {cartAPI} from "../../../api/CartAPI";
+import {NavLink} from "react-router-dom";
 
 
-export const GoodCard = ({productId, name, price}) => {
+export const ProductCard = ({productId, name, price}) => {
     const onClickAddToCart = async () => {
         return await cartAPI.addProductToCart(productId)
     }
@@ -14,10 +15,10 @@ export const GoodCard = ({productId, name, price}) => {
             <div className="product foo">
                 <div className="product__inner">
                     <div className="pro__thumb">
-                        <a href={"/"}>
+                        <NavLink to={"/product/" + productId}>
                             <img src={image}
                                  alt="product ../../resources/images"/>
-                        </a>
+                        </NavLink>
                     </div>
                     <div className="product__hover__info">
                         <ul className="product__action">
@@ -29,7 +30,7 @@ export const GoodCard = ({productId, name, price}) => {
                                 <span className="ti-plus"> </span></a>
                             </li>
                             <li><a onClick={onClickAddToCart}
-                                title="Add TO Cart"
+                                   title="Add TO Cart"
                                    href="/shop#">
                                 <span className="ti-shopping-cart"> </span></a>
                             </li>

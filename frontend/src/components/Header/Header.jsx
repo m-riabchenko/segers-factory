@@ -164,12 +164,13 @@ export const Header = () => {
                 <NavLink className={"topnav_left"} to={""}>Home</NavLink>
                 <NavLink className={"topnav_left"} to={"/shop"}>Shop</NavLink>
                 <NavLink className={"topnav_left"} to={"/cart"}>Cart</NavLink>
-                <NavLink className={"topnav_left"} to={"/shop"}>Contact</NavLink>
+                <NavLink className={"topnav_left"} to={"/order"}>Order</NavLink>
                 <NavLink className={"topnav_left"} to={"/shop"}>Services</NavLink>
                 <NavLink className={"topnav_left"} to={"/shop"}>About Us</NavLink>
+                <NavLink className={"topnav_left"} to={"/shop"}>Contact</NavLink>
                 <NavLink className={"topnav_right"} to={"/login"}>Login</NavLink>
                 <NavLink className={"topnav_right"} to={"/register"}>Register</NavLink>
-                <a href="javascript:void(0);" className="icon" onClick={myFunction}>
+                <a href="/" className="icon" onClick={myFunction}>
                     <i className="fa fa-bars"></i>
                 </a>
 

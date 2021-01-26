@@ -1,21 +1,17 @@
-import axios from "axios";
-import {getToken} from "./AuthAPI";
+import {axios} from "./utils";
 
-// const api = axios.create({
-//     withCredentials: true,
-//     baseURL: 'http://127.0.0.1:8000/',
-//     headers: {
-//         "Content-Type": "application/json",
-//         "Authorization": 'Bearer ' + getToken()
-//     }
-// })
-
-
-const getProduct = async () => {
-    const response = await axios.get(`http://127.0.0.1:8000/shop/products/`)
+const getProducts = async () => {
+    const response = await axios.get(`shop/products/`)
     return response.data
 }
 
+const getProductDetail = async (productId) => {
+    return await axios.get(`shop/products/${productId}`)
+}
+
+
+
 export const productAPI = {
-    getProduct
+    getProducts,
+    getProductDetail,
 }
