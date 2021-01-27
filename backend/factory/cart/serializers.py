@@ -1,13 +1,6 @@
 from rest_framework import serializers
 
 from factory.cart.models import Cart, CartItem
-from factory.catalog.models import Product
-
-
-class CartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cart
-        fields = '__all__'
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -44,3 +37,11 @@ class CartItemSerializer(serializers.ModelSerializer):
         cart.total = cart.get_cart_total_price()
         cart.save()
         return instance
+
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(many=True)
+
+    class Meta:
+        model = Cart
+        fields = ['items', 'total']

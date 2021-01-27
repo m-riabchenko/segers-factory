@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import datetime
 import os
 from pathlib import Path
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'mptt',
     'rest_framework',
+    'django_filters',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -52,6 +54,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
 }
 
 MIDDLEWARE = [

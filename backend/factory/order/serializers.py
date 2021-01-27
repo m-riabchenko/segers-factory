@@ -6,4 +6,4 @@ from factory.order.models import Order
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ["first_name", "last_name", "email", "address", "postal_code", "city"]
