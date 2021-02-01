@@ -6,6 +6,8 @@ class Category(MPTTModel):
     name = models.CharField(max_length=50, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
+    schema_attributes = models.JSONField()
+    schema_filters = models.JSONField()
     parent = TreeForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children'
     )

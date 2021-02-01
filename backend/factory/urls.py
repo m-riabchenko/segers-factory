@@ -22,4 +22,5 @@ urlpatterns = [
     path('shop/', include('factory.cart.urls')),
     path('shop/', include('factory.order.urls')),
     path('shop/', include('factory.catalog.urls')),
+    path('silk/', include('silk.urls', namespace='silk')),
 ]
