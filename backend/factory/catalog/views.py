@@ -1,4 +1,5 @@
-from itertools import chain
+from urllib.parse import parse_qs
+
 from django.db.models import Q
 from django_filters import rest_framework as filters
 from rest_framework import viewsets, permissions, status
@@ -17,19 +18,26 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    @action(methods=['get'], detail=True)
+    def filters(self, request, pk=None):
+        return Response(data={"filters": Category.objects.get(pk=pk).schema_filters},
+                        status=status.HTTP_200_OK)
+
 
 class ProductFilter(filters.FilterSet):
     min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
     max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
-    category__name = filters.CharFilter(lookup_expr='icontains')
     attr = filters.CharFilter(field_name="attributes", method='filter_product_attributes')
 
     def filter_product_attributes(self, queryset, name, value):
-        db_query = Q()
-        for key, value_ in dict(map(lambda x: x.split("="), value.split("/"))).items():
+        queries = Q()
+        query_params_list = [item for item in value.split("/") if item.strip()]
+        for key, value_ in dict(map(lambda x: x.split("="), query_params_list)).items():
+            query = Q()
             for item in value_.split(","):
-                db_query |= Q(attributes__variant__contains=[{key: item}])
-        return queryset.filter(db_query)
+                query |= Q(attributes__variant__contains=[{key: item}])
+            queries &= query
+        return queryset.filter(queries)
 
     class Meta:
         model = Product
@@ -40,7 +48,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     parser_classes = (MultiPartParser,)
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilter
 
