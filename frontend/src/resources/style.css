@@ -29,10 +29,10 @@
   16. Testimonial Area
   17. Our Brand Area
   18. Our Shop Area
-  19. Our Shop Sidebar
+  19. Our Shop SlidingSidebarFilter
   20. Our Contact Area
   21. Our Product Details Area
-  22. Wrapper Sidebar
+  22. Wrapper SlidingSidebarFilter
   23. Our Blog Details
   24. Shop Details Area
   25. Our Wishlist Area
@@ -2008,6 +2008,10 @@ product__style--7
     margin-top: 50px;
     width: 50%;
 }
+.single__filter__category {
+    margin-top: 50px;
+    width: 100%;
+}
 .filter__content {
     margin-top: -40px;
 }
@@ -2041,7 +2045,7 @@ product__style--7
     line-height: 24px;
 }
 /*------------------------------
-  19. Our Shop Sidebar
+  19. Our Shop SlidingSidebarFilter
 --------------------------------*/
 
 .section-title-4 {
@@ -2734,7 +2738,7 @@ select.select-color {
     opacity: 1 !important;
 }
 /*-----------------------------------------------
-  22. Wrapper Sidebar
+  22. Wrapper SlidingSidebarFilter
 ---------------------------------------------------*/
 
 .wrapper__sidebar .container-fluid {

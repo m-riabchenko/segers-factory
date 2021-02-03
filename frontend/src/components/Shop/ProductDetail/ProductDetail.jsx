@@ -1,4 +1,4 @@
-import image from '../../../resources/images/product-details/small-img/1.jpg'
+import imageProduct from '../../../resources/images/product-details/small-img/1.jpg'
 import bigImage from '../../../resources/images/product-details/big-img/10.jpg'
 import {useEffect, useState} from "react";
 import {productAPI} from "../../../api/ProductAPI";
@@ -10,9 +10,8 @@ export const ProductDetail = (props) => {
         (async () => {
             const response = await productAPI.getProductDetail(props.match.params.productId);
             setProduct(response.data)
-            console.log(response.data)
         })()
-    }, [])
+    }, [props.match.params.productId])
 
     return (
         <>
@@ -24,27 +23,25 @@ export const ProductDetail = (props) => {
                                 <ul className="product__small__images" role="tablist">
                                     <li role="presentation" className="pot-small-img active">
                                         <a href="/#img-tab-1" role="tab" data-toggle="tab">
-                                            <img src={image}
-                                                 alt="small-image"/>
+                                            <img src={imageProduct} alt={"photo2"}/>
                                         </a>
                                     </li>
                                     <li role="presentation" className="pot-small-img">
                                         <a href="/#img-tab-2" role="tab" data-toggle="tab">
-                                            <img src={image}
-                                                 alt="small-image"/>
+                                            <img src={imageProduct}
+                                                  alt={"photo2"}/>
                                         </a>
                                     </li>
                                     <li role="presentation" className="pot-small-img hidden-xs">
                                         <a href="/#img-tab-3" role="tab" data-toggle="tab">
-                                            <img src={image}
-                                                 alt="small-image"/>
+                                            <img src={imageProduct}  alt={"photo2"}/>
                                         </a>
                                     </li>
                                     <li role="presentation"
                                         className="pot-small-img hidden-xs hidden-sm">
                                         <a href="/#img-tab-4" role="tab" data-toggle="tab">
-                                            <img src={image}
-                                                 alt="small-image"/>
+                                            <img src={imageProduct}
+                                                  alt={"photo2"}/>
                                         </a>
                                     </li>
                                 </ul>
@@ -54,7 +51,7 @@ export const ProductDetail = (props) => {
                                              className="tab-pane fade in active product-video-position"
                                              id="img-tab-1">
                                             <img src={bigImage}
-                                                 alt="full-image"/>
+                                                  alt={"photo2"}/>
                                             <div className="product-video">
                                                 <a className="video-popup"
                                                    href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
@@ -67,7 +64,7 @@ export const ProductDetail = (props) => {
                                              className="tab-pane fade product-video-position"
                                              id="img-tab-2">
                                             <img src="images/product-details/big-img/12.jpg"
-                                                 alt="full-image"/>
+                                                  alt={"photo2"}/>
                                             <div className="product-video">
                                                 <a className="video-popup"
                                                    href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
@@ -80,7 +77,7 @@ export const ProductDetail = (props) => {
                                              className="tab-pane fade product-video-position"
                                              id="img-tab-3">
                                             <img src="images/product-details/big-img/11.jpg"
-                                                 alt="full-image"/>
+                                                  alt={"photo2"}/>
                                             <div className="product-video">
                                                 <a className="video-popup"
                                                    href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
@@ -93,7 +90,7 @@ export const ProductDetail = (props) => {
                                              className="tab-pane fade product-video-position"
                                              id="img-tab-4">
                                             <img src="images/product-details/big-img/12.jpg"
-                                                 alt="full-image"/>
+                                                  alt={"photo2"}/>
                                             <div className="product-video">
                                                 <a className="video-popup"
                                                    href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
