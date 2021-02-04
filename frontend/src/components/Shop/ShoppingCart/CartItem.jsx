@@ -1,4 +1,26 @@
-export const CartItem = ({id, price, total, count, onClickRemoveCartItem, onUpdateCartItem}) => {
+import {useEffect, useState} from "react";
+
+export const CartItem = ({id, price, total, count, onClickRemoveCartItem, onUpdateCartItem, loading}) => {
+    const [countItemsProduct, setCountItemsProduct] = useState(0)
+
+    useEffect(() => {
+        setCountItemsProduct(count)
+    }, [count])
+
+    const onHandleChangeCountItem = (id, value) => {
+        if (value !== "") {
+            setCountItemsProduct(value)
+            onUpdateCartItem(id, value)
+        } else {
+            setCountItemsProduct(value)
+        }
+    }
+
+    const onHandelBlur = e => {
+        if (e.currentTarget.value === "") {
+            setCountItemsProduct(1)
+        }
+    }
 
     return (
         <>
@@ -12,8 +34,11 @@ export const CartItem = ({id, price, total, count, onClickRemoveCartItem, onUpda
                     className="amount">£{price}</span></td>
                 <td className="product-quantity">
                     <input type="number"
-                           value={count}
-                           onChange={(e) => onUpdateCartItem(id, e.currentTarget.value)}/>
+                           readOnly={loading}
+                           min={1}
+                           onBlur={onHandelBlur}
+                           value={countItemsProduct}
+                           onChange={e => onHandleChangeCountItem(id, e.currentTarget.value)}/>
                 </td>
                 <td className="product-subtotal">£{total}</td>
                 <td className="product-remove"><a onClick={() => onClickRemoveCartItem(id)}

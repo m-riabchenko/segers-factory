@@ -1,17 +1,16 @@
 import React from "react";
 
-export const FilterBlock = () => {
+export const FilterBlock = ({filterName, filterValues, onHandleChangeCheckboxFilter}) => {
     return (
         <>
             <div className="htc__shop__cat">
-                    <h4 className="section-title-4">PRODUCT CATEGORIES</h4>
+                    <h4 className="section-title-4">{filterName}</h4>
                     <ul className="sidebar__list">
-                        <li><a href="/#">xl <span>3</span></a></li>
-                        <li><a href="/#">l <span>4</span></a></li>
-                        <li><a href="/#">lm <span>3</span></a></li>
-                        <li><a href="/#">ml <span>6</span></a></li>
-                        <li><a href="/#">m <span>10</span></a></li>
-                        <li><a href="/#">ml <span>3</span></a></li>
+                        {filterValues.map((value, index) => <li key={index}>
+                        <input type="checkbox" name={filterName}
+                               onChange={onHandleChangeCheckboxFilter}
+                               value={value}/><a href="/#"> {value} <span>3</span></a></li>
+                    )}
                     </ul>
                 </div>
         </>

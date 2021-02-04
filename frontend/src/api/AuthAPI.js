@@ -1,11 +1,11 @@
-import {axiosWithCredentials, setTokenInAxiosRequest} from "./utils";
+import {axios, setTokenInAxiosRequest} from "./utils";
 
 
 const register = async (email, password) => {
-    return await axiosWithCredentials.post(`auth/register/`, {email, password})
+    return await axios.post(`auth/register/`, {email, password})
 }
 const login = async (email, password) => {
-    const response = await axiosWithCredentials.post(`auth/login/`, {email, password})
+    const response = await axios.post(`auth/login/`, {email, password})
 
     if (response.data.access) {
         console.log(response.data.access)

@@ -15,19 +15,29 @@ export function Shop() {
     const [toggleFilter, setToggleFilter] = useState(false)
     const [queryParams, setQueryString] = useState({})
     const [universalQueryParams, setUniversalQueryString] = useState({})
+    const [optionsSort, setOptionsSort] = useState(["Low-price", "High-price"])
+
+    const onHandleChangeOptionsSort = e => {
+        if (e.currentTarget.value !== "default") {
+            const value = e.currentTarget.value
+            setUniversalQueryString(prev => ({...prev, order_by: value}))
+        } else {
+            delete universalQueryParams["order_by"]
+        }
+    }
 
     const buildQueryUrl = useCallback((parameters) => {
         let qs = "";
-        let url
+        let queryParams = ""
         for (let key in parameters) {
             let value = parameters[key];
             qs += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "/";
         }
         if (qs.length > 0) {
             qs = qs.substring(0, qs.length - 1); //chop off last "&"
-            url = "attr=" + qs;
+            queryParams = "&attr=" + qs;
         }
-        return url;
+        return queryParams;
     }, [])
 
     useEffect(() => {
@@ -80,13 +90,24 @@ export function Shop() {
             }
         }
     }
-    useEffect(() => {
-        const universalParams = new URLSearchParams(universalQueryParams);
-        productFilter(universalParams.toString() + '&' + buildQueryUrl(queryParams))
-        console.log(universalParams.toString() + '&' + buildQueryUrl(queryParams))
 
+    const isEmpty = (obj) => {
+        return Object.keys(obj).length === 0;
+    }
+
+    useEffect(() => {
+        if (!isEmpty(universalQueryParams) || !isEmpty(queryParams)) {
+            const universalParams = new URLSearchParams(universalQueryParams);
+            productFilter(universalParams.toString() + '&' + buildQueryUrl(queryParams))
+        }
     }, [queryParams, universalQueryParams, productFilter, buildQueryUrl])
 
+    const [filters, setFilters] = useState({})
+
+    const setFilterCategory = async (categoryId) => {
+        const response = await categoryAPI.getCategoryFilters(categoryId)
+        setFilters(response.data.filters)
+    }
     return (
         <>
             <Breadcrumb/>
@@ -95,7 +116,8 @@ export function Shop() {
                                   categories={categories}
                                   setUniversalQueryString={setUniversalQueryString}
                                   onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}
-                                  setQueryString={setQueryString}
+                                  setFilterCategory={setFilterCategory}
+                                  filters={filters}
             />
 
             <section className="htc__shop__sidebar bg__white ptb--120">
@@ -103,7 +125,11 @@ export function Shop() {
                     <div className="row">
                         <div className="col-md-3 col-lg-3 col-sm-12 col-xs-12">
 
-                            <SidebarFilter setUniversalQueryString={setUniversalQueryString}/>
+                            <SidebarFilter setUniversalQueryString={setUniversalQueryString}
+                                           categories={categories}
+                                           setFilterCategory={setFilterCategory}
+                                           filters={filters}
+                                           onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}/>
 
                         </div>
                         <div className="col-md-9 col-lg-9 col-sm-12 col-xs-12 smt-30">
@@ -116,13 +142,12 @@ export function Shop() {
                                         </div>
                                         <div className="product__list__option">
                                             <div className="order-single-btn">
-                                                <select className="select-color selectpicker">
-                                                    <option>Sort by newness</option>
-                                                    <option>Match</option>
-                                                    <option>Updated</option>
-                                                    <option>Title</option>
-                                                    <option>Category</option>
-                                                    <option>Rating</option>
+                                                <select className="select-color selectpicker"
+                                                        onChange={onHandleChangeOptionsSort}>
+                                                    <option value={"default"}>Sort by ---</option>
+                                                    {optionsSort.map((sortName, index) => <option
+                                                        key={index}
+                                                        value={sortName.toLowerCase()}>{sortName}</option>)}
                                                 </select>
                                             </div>
                                             <div className="shp__pro__show">

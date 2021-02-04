@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {CategoryBlock} from "./CategoryBlock";
 import {ItemFilterBlock} from "./ItemFilterBlock";
-import {categoryAPI} from "../../../api/CategoryAPI";
 
 export const SlidingSidebarFilter = ({
                                          toggleFilter,
@@ -9,15 +8,9 @@ export const SlidingSidebarFilter = ({
                                          categories,
                                          setUniversalQueryString,
                                          onHandleChangeCheckboxFilter,
-                                         setQueryString
+                                         setFilterCategory,
+                                         filters,
                                      }) => {
-    const [filters, setFilters] = useState({})
-
-    const setFilterCategory = async (categoryId) => {
-        const response = await categoryAPI.getCategoryFilters(categoryId)
-        setFilters(response.data.filters)
-    }
-
 
     return (
         <>
@@ -33,7 +26,6 @@ export const SlidingSidebarFilter = ({
                             <div className="fiter__content__inner">
                                 <CategoryBlock categories={categories}
                                                setFilterCategory={setFilterCategory}
-                                               setQueryString={setQueryString}
                                                setUniversalQueryString={setUniversalQueryString}
                                 />
                                 {Object.keys(filters).map((keyName, index) =>

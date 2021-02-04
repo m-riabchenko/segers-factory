@@ -1,15 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import {authAPI} from "../../../api/AuthAPI";
 
 
 export const Login = () => {
-    const {register, handleSubmit} = useForm();
+    const {register, errors, handleSubmit} = useForm();
+    const [isLoginError, setIsLoginError] = useState(false)
 
     const onSubmit = (data) => {
         console.log(data)
-        return authAPI.login(data.email, data.password)
-    };
+        return authAPI.login(data.email, data.password).catch(function (error) {
+            if (error.response.status === 401) {
+                setIsLoginError(true)
+            }
+        })
+    }
 
     return (
         <>
@@ -21,23 +26,33 @@ export const Login = () => {
                     </ul>
                     <div className="row">
                         <div className="col-md-6 col-md-offset-3">
-
+                            {isLoginError ?
+                                <div className="alert alert-danger" role="alert">
+                                    Email or password is incorrect!
+                                </div> : null}
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="form-group">
                                     <label htmlFor="exampleInputEmail1">Email address </label>
-                                    <input ref={register} type="email" className="form-control"
-                                           id="exampleInputEmail1"
+                                    <input ref={register({required: true})} type="email"
+                                           className="form-control"
                                            aria-describedby="emailHelp" name="email"/>
-                                    <small id="emailHelp"
-                                           className="form-text text-muted"> error </small>
+                                    {errors.email && errors.email.type === "required" && (
+                                        <small className="form-text text-muted text-danger">
+                                            <b>This isr required</b> </small>
+                                    )}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="exampleInputPassword1">Password</label>
-                                    <input ref={register} type="password" className="form-control"
+                                    <input ref={register({required: true})} type="password"
+                                           className="form-control"
                                            name="password"
                                            id="exampleInputPassword1"/>
-                                    <small id="emailHelp"
-                                           className="form-text text-muted">errors </small>
+                                    {errors.password && errors.password.type === "required" && (
+                                        <small className="form-text text-muted text-danger">
+                                            <b>This is required</b> </small>
+                                    )}
+
+
                                 </div>
                                 <div className="form-group form-check">
                                     <input type="checkbox" className="form-check-input"

@@ -2,6 +2,7 @@ import {CartItem} from "./CartItem";
 import React, {useEffect, useState} from "react";
 import {cartAPI} from "../../../api/CartAPI";
 import {RingLoader} from "react-spinners";
+import {NavLink} from "react-router-dom";
 
 export const ShoppingCart = () => {
     let [cart, setCart] = useState(null)
@@ -32,7 +33,7 @@ export const ShoppingCart = () => {
 
     return (
         <>
-            {loading ? <RingLoader/>: null}
+            {loading ? <RingLoader/> : null}
             <div className="cart-main-area ptb--120 bg__white">
                 <div className="container">
                     {!cart ? <h2>Cart is empty</h2> :
@@ -59,6 +60,7 @@ export const ShoppingCart = () => {
                                                           price={item.price}
                                                           total={item.total}
                                                           count={item.count}
+                                                          loading={loading}
                                                           onClickRemoveCartItem={onClickRemoveCartItem}
                                                           onUpdateCartItem={onUpdateCartItem}/>
                                             ))}
@@ -70,8 +72,8 @@ export const ShoppingCart = () => {
                                     <div className="row">
                                         <div className="col-md-8 col-sm-7 col-xs-12">
                                             <div className="buttons-cart">
-                                                <input type="submit" value="Update Cart"/>
-                                                <a href="/#">Continue Shopping</a>
+                                                <input value="Update Cart"/>
+                                                <NavLink to={"/shop"}>Continue Shopping</NavLink>
                                             </div>
                                             <div className="coupon">
                                                 <h3>Coupon</h3>
@@ -118,7 +120,7 @@ export const ShoppingCart = () => {
                                                         <th>Total</th>
                                                         <td>
                                                             <strong><span
-                                                                className="amount">£{cart.total}</span></strong>
+                                                                className={loading ? "amount-red": "amount"}>£{cart.total}</span></strong>
                                                         </td>
                                                     </tr>
                                                     </tbody>

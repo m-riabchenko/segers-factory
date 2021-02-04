@@ -19,23 +19,19 @@ import {ShoppingCart} from "./components/Shop/ShoppingCart/ShoppingCart";
 import {Order} from "./components/Order/Order";
 import {ProductDetail} from "./components/Shop/ProductDetail/ProductDetail";
 
-
-
-
-
 const App = () => {
     return (
-            <BrowserRouter>
-                <Header/>
-                <div className="body__overlay"> </div>
-                <Route path='/register' render={() => <Register/>}/>
-                <Route path='/login' render={() => <Login/>}/>
-                <Route path='/shop' render={() => <Shop/>}/>
-                <Route path='/cart' render={() => <ShoppingCart/>}/>
-                <Route path='/order' render={() => <Order/>}/>
-                <Route path='/product/:productId' render={(props) => <ProductDetail {...props}/>}/>
-                <Footer/>
-            </BrowserRouter>
+        <BrowserRouter>
+            <Header/>
+            <div className="body__overlay"></div>
+            <Route path='/register' render={() => <Register/>}/>
+            <Route path='/login' render={() => <Login/>}/>
+            <Route path='/shop' render={() => <Shop/>}/>
+            <Route path='/cart' render={() => <ShoppingCart/>}/>
+            <Route path='/order' render={() => <Order/>}/>
+            <Route path='/product/:productId' render={(props) => <ProductDetail {...props}/>}/>
+            <Footer/>
+        </BrowserRouter>
     )
 }
 
