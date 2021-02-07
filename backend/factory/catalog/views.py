@@ -11,6 +11,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from factory.catalog.models import Category, Product
 from factory.catalog.serializers import CategorySerializer, ProductSerializer
+from factory.catalog.services import get_filters_data
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -27,6 +28,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductFilter(filters.FilterSet):
     min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
     max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
+    order_by = filters.CharFilter(method='order_by_product')
     attr = filters.CharFilter(field_name="attributes", method='filter_product_attributes')
 
     def filter_product_attributes(self, queryset, name, value):
@@ -38,6 +40,13 @@ class ProductFilter(filters.FilterSet):
                 query |= Q(attributes__variant__contains=[{key: item}])
             queries &= query
         return queryset.filter(queries)
+
+    def order_by_product(self, queryset, name, value):
+        if value == "low-price":
+            return queryset.order_by("price")
+        elif value == "high-price":
+            return queryset.order_by("-price")
+        return queryset
 
     class Meta:
         model = Product
