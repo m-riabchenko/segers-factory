@@ -45,19 +45,19 @@ class User(AbstractBaseUser):
     first_name = models.CharField('first name', max_length=150, blank=True, null=True)
     last_name = models.CharField('last name', max_length=150, blank=True, null=True)
     phone_number = models.CharField('phone number', max_length=15, blank=True, null=True)
-    active = models.BooleanField(
+    is_active = models.BooleanField(
         'active',
         default=True,
         help_text=(
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.')
     )
-    staff = models.BooleanField(
+    is_staff = models.BooleanField(
         'staff status',
         default=False,
         help_text='Designates whether the user can log into this admin site.'
     )
-    admin = models.BooleanField(
+    is_admin = models.BooleanField(
         'superuser status',
         default=False,
         help_text='Designates whether this user can be a super user.'
@@ -93,14 +93,14 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    @property
-    def is_staff(self):
-        return self.staff
-
-    @property
-    def is_active(self):
-        return self.active
-
-    @property
-    def is_admin(self):
-        return self.admin
+    # @property
+    # def is_staff(self):
+    #     return self.staff
+    #
+    # @property
+    # def is_active(self):
+    #     return self.active
+    #
+    # @property
+    # def is_admin(self):
+    #     return self.admin

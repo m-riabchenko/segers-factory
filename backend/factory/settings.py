@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'silk',
+    'djoser',
+    'rest_framework_simplejwt',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -54,12 +56,17 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 }
 
-JWT_AUTH = {
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+DJOSER = {
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False,
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
 }
 
 MIDDLEWARE = [
