@@ -6,6 +6,7 @@ import {PacmanLoader} from "react-spinners";
 import {SlidingSidebarFilter} from "./SlidingSidebarFilter/SlidingSidebarFilter";
 import {categoryAPI} from "../../api/CategoryAPI";
 import {SidebarFilter} from "./SidebarFilter/SidebarFilter";
+import {useHistory} from "react-router";
 
 
 export function Shop() {
@@ -73,10 +74,8 @@ export function Shop() {
                 ...prev,
                 [filterName]: [...prev[filterName], filterValue]
             }))
-
         } else if (isChecked) {
             setQueryString(prev => ({...prev, [filterName]: [filterValue]}))
-
         } else {
             const newFilterListValue = queryParams[filterName].filter(item => item !== filterValue)
             if (newFilterListValue.length > 0) {
@@ -94,11 +93,12 @@ export function Shop() {
     const isEmpty = (obj) => {
         return Object.keys(obj).length === 0;
     }
-
+    const history = useHistory()
     useEffect(() => {
         if (!isEmpty(universalQueryParams) || !isEmpty(queryParams)) {
             const universalParams = new URLSearchParams(universalQueryParams);
-            productFilter(universalParams.toString() + '&' + buildQueryUrl(queryParams))
+            productFilter(universalParams.toString() + buildQueryUrl(queryParams))
+            history.push("?" + universalParams.toString()  + buildQueryUrl(queryParams).toString())
         }
     }, [queryParams, universalQueryParams, productFilter, buildQueryUrl])
 
@@ -110,7 +110,7 @@ export function Shop() {
     }
     return (
         <>
-            <Breadcrumb/>
+            <Breadcrumb namePage={"Shop"}/>
             <SlidingSidebarFilter toggleFilter={toggleFilter}
                                   onClickToggle={onClickToggle}
                                   categories={categories}
@@ -144,10 +144,10 @@ export function Shop() {
                                             <div className="order-single-btn">
                                                 <select className="select-color selectpicker"
                                                         onChange={onHandleChangeOptionsSort}>
-                                                    <option value={"default"}>Sort by ---</option>
-                                                    {optionsSort.map((sortName, index) => <option
-                                                        key={index}
-                                                        value={sortName.toLowerCase()}>{sortName}</option>)}
+                                                    <option value={"default"}> Sort by ---</option>
+                                                    <option value={"low-price"}> Low-price</option>
+                                                    <option value={"high-price"}> High-price
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div className="shp__pro__show">

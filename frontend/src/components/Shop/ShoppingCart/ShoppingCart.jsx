@@ -1,38 +1,18 @@
 import {CartItem} from "./CartItem";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useReducer, useState} from "react";
 import {cartAPI} from "../../../api/CartAPI";
 import {RingLoader} from "react-spinners";
 import {NavLink} from "react-router-dom";
+import {CartContext} from "../../../contexts/CartContext";
+import {Breadcrumb} from "../../Breadcrumb/Breadcrumb";
 
 export const ShoppingCart = () => {
-    let [cart, setCart] = useState(null)
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        (async () => {
-            const response = await cartAPI.getUserCart();
-            setCart(response)
-            setLoading(false)
-        })()
-    }, [])
-
-    const onUpdateCartItem = async (id, count) => {
-        setLoading(true)
-        await cartAPI.updateCartItem(id, count)
-        const response = await cartAPI.getUserCart();
-        setCart(response)
-        setLoading(false)
-    }
-
-    const onClickRemoveCartItem = async (id) => {
-        setLoading(true)
-        await cartAPI.removeCartItem(id)
-        const response = await cartAPI.getUserCart();
-        setCart(response)
-        setLoading(false)
-    }
+    const {cart, loading, updateCartItem, removeCartItem} = useContext(CartContext)
 
     return (
         <>
+            <Breadcrumb namePage={"Cart"}/>
+
             {loading ? <RingLoader/> : null}
             <div className="cart-main-area ptb--120 bg__white">
                 <div className="container">
@@ -60,9 +40,10 @@ export const ShoppingCart = () => {
                                                           price={item.price}
                                                           total={item.total}
                                                           count={item.count}
+                                                          name={item.product.name}
                                                           loading={loading}
-                                                          onClickRemoveCartItem={onClickRemoveCartItem}
-                                                          onUpdateCartItem={onUpdateCartItem}/>
+                                                          onClickRemoveCartItem={removeCartItem}
+                                                          onUpdateCartItem={updateCartItem}/>
                                             ))}
                                             </tbody>
                                         </table>
@@ -120,7 +101,7 @@ export const ShoppingCart = () => {
                                                         <th>Total</th>
                                                         <td>
                                                             <strong><span
-                                                                className={loading ? "amount-red": "amount"}>£{cart.total}</span></strong>
+                                                                className={loading ? "amount-red" : "amount"}>£{cart.total}</span></strong>
                                                         </td>
                                                     </tr>
                                                     </tbody>
