@@ -12,6 +12,5 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
-        cart = Cart.objects.get(user=user)
-        serializer.save(customer=user, cart=cart)
+        serializer.save(customer=user)
 
