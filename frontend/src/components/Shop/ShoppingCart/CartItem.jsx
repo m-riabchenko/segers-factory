@@ -1,6 +1,15 @@
 import {useEffect, useState} from "react";
 
-export const CartItem = ({id, price, total, count, onClickRemoveCartItem, onUpdateCartItem, loading}) => {
+export const CartItem = ({
+                             id,
+                             price,
+                             total,
+                             count,
+                             name,
+                             onClickRemoveCartItem,
+                             onUpdateCartItem,
+                             loading
+                         }) => {
     const [countItemsProduct, setCountItemsProduct] = useState(0)
 
     useEffect(() => {
@@ -8,7 +17,9 @@ export const CartItem = ({id, price, total, count, onClickRemoveCartItem, onUpda
     }, [count])
 
     const onHandleChangeCountItem = (id, value) => {
-        if (value !== "") {
+        if (value > 100) {
+            setCountItemsProduct(100)
+        } else if (value !== "") {
             setCountItemsProduct(value)
             onUpdateCartItem(id, value)
         } else {
@@ -28,14 +39,14 @@ export const CartItem = ({id, price, total, count, onClickRemoveCartItem, onUpda
                 <td className="product-thumbnail"><a href="/#"><img
                     src="../../../resources/images/product/4.png" alt="product img"/></a>
                 </td>
-                <td className="product-name"><a href="/#">Vestibulum
-                    suscipit</a></td>
+                <td className="product-name"><a href="/#">{name}</a></td>
                 <td className="product-price"><span
                     className="amount">£{price}</span></td>
                 <td className="product-quantity">
                     <input type="number"
                            readOnly={loading}
                            min={1}
+                           max={100}
                            onBlur={onHandelBlur}
                            value={countItemsProduct}
                            onChange={e => onHandleChangeCountItem(id, e.currentTarget.value)}/>

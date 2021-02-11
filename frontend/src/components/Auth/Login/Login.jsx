@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {authAPI} from "../../../api/AuthAPI";
+import {CartContext} from "../../../contexts/CartContext";
 
 
 export const Login = () => {
     const {register, errors, handleSubmit} = useForm();
     const [isLoginError, setIsLoginError] = useState(false)
+    const {setUserCart} = useContext(CartContext)
 
     const onSubmit = (data) => {
-        console.log(data)
-        return authAPI.login(data.email, data.password).catch(function (error) {
-            if (error.response.status === 401) {
-                setIsLoginError(true)
-            }
-        })
+        return authAPI.login(data.email, data.password)
+            .then(() => setUserCart())
+            .catch(() => setIsLoginError(true))
     }
 
     return (

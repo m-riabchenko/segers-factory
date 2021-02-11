@@ -1,17 +1,26 @@
 import {useForm} from "react-hook-form";
 import {orderAPI} from "../../api/Order";
+import React, {useContext} from "react";
+import {CartContext} from "../../contexts/CartContext";
+import {NavLink} from "react-router-dom";
+import {Breadcrumb} from "../Breadcrumb/Breadcrumb";
 
 export const Order = () => {
     const {register, handleSubmit} = useForm();
+    const {cart, clearCart} = useContext(CartContext)
 
     const onSubmit = (data) => {
-        console.log(data)
-        return orderAPI.createOrder(data)
-
+        return orderAPI.createOrder(data).then(() => clearCart())
+            .catch(error => {
+                if (error.response.status === 404) {
+                    alert("Oops, you should not have created an order with an empty cart!")
+                }
+            })
     };
-
     return (
         <>
+            <Breadcrumb namePage={"Order"}/>
+
             <section className="our-checkout-area ptb--120 bg__white">
                 <div className="container">
                     <div className="row">
@@ -22,16 +31,20 @@ export const Order = () => {
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className="checkout-form-inner">
                                             <div className="single-checkout-box">
-                                                <input ref={register} name={"firstName"} type="text"  placeholder="First Name*"/>
-                                                <input ref={register} name={"lastName"} type="text" placeholder="Last Name*"/>
+                                                <input ref={register} name={"firstName"} type="text"
+                                                       placeholder="First Name*"/>
+                                                <input ref={register} name={"lastName"} type="text"
+                                                       placeholder="Last Name*"/>
                                             </div>
                                             <div className="single-checkout-box">
                                                 <input ref={register} name={"email"} type="email"
                                                        placeholder="Emil*"/>
-                                                <input ref={register} name={"phone_number"} type="text" placeholder="Phone*"/>
+                                                <input ref={register} name={"phone_number"}
+                                                       type="text" placeholder="Phone*"/>
                                             </div>
                                             <div className="single-checkout-box">
-                                            <textarea ref={register} name={"message"} placeholder="Message*"> </textarea>
+                                                <textarea ref={register} name={"message"}
+                                                          placeholder="Message*"> </textarea>
                                             </div>
                                             <div
                                                 className="single-checkout-box select-option mt--40">
@@ -45,11 +58,14 @@ export const Order = () => {
                                                 <input type="text" placeholder="Company Name*"/>
                                             </div>
                                             <div className="single-checkout-box">
-                                                <input ref={register} name={"address"} type="text" placeholder="State*"/>
-                                                <input ref={register} name={"zipCode"} type="text" placeholder="Zip Code*"/>
+                                                <input ref={register} name={"address"} type="text"
+                                                       placeholder="State*"/>
+                                                <input ref={register} name={"zipCode"} type="text"
+                                                       placeholder="Zip Code*"/>
                                             </div>
                                             <div className="single-checkout-box checkbox">
-                                                <input ref={register} name={"remindMe"} id="remind-me" type="checkbox"/>
+                                                <input ref={register} name={"remindMe"}
+                                                       id="remind-me" type="checkbox"/>
                                                 <label htmlFor="remind-me"><span></span>Create a
                                                     Account ?</label>
                                             </div>
@@ -101,27 +117,17 @@ export const Order = () => {
                         <div className="col-md-4 col-lg-4">
                             <div className="checkout-right-sidebar">
                                 <div className="our-important-note">
-                                    <h2 className="section-title-3">Note :</h2>
-                                    <p className="note-desc">Lorem ipsum dolor sit amet, consectetur
-                                        adipisici elit, sed do eiusmod tempor incididunt ut laborekf
-                                        et dolore magna aliqua.</p>
-                                    <ul className="important-note">
-                                        <li><a href="/#"><i
-                                            className="zmdi zmdi-caret-right-circle"></i>Lorem ipsum
-                                            dolor sit amet, consectetur nipabali</a></li>
-                                        <li><a href="/#"><i
-                                            className="zmdi zmdi-caret-right-circle"></i>Lorem ipsum
-                                            dolor sit amet</a></li>
-                                        <li><a href="/#"><i
-                                            className="zmdi zmdi-caret-right-circle"></i>Lorem ipsum
-                                            dolor sit amet, consectetur nipabali</a></li>
-                                        <li><a href="/#"><i
-                                            className="zmdi zmdi-caret-right-circle"></i>Lorem ipsum
-                                            dolor sit amet, consectetur nipabali</a></li>
-                                        <li><a href="/#"><i
-                                            className="zmdi zmdi-caret-right-circle"></i>Lorem ipsum
-                                            dolor sit amet</a></li>
-                                    </ul>
+                                    <h2 className="section-title-3">YOUR CART :</h2>
+                                    <br/><br/>
+                                    {!cart ? <h2>Cart is empty</h2> :
+                                        <ul className="important-note">
+                                            {cart.items.map(item => (
+                                                <li><NavLink to={"/product/" + item.product.id}>
+                                                    <i className="zmdi zmdi-caret-right-circle"> x{item.count}</i>{item.product.name}
+                                                </NavLink></li>
+                                            ))}
+                                        </ul>
+                                    }
                                 </div>
                                 <div className="puick-contact-area mt--60">
                                     <h2 className="section-title-3">Quick Contract</h2>

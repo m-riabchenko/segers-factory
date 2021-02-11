@@ -5,10 +5,9 @@ const register = async (email, password) => {
     return await axios.post(`auth/register/`, {email, password})
 }
 const login = async (email, password) => {
-    const response = await axios.post(`auth/login/`, {email, password})
+    const response = await axios.post(`auth/jwt/create`, {email, password})
 
     if (response.data.access) {
-        console.log(response.data.access)
         localStorage.setItem("auth-token", response.data.access)
         setTokenInAxiosRequest()
     }

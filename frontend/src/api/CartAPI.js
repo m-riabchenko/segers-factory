@@ -2,23 +2,19 @@ import {axiosWithCredentials} from "./utils";
 
 
 const getUserCart = async () => {
-    const response = await axiosWithCredentials.get(`shop/cart-me`)
-    return response.data
+    return await axiosWithCredentials.get(`shop/cart-me`)
 }
 
 const addProductToCart = async (productId, count = 1) => {
-    const response = await axiosWithCredentials.post(`shop/cart/`, {product: productId, count})
-    return response.data
+    return await axiosWithCredentials.post(`shop/cart/`, {product_id: productId, count})
 }
 
 const updateCartItem = async (cartItemId, count) => {
-    const response = await axiosWithCredentials.patch(`shop/cart/${cartItemId}/`, {count})
-    return response.data
+    return await axiosWithCredentials.patch(`shop/cart/${cartItemId}/`, {count})
 }
 
 const removeCartItem = async (cartItemId) => {
-    const response = await axiosWithCredentials.delete(`shop/cart/${cartItemId}/`)
-    return response.data
+    return await axiosWithCredentials.delete(`shop/cart/${cartItemId}/`)
 }
 
 
