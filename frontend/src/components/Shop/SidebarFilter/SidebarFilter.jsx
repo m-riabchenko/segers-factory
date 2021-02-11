@@ -11,7 +11,6 @@ export const SidebarFilter = ({setUniversalQueryString, categories, setFilterCat
     const onHandleChange = value => {
         setSliderValue(value)
     }
-
     const onClickSetPriceFilter = () => {
         setUniversalQueryString(prev => ({
             ...prev,

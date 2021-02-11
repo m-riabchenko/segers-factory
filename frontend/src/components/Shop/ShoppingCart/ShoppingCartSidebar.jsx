@@ -1,12 +1,9 @@
 import React, {useContext} from "react";
 import {CartContext} from "../../../contexts/CartContext";
 import {NavLink} from "react-router-dom";
-import {Breadcrumb} from "../../Breadcrumb/Breadcrumb";
 
-export const ShoppingCartSidebar = ({toggle, onClickToggleOff, setToggle}) => {
+export const ShoppingCartSidebar = ({toggle, onClickToggleOff}) => {
     const {cart, loading, removeCartItem} = useContext(CartContext)
-
-
     return (
         <>
             <div
@@ -15,8 +12,7 @@ export const ShoppingCartSidebar = ({toggle, onClickToggleOff, setToggle}) => {
                     <div className="offsetmenu__close__btn">
                         <a onClick={onClickToggleOff} href="/#"><i className="zmdi zmdi-close"></i></a>
                     </div>
-                    {!cart ? <h2>Cart is empty</h2> : <div>
-
+                    {cart.items.length ===0 ? <h2>Cart is empty</h2> : <div>
                         <div className="shp__cart__wrap">
                             {cart.items.map(item => (
                                 <div className="shp__single__product" key={item.id}>

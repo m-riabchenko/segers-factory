@@ -1,6 +1,5 @@
 import {CartItem} from "./CartItem";
-import React, {useCallback, useContext, useEffect, useReducer, useState} from "react";
-import {cartAPI} from "../../../api/CartAPI";
+import React, {useContext} from "react";
 import {RingLoader} from "react-spinners";
 import {NavLink} from "react-router-dom";
 import {CartContext} from "../../../contexts/CartContext";
@@ -16,7 +15,7 @@ export const ShoppingCart = () => {
             {loading ? <RingLoader/> : null}
             <div className="cart-main-area ptb--120 bg__white">
                 <div className="container">
-                    {!cart ? <h2>Cart is empty</h2> :
+                    {cart.items.length ===0 ? <h2>Cart is empty</h2> :
                         <div className="row">
                             <div className="col-md-12 col-sm-12 col-xs-12">
                                 <form>

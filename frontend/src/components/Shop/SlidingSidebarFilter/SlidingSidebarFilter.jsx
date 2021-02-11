@@ -14,6 +14,9 @@ export const SlidingSidebarFilter = ({
 
     return (
         <>
+            <div onClick={onClickToggle}
+                 className={toggleFilter ? "body__overlay is-visible" : "body__overlay"}></div>
+
             <div
                 className={toggleFilter ? 'filter__wrap filter__menu__on' : 'filter__wrap'}>
                 <div className="filter__cart">
