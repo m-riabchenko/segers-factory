@@ -1,9 +1,13 @@
 from rest_framework import serializers
 
 from factory.cart.models import Cart, CartItem
+from factory.catalog.serializers import ProductSerializer
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.IntegerField()
+
     class Meta:
         model = CartItem
         fields = '__all__'
@@ -12,7 +16,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         cart, _ = Cart.objects.get_or_create(user=self.context['request'].user)
         cart_item = None
         for item in cart.items.all():
-            if validated_data["product"].id == item.product.id:
+            if validated_data["product_id"] == item.product.id:
                 item.count += validated_data["count"]
                 cart_item = item
 
