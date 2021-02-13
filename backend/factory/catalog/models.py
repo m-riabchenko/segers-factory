@@ -1,13 +1,19 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+User = get_user_model()
+
 
 class Category(MPTTModel):
+    """
+    Tree model of categories for product
+    """
     name = models.CharField(max_length=50, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    schema_attributes = models.JSONField()
-    schema_filters = models.JSONField()
+    schema_attributes = models.JSONField(null=True, blank=True)
+    schema_filters = models.JSONField(null=True, blank=True)
     parent = TreeForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children'
     )
@@ -16,7 +22,7 @@ class Category(MPTTModel):
         order_insertion_by = ['name']
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 
 def product_file_name(instance, filename):
@@ -28,7 +34,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
     image = models.ImageField(upload_to=product_file_name, blank=True)
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -40,4 +46,31 @@ class Product(models.Model):
         index_together = (('id', 'slug'),)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
+
+
+class Review(MPTTModel):
+    """
+    Tree model of reviews for product
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField("content review", max_length=5000)
+    parent = TreeForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children'
+    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.first_name} - {self.product.name}"
+
+
+class Rating(models.Model):
+    """
+    Rating model for to rating the product
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField("rating value", default=0)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.star} - {self.product}"
