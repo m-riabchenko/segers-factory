@@ -6,7 +6,7 @@ from factory.catalog import views
 router = DefaultRouter()
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'products', views.ProductViewSet)
-router.register(r'review', views.ReviewViewSet)
+router.register(r'reviews', views.ReviewViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

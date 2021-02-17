@@ -43,15 +43,24 @@ class ProductViewSet(viewsets.ModelViewSet):
         product.save()
         return Response(status=status.HTTP_200_OK)
 
+    @action(methods=['get'], detail=True)
+    def reviews(self, request, pk=None):
+        product = Product.objects.get(id=pk)
+        reviews = product.review_set.filter(parent__isnull=True).distinct()
+        serializer = serializers.ReviewSerializer(reviews, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
 
 class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = Review.objects.all()
+    queryset = Review.objects.filter(children__isnull=False)
     serializer_class = serializers.ReviewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
 
 
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = serializers.RatingSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-

@@ -31,7 +31,12 @@ class ProductSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ["id", "text", "parent"]
+        fields = ["id", "text", "parent", "product"]
+
+    def get_fields(self):
+        fields = super(ReviewSerializer, self).get_fields()
+        fields['children'] = ReviewSerializer(read_only=True, many=True)
+        return fields
 
 
 class RatingSerializer(serializers.ModelSerializer):
