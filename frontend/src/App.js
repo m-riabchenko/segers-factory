@@ -19,6 +19,8 @@ import {ShoppingCart} from "./components/Shop/ShoppingCart/ShoppingCart";
 import {Order} from "./components/Order/Order";
 import {ProductDetail} from "./components/Shop/ProductDetail/ProductDetail";
 import {CartProvider} from "./contexts/CartContext";
+import {AddCategory} from "./components/Dashboard/AddCategory";
+import {AddProduct} from "./components/Dashboard/AddProduct";
 
 
 const App = () => {
@@ -26,13 +28,15 @@ const App = () => {
         <BrowserRouter>
             <CartProvider>
                 <Header/>
-                <div className="body__overlay"></div>
+                <div className="body__overlay"> </div>
                 <Route path='/register' render={() => <Register/>}/>
                 <Route path='/login' render={() => <Login/>}/>
                 <Route path='/shop' render={() => <Shop/>}/>
                 <Route path='/cart' render={() => <ShoppingCart/>}/>
                 <Route path='/order' render={() => <Order/>}/>
-                <Route path='/product/:productId' render={(props) => <ProductDetail {...props}/>}/>
+                <Route path='/product/:productId' render={(props) => <ProductDetail {...props}/>}/>\
+                <Route path='/dashboard/category/' render={() => <AddCategory/>}/>
+                <Route path='/dashboard/product/' render={() => <AddProduct/>}/>
                 <Footer/>
             </CartProvider>
         </BrowserRouter>

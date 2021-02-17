@@ -1,15 +1,26 @@
-import {axios} from "./utils";
+import {axios, axiosWithCredentials} from "./utils";
 
 const getCategories = async () => {
     const response = await axios.get(`shop/categories/`)
     return response.data
 }
 
-const getCategoryFilters = async (category_id) => {
-    return await axios.get(`shop/categories/${category_id}/filters`)
+const getCategory = async (categoryId) => {
+    return await axios.get(`shop/categories/${categoryId}`)
+}
+
+const getCategoryFilters = async (categoryId) => {
+    return await axios.get(`shop/categories/${categoryId}/filters`)
+}
+
+const createCategory = async (name, schemaAttributes, parent) => {
+    return await axiosWithCredentials.post(`shop/categories/`,
+        {name: name, schema_attributes: schemaAttributes, parent: parent})
 }
 
 export const categoryAPI = {
     getCategories,
+    getCategory,
     getCategoryFilters,
+    createCategory,
 }

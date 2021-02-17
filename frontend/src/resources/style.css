@@ -767,6 +767,8 @@
     align-items: center;
     display: flex;
     height: 320px;
+    background: rgba(0, 0, 0, 0);
+    background-image: url(images/bg/2.jpg);
 }
 .bradcaump-title {
     color: #343434;
@@ -2718,7 +2720,7 @@ select.select-color {
 .review-btn {
     margin-top: 30px;
 }
-.review-btn a.fv-btn {
+.review-btn button.fv-btn {
     border: 1px solid #999;
     display: inline-block;
     font-size: 16px;
@@ -2728,7 +2730,7 @@ select.select-color {
     text-transform: uppercase;
     transition: 0.4s;
 }
-.review-btn a.fv-btn:hover {
+.review-btn button.fv-btn:hover {
     border: 1px solid #ff4136;
     background: #ff4136;
     color: #fff;
@@ -3401,6 +3403,9 @@ blockquote::before {
 .wishlist-table table td.product-price .amount {
     font-weight: 700;
 }
+.wishlist-table table td.product-price .amount-red {
+    font-weight: 700;
+}
 .wishlist-table table .wishlist-in-stock {
     color: #767676;
 }
@@ -3530,6 +3535,11 @@ blockquote::before {
     font-weight: 700;
     color: #777;
 }
+.table-content table .product-price .amount-red {
+    font-size: 15px;
+    font-weight: 700;
+    color: red;
+}
 .table-content table td.product-remove i:hover {
     color: #252525
 }
@@ -3644,6 +3654,15 @@ blockquote::before {
     text-align: right;
     text-transform: uppercase;
 }
+.cart_totals table td .amount-red {
+    color: red;
+    float: right;
+    font-size: 13px;
+    font-weight: bold;
+    margin-left: 5px;
+    text-align: right;
+    text-transform: uppercase;
+}
 .cart_totals table td ul#shipping_method {
     list-style: outside none none;
     margin: 0;
@@ -3670,6 +3689,11 @@ a.shipping-calculator-button:hover {
 }
 .cart_totals table tr.order-total th,
 .cart_totals table tr.order-total .amount {
+    font-size: 20px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.cart_totals table tr.order-total .amount-red {
     font-size: 20px;
     text-transform: uppercase;
     white-space: nowrap;
