@@ -1,18 +1,37 @@
 import imageProduct from '../../../resources/images/product-details/small-img/1.jpg'
 import bigImage from '../../../resources/images/product-details/big-img/10.jpg'
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {productAPI} from "../../../api/ProductAPI";
-import {useAsync} from "react-use";
+import {useAsync, useToggle} from "react-use";
 import {PacmanLoader} from "react-spinners";
+import {CartContext} from "../../../contexts/CartContext";
+import {Description} from "./Descriptions";
+import {Review} from "./Review";
 
 export const ProductDetail = (props) => {
     const [product, setProduct] = useState([])
+    const [quantity, setQuantity] = useState(1)
+    const [on, toggle] = useToggle(true);
+    const {addToCart} = useContext(CartContext)
 
-    const {value, loading, error} = useAsync(async () => {
-        const response = await productAPI.getProductDetail(props.match.params.productId);
-        setProduct(response.data)
-        return response.data
+    useEffect(() => {
+        (async () => {
+            const response = await productAPI.getProductDetail(props.match.params.productId);
+            setProduct(response.data)
+            return response.data
+        })()
     }, [props.match.params.productId])
+
+    const quantityIncrement = () => {
+        setQuantity(prev => prev + 1)
+    }
+    const quantityDecrement = () => {
+        setQuantity(prev => prev - 1)
+    }
+    const quantityChange = e => {
+        setQuantity(Number(e.currentTarget.value))
+    }
+    console.log("render")
     return (
         <>
             <section className="htc__product__details pt--120 pb--100 bg__white">
@@ -105,7 +124,7 @@ export const ProductDetail = (props) => {
                         </div>
                         <div className="col-md-6 col-lg-6 col-sm-12 col-xs-12 smt-30 xmt-30">
                             <div className="htc__product__details__inner">
-                                {loading ? <PacmanLoader/> : null}
+                                {/*{loading ? <PacmanLoader/> : null}*/}
                                 <div className="pro__detl__title">
                                     <h2>{product.name}</h2>
                                 </div>
@@ -152,18 +171,29 @@ export const ProductDetail = (props) => {
                                 <div className="product-action-wrap">
                                     <div className="prodict-statas"><span>Quantity :</span></div>
                                     <div className="product-quantity">
-                                        <form id='myform' method='POST' action='#'>
-                                            <div className="product-quantity">
-                                                <div className="cart-plus-minus">
-                                                    <input className="cart-plus-minus-box"
-                                                           type="text" name="qtybutton" value="02"/>
+                                        <div className="product-quantity">
+                                            <div className="cart-plus-minus form-row">
+                                                <button onClick={quantityDecrement}
+                                                        className={"btn btn-danger"}>-
+                                                </button>
+                                                <div className={"col-xs-4"}>
+                                                    <input className="form-control"
+                                                           type="number"
+                                                           name="quantity" value={quantity}
+                                                           onChange={quantityChange}
+                                                           min={1}/>
                                                 </div>
+                                                <button onClick={quantityIncrement}
+                                                        className={"btn btn-success"}>+
+                                                </button>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
                                 <ul className="pro__dtl__btn">
-                                    <li className="buy__now__btn"><a href="#">buy now</a></li>
+                                    <li className="buy__now__btn"><a
+                                        onClick={() => addToCart(product.id, quantity)}>buy now</a>
+                                    </li>
                                     <li><a href="/#"><span className="ti-heart"></span></a></li>
                                     <li><a href="/#"><span className="ti-email"></span></a></li>
                                 </ul>
@@ -185,6 +215,34 @@ export const ProductDetail = (props) => {
                     </div>
                 </div>
             </section>
+
+            <section className="htc__product__details__tab bg__white pb--120">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                            <ul className="product__deatils__tab mb--60" role="tablist">
+                                <li role="presentation" className={on ? "active" : "none"}>
+                                    <a onClick={() => toggle(true)} role="tab"
+                                       data-toggle="tab">Description</a>
+                                </li>
+                                <li role="presentation" className={!on ? "active" : "none"}>
+                                    <a onClick={() => toggle(false)} role="tab"
+                                       data-toggle="tab">Reviews</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="product__details__tab__content">
+                                {on ? <Description attributes={product.attributes}/>
+                                    : <Review productId={product.id}/>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </>
     )
 }

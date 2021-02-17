@@ -1,4 +1,4 @@
-import {axios} from "./utils";
+import {axios, axiosWithCredentials} from "./utils";
 
 const getProducts = async () => {
     const response = await axios.get(`shop/products/`)
@@ -13,8 +13,35 @@ const getProductByFilters = async (queryParameters) => {
     return await axios.get(`shop/products/?${queryParameters}`)
 }
 
+const createProduct = async (categoryId, baseAttr, customAttr) => {
+    console.log({
+        category: categoryId,
+        name: baseAttr.name,
+        price: baseAttr.price,
+        descriptions: baseAttr.descriptions,
+        attributes: customAttr
+    })
+    return await axiosWithCredentials.post(`shop/products/`, {
+        category: categoryId,
+        name: baseAttr.name,
+        slug: baseAttr.name,
+        description: baseAttr.descriptions,
+        price: baseAttr.price,
+        attributes: {
+            variant: [{...customAttr}]
+        }
+    })
+}
+
+const getReviewProduct = async (productId) => {
+    return await axios.get(`shop/products/${productId}/reviews/`)
+}
+
+
 export const productAPI = {
     getProducts,
     getProductDetail,
     getProductByFilters,
+    createProduct,
+    getReviewProduct,
 }
