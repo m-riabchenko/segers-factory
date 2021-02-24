@@ -1,11 +1,7 @@
 import {useEffect, useState} from "react";
 
 export const CartItem = ({
-                             id,
-                             price,
-                             total,
-                             count,
-                             name,
+                             item,
                              onClickRemoveCartItem,
                              onUpdateCartItem,
                              loading
@@ -13,8 +9,8 @@ export const CartItem = ({
     const [countItemsProduct, setCountItemsProduct] = useState(0)
 
     useEffect(() => {
-        setCountItemsProduct(count)
-    }, [count])
+        setCountItemsProduct(item.count)
+    }, [item.count])
 
     const onHandleChangeCountItem = (id, value) => {
         if (value > 100) {
@@ -35,13 +31,13 @@ export const CartItem = ({
 
     return (
         <>
-            <tr key={id}>
+            <tr key={item.id}>
                 <td className="product-thumbnail"><a href="/#"><img
                     src="../../../resources/images/product/4.png" alt="product img"/></a>
                 </td>
-                <td className="product-name"><a href="/#">{name}</a></td>
+                <td className="product-name"><a href="/#">{item.product.name}</a></td>
                 <td className="product-price"><span
-                    className="amount">£{price}</span></td>
+                    className="amount">£{item.price}</span></td>
                 <td className="product-quantity">
                     <input type="number"
                            readOnly={loading}
@@ -49,10 +45,10 @@ export const CartItem = ({
                            max={100}
                            onBlur={onHandelBlur}
                            value={countItemsProduct}
-                           onChange={e => onHandleChangeCountItem(id, e.currentTarget.value)}/>
+                           onChange={e => onHandleChangeCountItem(item.id, e.currentTarget.value)}/>
                 </td>
-                <td className="product-subtotal">£{total}</td>
-                <td className="product-remove"><a onClick={() => onClickRemoveCartItem(id)}
+                <td className="product-subtotal">£{item.total}</td>
+                <td className="product-remove"><a onClick={() => onClickRemoveCartItem(item.id)}
                                                   href="/cart#">X</a></td>
             </tr>
         </>
