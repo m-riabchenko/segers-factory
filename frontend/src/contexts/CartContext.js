@@ -62,6 +62,14 @@ const CartProvider = (props) => {
         dispatch({type: "CLEAR"})
     }
 
+    const totalCart = () => {
+        let totalVal = 0;
+        for (let i = 0; i < state.items.length; i++) {
+            totalVal += parseFloat(state.items[i].total)
+        }
+        return totalVal
+    };
+
     return (
         <CartContext.Provider
             value={{
@@ -72,6 +80,7 @@ const CartProvider = (props) => {
                 removeCartItem: removeCartItem,
                 addToCart: addToCart,
                 clearCart: clearCart,
+                totalCart: totalCart,
             }}
         >
             {props.children}

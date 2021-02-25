@@ -1,12 +1,19 @@
 import {CartItem} from "./CartItem";
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {RingLoader} from "react-spinners";
 import {NavLink} from "react-router-dom";
 import {CartContext} from "../../../contexts/CartContext";
 import {Breadcrumb} from "../../Breadcrumb/Breadcrumb";
 
 export const ShoppingCart = () => {
-    const {cart, loading, updateCartItem, removeCartItem} = useContext(CartContext)
+    const {cart, loading, updateCartItem, removeCartItem, totalCart} = useContext(CartContext)
+    const [cartTotal, setCartTotal] = useState(0);
+
+    useEffect(() => {
+        setCartTotal(totalCart());
+    }, [cart]);
+
+
 
     return (
         <>
@@ -15,7 +22,7 @@ export const ShoppingCart = () => {
             {loading ? <RingLoader/> : null}
             <div className="cart-main-area ptb--120 bg__white">
                 <div className="container">
-                    {cart.items.length ===0 ? <h2>Cart is empty</h2> :
+                    {cart.items.length === 0 ? <h2>Cart is empty</h2> :
                         <div className="row">
                             <div className="col-md-12 col-sm-12 col-xs-12">
                                 <form>
@@ -35,11 +42,7 @@ export const ShoppingCart = () => {
                                             <tbody>
                                             {cart.items.map((item) => (
                                                 <CartItem key={item.id}
-                                                          id={item.id}
-                                                          price={item.price}
-                                                          total={item.total}
-                                                          count={item.count}
-                                                          name={item.product.name}
+                                                          item={item}
                                                           loading={loading}
                                                           onClickRemoveCartItem={removeCartItem}
                                                           onUpdateCartItem={updateCartItem}/>
@@ -100,7 +103,7 @@ export const ShoppingCart = () => {
                                                         <th>Total</th>
                                                         <td>
                                                             <strong><span
-                                                                className={loading ? "amount-red" : "amount"}>£{cart.total}</span></strong>
+                                                                className={loading ? "amount-red" : "amount"}>£{cartTotal}</span></strong>
                                                         </td>
                                                     </tr>
                                                     </tbody>

@@ -19,10 +19,11 @@ export const CartReducer = (state, action) => {
                 }
             }
         case "UPDATE_COUNT":
-            let newCart = state.items.filter(item => item.id !== action.payload.cartItem.id)
+            let indexUpdatedItem = state.items.map((item) => item.id).indexOf(action.payload.cartItem.id)
+            state.items[indexUpdatedItem] = action.payload.cartItem
             return {
                 ...state,
-                items: [...newCart, action.payload.cartItem]
+                items: [...state.items]
             }
 
         case "REMOVE_ITEM":
