@@ -2,16 +2,21 @@ import React, {useContext, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {authAPI} from "../../../api/AuthAPI";
 import {CartContext} from "../../../contexts/CartContext";
+import {useHistory} from "react-router";
 
 
 export const Login = () => {
     const {register, errors, handleSubmit} = useForm();
     const [isLoginError, setIsLoginError] = useState(false)
     const {setUserCart} = useContext(CartContext)
+    let history = useHistory();
 
     const onSubmit = (data) => {
         return authAPI.login(data.email, data.password)
-            .then(() => setUserCart())
+            .then(() => {
+                history.push("/");
+                setUserCart()
+            })
             .catch(() => setIsLoginError(true))
     }
 
@@ -37,9 +42,10 @@ export const Login = () => {
                                            aria-describedby="emailHelp" name="email"/>
                                     {errors.email && errors.email.type === "required" && (
                                         <small className="form-text text-muted text-danger">
-                                            <b>This isr required</b> </small>
+                                            <b>This is required</b> </small>
                                     )}
                                 </div>
+
                                 <div className="form-group">
                                     <label htmlFor="exampleInputPassword1">Password</label>
                                     <input ref={register({required: true})} type="password"

@@ -5,6 +5,11 @@ export const CartReducer = (state, action) => {
                 items: action.payload.items,
                 total: action.payload.total
             }
+        case "SET_TOTAL":
+            return {
+                ...state,
+                total: action.payload.total
+            }
         case "ADD_ITEM":
             if (!state.items.find(item => item.id === action.payload.cartItem.id)) {
                 return {

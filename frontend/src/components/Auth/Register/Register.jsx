@@ -5,9 +5,8 @@ import {useHistory} from "react-router";
 
 
 export const Register = () => {
-    const {register, errors, handleSubmit, watch} = useForm()
+    const {register, errors, handleSubmit} = useForm()
     const password = useRef({});
-    password.current = watch("password", "");
 
     const [errorRegister, setErrorRegister] = useState(null)
     let history = useHistory();
@@ -16,7 +15,7 @@ export const Register = () => {
     const onSubmit = (data) => {
         authAPI.register(data.email, data.password).then(response => {
             if (response.status === 201) {
-                history.push("/home");
+                history.push("/");
             }
         }).catch(error => {
             if (error.response.status === 400) {

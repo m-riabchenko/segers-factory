@@ -7,6 +7,7 @@ const CartContext = createContext(null)
 
 const CartProvider = (props) => {
     const [state, dispatch] = useReducer(CartReducer, {items: [], total: 0});
+    const [openCartSidebar, setOpenCartSidebar] = useState(false)
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,6 +20,10 @@ const CartProvider = (props) => {
             setLoading(false)
         })()
     }, [])
+
+    useEffect(() => {
+        totalCart()
+    }, [state.items])
 
     const setUserCart = async () => {
         const response = await cartAPI.getUserCart();
@@ -67,7 +72,7 @@ const CartProvider = (props) => {
         for (let i = 0; i < state.items.length; i++) {
             totalVal += parseFloat(state.items[i].total)
         }
-        return totalVal
+        dispatch({type: "SET_TOTAL", payload: {total: totalVal}})
     };
 
     return (

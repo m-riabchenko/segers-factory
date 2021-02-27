@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import review_img from "../../../resources/images/review/1.jpg"
 export const Review = ({productId, active}) => {
     const [reviews, setReviews] = useState(null)
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, reset} = useForm()
 
     useEffect(() => {
         (async () => {
@@ -14,8 +14,9 @@ export const Review = ({productId, active}) => {
             return response.data
         })()
     }, [])
-    console.log(reviews)
+
     const onSubmit = data => {
+        reset(null)
         return reviewAPI.createReview(productId, data.text)
     }
 

@@ -8,7 +8,7 @@ export const CategoryBlock = ({categories, setFilterCategory, setUniversalQueryS
             setIsChecked(null)
         } else {
             setIsChecked(categoryId)
-            setUniversalQueryString(prev => ({...prev, categories: categoryId}))
+            setUniversalQueryString(prev => ({...prev, category: categoryId}))
             setFilterCategory(categoryId)
         }
     }

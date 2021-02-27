@@ -70,48 +70,50 @@ export const Order = () => {
                                                     Account ?</label>
                                             </div>
                                         </div>
-                                        <button>Submit</button>
+                                        <div className="review-btn">
+                                            <button className="fv-btn">Order</button>
+                                        </div>
                                     </form>
                                 </div>
-                                <div className="payment-form">
-                                    <h2 className="section-title-3">payment details</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur kgjhyt</p>
-                                    <div className="payment-form-inner">
-                                        <div className="single-checkout-box">
-                                            <input type="text" placeholder="Name on Card*"/>
-                                            <input type="text" placeholder="Card Number*"/>
-                                        </div>
-                                        <div className="single-checkout-box select-option">
-                                            <select>
-                                                <option>Date*</option>
-                                                <option>Date</option>
-                                                <option>Date</option>
-                                                <option>Date</option>
-                                                <option>Date</option>
-                                            </select>
-                                            <input type="text" placeholder="Security Code*"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="our-payment-sestem">
-                                    <h2 className="section-title-3">We Accept :</h2>
-                                    <ul className="payment-menu">
-                                        <li><a href="/#"><img src="images/payment/1.jpg"
-                                                              alt="payment-img"/></a></li>
-                                        <li><a href="/#"><img src="images/payment/2.jpg"
-                                                              alt="payment-img"/></a></li>
-                                        <li><a href="/#"><img src="images/payment/3.jpg"
-                                                              alt="payment-img"/></a></li>
-                                        <li><a href="/#"><img src="images/payment/4.jpg"
-                                                              alt="payment-img"/></a></li>
-                                        <li><a href="/#"><img src="images/payment/5.jpg"
-                                                              alt="payment-img"/></a></li>
-                                    </ul>
-                                    <div className="checkout-btn">
-                                        <a className="ts-btn btn-light btn-large hover-theme"
-                                           href="/#">CONFIRM & BUY NOW</a>
-                                    </div>
-                                </div>
+                                {/*<div className="payment-form">*/}
+                                {/*    <h2 className="section-title-3">payment details</h2>*/}
+                                {/*    <p>Lorem ipsum dolor sit amet, consectetur kgjhyt</p>*/}
+                                {/*    <div className="payment-form-inner">*/}
+                                {/*        <div className="single-checkout-box">*/}
+                                {/*            <input type="text" placeholder="Name on Card*"/>*/}
+                                {/*            <input type="text" placeholder="Card Number*"/>*/}
+                                {/*        </div>*/}
+                                {/*        <div className="single-checkout-box select-option">*/}
+                                {/*            <select>*/}
+                                {/*                <option>Date*</option>*/}
+                                {/*                <option>Date</option>*/}
+                                {/*                <option>Date</option>*/}
+                                {/*                <option>Date</option>*/}
+                                {/*                <option>Date</option>*/}
+                                {/*            </select>*/}
+                                {/*            <input type="text" placeholder="Security Code*"/>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                                {/*<div className="our-payment-sestem">*/}
+                                {/*    <h2 className="section-title-3">We Accept :</h2>*/}
+                                {/*    <ul className="payment-menu">*/}
+                                {/*        <li><a href="/#"><img src="images/payment/1.jpg"*/}
+                                {/*                              alt="payment-img"/></a></li>*/}
+                                {/*        <li><a href="/#"><img src="images/payment/2.jpg"*/}
+                                {/*                              alt="payment-img"/></a></li>*/}
+                                {/*        <li><a href="/#"><img src="images/payment/3.jpg"*/}
+                                {/*                              alt="payment-img"/></a></li>*/}
+                                {/*        <li><a href="/#"><img src="images/payment/4.jpg"*/}
+                                {/*                              alt="payment-img"/></a></li>*/}
+                                {/*        <li><a href="/#"><img src="images/payment/5.jpg"*/}
+                                {/*                              alt="payment-img"/></a></li>*/}
+                                {/*    </ul>*/}
+                                {/*    <div className="checkout-btn">*/}
+                                {/*        <a className="ts-btn btn-light btn-large hover-theme"*/}
+                                {/*           href="/#">CONFIRM & BUY NOW</a>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </div>
                         </div>
                         <div className="col-md-4 col-lg-4">

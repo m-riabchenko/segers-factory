@@ -11,6 +11,8 @@ import {Review} from "./Review";
 export const ProductDetail = (props) => {
     const [product, setProduct] = useState([])
     const [quantity, setQuantity] = useState(1)
+    const [min, setMin] = useState(1)
+    const [max, maxtMin] = useState(100)
     const [on, toggle] = useToggle(true);
     const {addToCart} = useContext(CartContext)
 
@@ -23,13 +25,19 @@ export const ProductDetail = (props) => {
     }, [props.match.params.productId])
 
     const quantityIncrement = () => {
-        setQuantity(prev => prev + 1)
+        if (!(quantity >= max))
+            setQuantity(prev => prev + 1)
     }
     const quantityDecrement = () => {
-        setQuantity(prev => prev - 1)
+        if (!(quantity <= min))
+            setQuantity(prev => prev - 1)
     }
     const quantityChange = e => {
-        setQuantity(Number(e.currentTarget.value))
+        if (Number(e.currentTarget.value) > max) {
+            setQuantity(max)
+        } else {
+            setQuantity(e.currentTarget.value)
+        }
     }
     console.log("render")
     return (
@@ -179,9 +187,12 @@ export const ProductDetail = (props) => {
                                                 <div className={"col-xs-4"}>
                                                     <input className="form-control"
                                                            type="number"
-                                                           name="quantity" value={quantity}
+                                                           name="quantity"
+                                                           value={quantity}
                                                            onChange={quantityChange}
-                                                           min={1}/>
+                                                           onKeyDown={ (evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault() }
+                                                           min={min}
+                                                    />
                                                 </div>
                                                 <button onClick={quantityIncrement}
                                                         className={"btn btn-success"}>+

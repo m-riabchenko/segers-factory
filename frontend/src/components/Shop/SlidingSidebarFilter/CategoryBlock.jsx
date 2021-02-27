@@ -4,7 +4,7 @@ export const CategoryBlock = ({categories, setFilterCategory, setUniversalQueryS
     const [isChecked, setIsChecked] = useState(null)
     const onHandleChange = async (categoryId) => {
         setIsChecked(categoryId)
-        setUniversalQueryString(prev => ({...prev, categories: categoryId}))
+        setUniversalQueryString(prev => ({...prev, category: categoryId}))
         setFilterCategory(categoryId)
     }
     return (

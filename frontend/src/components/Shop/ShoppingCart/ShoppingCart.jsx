@@ -1,19 +1,12 @@
 import {CartItem} from "./CartItem";
 import React, {useContext, useEffect, useState} from "react";
 import {RingLoader} from "react-spinners";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {CartContext} from "../../../contexts/CartContext";
 import {Breadcrumb} from "../../Breadcrumb/Breadcrumb";
 
 export const ShoppingCart = () => {
-    const {cart, loading, updateCartItem, removeCartItem, totalCart} = useContext(CartContext)
-    const [cartTotal, setCartTotal] = useState(0);
-
-    useEffect(() => {
-        setCartTotal(totalCart());
-    }, [cart]);
-
-
+    const {cart, loading, updateCartItem, removeCartItem} = useContext(CartContext)
 
     return (
         <>
@@ -55,8 +48,8 @@ export const ShoppingCart = () => {
                                     <div className="row">
                                         <div className="col-md-8 col-sm-7 col-xs-12">
                                             <div className="buttons-cart">
-                                                <input value="Update Cart"/>
-                                                <NavLink to={"/shop"}>Continue Shopping</NavLink>
+                                                <input type={"submit"} value="Update Cart"/>
+                                                <Link to={"/shop"}>Continue Shopping</Link>
                                             </div>
                                             <div className="coupon">
                                                 <h3>Coupon</h3>
@@ -70,46 +63,46 @@ export const ShoppingCart = () => {
                                                 <h2>Cart Totals</h2>
                                                 <table>
                                                     <tbody>
-                                                    <tr className="cart-subtotal">
-                                                        <th>Subtotal</th>
-                                                        <td><span className="amount">£215.00</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr className="shipping">
-                                                        <th>Shipping</th>
-                                                        <td>
-                                                            <ul id="shipping_method">
-                                                                <li>
-                                                                    <input type="radio"/>
-                                                                    <label>
-                                                                        Flat Rate: <span
-                                                                        className="amount">£7.00</span>
-                                                                    </label>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="radio"/>
-                                                                    <label>
-                                                                        Free Shipping
-                                                                    </label>
-                                                                </li>
-                                                                <li></li>
-                                                            </ul>
-                                                            <p><a
-                                                                className="shipping-calculator-button"
-                                                                href="/#">Calculate Shipping</a></p>
-                                                        </td>
-                                                    </tr>
+                                                    {/*<tr className="cart-subtotal">*/}
+                                                    {/*    <th>Subtotal</th>*/}
+                                                    {/*    <td><span className="amount">£215.00</span>*/}
+                                                    {/*    </td>*/}
+                                                    {/*</tr>*/}
+                                                    {/*<tr className="shipping">*/}
+                                                    {/*    <th>Shipping</th>*/}
+                                                    {/*    <td>*/}
+                                                    {/*        <ul id="shipping_method">*/}
+                                                    {/*            <li>*/}
+                                                    {/*                <input type="radio"/>*/}
+                                                    {/*                <label>*/}
+                                                    {/*                    Flat Rate: <span*/}
+                                                    {/*                    className="amount">£7.00</span>*/}
+                                                    {/*                </label>*/}
+                                                    {/*            </li>*/}
+                                                    {/*            <li>*/}
+                                                    {/*                <input type="radio"/>*/}
+                                                    {/*                <label>*/}
+                                                    {/*                    Free Shipping*/}
+                                                    {/*                </label>*/}
+                                                    {/*            </li>*/}
+                                                    {/*            <li></li>*/}
+                                                    {/*        </ul>*/}
+                                                    {/*        <p><a*/}
+                                                    {/*            className="shipping-calculator-button"*/}
+                                                    {/*            href="/#">Calculate Shipping</a></p>*/}
+                                                    {/*    </td>*/}
+                                                    {/*</tr>*/}
                                                     <tr className="order-total">
                                                         <th>Total</th>
                                                         <td>
                                                             <strong><span
-                                                                className={loading ? "amount-red" : "amount"}>£{cartTotal}</span></strong>
+                                                                className={loading ? "amount-red" : "amount"}>£{cart.total}</span></strong>
                                                         </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                                 <div className="wc-proceed-to-checkout">
-                                                    <a href="/">Proceed to Checkout</a>
+                                                    <Link to={"/order"}>Proceed to Checkout</Link>
                                                 </div>
                                             </div>
                                         </div>
