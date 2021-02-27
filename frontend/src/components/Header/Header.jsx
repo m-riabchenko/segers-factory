@@ -43,9 +43,7 @@ export const Header = () => {
                     <i className="fa fa-bars"></i>
                 </a>
             </div>
-            <div onClick={() => setToggle(false)}
-                 className={toggle ? "body__overlay is-visible" : "body__overlay"}>
-            </div>
+
             <ShoppingCartSidebar toggle={toggle} onClickToggleOff={onClickToggleOff}
                                  setToggle={setToggle}/>
         </>

@@ -22,7 +22,7 @@ export const ProductCard = ({productId, name, price}) => {
                             <li><a data-toggle="modal" data-target="#productModal"
                                    title="Quick View" className="quick-view modal-view detail-link"
                                    href="/#"><span className="ti-plus"></span></a></li>
-                            <li><a onClick={() => addToCart(productId)} title="Add To Cart"><span
+                            <li><a className={"cursor-pointer"} onClick={() => addToCart(productId)} title="Add To Cart"><span
                                 className="ti-shopping-cart"></span></a></li>
                             <li><a title="Wishlist" href="wishlist.html"><span
                                 className="ti-heart"></span></a></li>

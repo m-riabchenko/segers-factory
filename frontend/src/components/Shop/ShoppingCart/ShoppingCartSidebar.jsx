@@ -6,13 +6,16 @@ export const ShoppingCartSidebar = ({toggle, onClickToggleOff}) => {
     const {cart, loading, removeCartItem} = useContext(CartContext)
     return (
         <>
+            <div onClick={() => onClickToggleOff(false)}
+                 className={toggle ? "body__overlay is-visible" : "body__overlay"}>
+            </div>
             <div
                 className={toggle ? "shopping__cart shopping__cart__on" : "shopping__cart hidden-xs"}>
                 <div className="shopping__cart__inner">
                     <div className="offsetmenu__close__btn">
-                        <a onClick={onClickToggleOff} href="/#"><i className="zmdi zmdi-close"></i></a>
+                        <a className={"cursor-pointer"} onClick={onClickToggleOff}><i className="zmdi zmdi-close"></i></a>
                     </div>
-                    {cart.items.length ===0 ? <h2>Cart is empty</h2> : <div>
+                    {cart.items.length === 0 ? <h2>Cart is empty</h2> : <div>
                         <div className="shp__cart__wrap">
                             {cart.items.map(item => (
                                 <div className="shp__single__product" key={item.id}>

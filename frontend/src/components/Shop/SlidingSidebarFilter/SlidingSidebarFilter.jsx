@@ -22,7 +22,7 @@ export const SlidingSidebarFilter = ({
                 <div className="filter__cart">
                     <div className="filter__cart__inner">
                         <div className="filter__menu__close__btn">
-                            <a onClick={onClickToggle} href="/shop#">
+                            <a className={"cursor-pointer"} onClick={onClickToggle} >
                                 <i className="zmdi zmdi-close"></i></a>
                         </div>
                         <div className="filter__content">
