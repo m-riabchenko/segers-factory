@@ -2,11 +2,11 @@ import imageProduct from '../../../resources/images/product-details/small-img/1.
 import bigImage from '../../../resources/images/product-details/big-img/10.jpg'
 import React, {useContext, useEffect, useState} from "react";
 import {productAPI} from "../../../api/ProductAPI";
-import {useAsync, useToggle} from "react-use";
-import {PacmanLoader} from "react-spinners";
+import {useToggle} from "react-use";
 import {CartContext} from "../../../contexts/CartContext";
 import {Description} from "./Descriptions";
 import {Review} from "./Review";
+import ReactStars from "react-rating-stars-component";
 
 export const ProductDetail = (props) => {
     const [product, setProduct] = useState([])
@@ -36,10 +36,9 @@ export const ProductDetail = (props) => {
         if (Number(e.currentTarget.value) > max) {
             setQuantity(max)
         } else {
-            setQuantity(e.currentTarget.value)
+            setQuantity(Number(e.currentTarget.value))
         }
     }
-    console.log("render")
     return (
         <>
             <section className="htc__product__details pt--120 pb--100 bg__white">
@@ -80,11 +79,7 @@ export const ProductDetail = (props) => {
                                             <img src={bigImage}
                                                  alt={"photo2"}/>
                                             <div className="product-video">
-                                                <a className="video-popup"
-                                                   href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
-                                                    <i className="zmdi zmdi-videocam"></i> View
-                                                    Video
-                                                </a>
+
                                             </div>
                                         </div>
                                         <div role="tabpanel"
@@ -93,11 +88,7 @@ export const ProductDetail = (props) => {
                                             <img src="images/product-details/big-img/12.jpg"
                                                  alt={"photo2"}/>
                                             <div className="product-video">
-                                                <a className="video-popup"
-                                                   href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
-                                                    <i className="zmdi zmdi-videocam"></i> View
-                                                    Video
-                                                </a>
+
                                             </div>
                                         </div>
                                         <div role="tabpanel"
@@ -106,11 +97,7 @@ export const ProductDetail = (props) => {
                                             <img src="images/product-details/big-img/11.jpg"
                                                  alt={"photo2"}/>
                                             <div className="product-video">
-                                                <a className="video-popup"
-                                                   href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
-                                                    <i className="zmdi zmdi-videocam"></i> View
-                                                    Video
-                                                </a>
+
                                             </div>
                                         </div>
                                         <div role="tabpanel"
@@ -119,11 +106,7 @@ export const ProductDetail = (props) => {
                                             <img src="images/product-details/big-img/12.jpg"
                                                  alt={"photo2"}/>
                                             <div className="product-video">
-                                                <a className="video-popup"
-                                                   href="https://www.youtube.com/watch?v=cDDWvj_q-o8">
-                                                    <i className="zmdi zmdi-videocam"></i> View
-                                                    Video
-                                                </a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -136,16 +119,21 @@ export const ProductDetail = (props) => {
                                 <div className="pro__detl__title">
                                     <h2>{product.name}</h2>
                                 </div>
+                                {product.rating_avg &&
+
                                 <div className="pro__dtl__rating">
-                                    <ul className="pro__rating">
-                                        <li><span className="ti-star"></span></li>
-                                        <li><span className="ti-star"></span></li>
-                                        <li><span className="ti-star"></span></li>
-                                        <li><span className="ti-star"></span></li>
-                                        <li><span className="ti-star"></span></li>
-                                    </ul>
-                                    <span className="rat__qun">(Based on 0 Ratings)</span>
+                                    <ReactStars
+                                        count={5}
+                                        size={24}
+                                        value={product.rating_avg}
+                                        isHalf={true}
+                                        edit={false}
+                                        activeColor="#ffd700"
+                                    />
+                                    <span className="rat__qun">({product.rating_avg} Ratings)</span>
                                 </div>
+                                }
+
                                 <div className="pro__details">
                                     <p>{product.description}</p>
                                 </div>
@@ -190,7 +178,7 @@ export const ProductDetail = (props) => {
                                                            name="quantity"
                                                            value={quantity}
                                                            onChange={quantityChange}
-                                                           onKeyDown={ (evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault() }
+                                                           onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
                                                            min={min}
                                                     />
                                                 </div>

@@ -14,22 +14,13 @@ const getProductByFilters = async (queryParameters) => {
 }
 
 const createProduct = async (categoryId, baseAttr, customAttr) => {
-    console.log({
-        category: categoryId,
-        name: baseAttr.name,
-        price: baseAttr.price,
-        descriptions: baseAttr.descriptions,
-        attributes: customAttr
-    })
     return await axiosWithCredentials.post(`shop/products/`, {
         category: categoryId,
         name: baseAttr.name,
         slug: baseAttr.name,
         description: baseAttr.descriptions,
         price: baseAttr.price,
-        attributes: {
-            variant: [{...customAttr}]
-        }
+        attributes: customAttr
     })
 }
 

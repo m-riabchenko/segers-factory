@@ -2463,7 +2463,7 @@ select.select-color {
   display: inline-block;
   float: right;
 }
-.rating__send a {
+.rating__send i {
     background: #999 none repeat scroll 0 0;
     color: #fff;
     display: inline-block;
@@ -2474,7 +2474,7 @@ select.select-color {
     transition: all 0.4s ease 0s;
     width: 50px;
 }
-.rating__send a:hover {
+.rating__send i:hover {
     background: #ff4136 none repeat scroll 0 0;
     color: #fff;
 }

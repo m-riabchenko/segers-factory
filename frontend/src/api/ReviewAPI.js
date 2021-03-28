@@ -9,12 +9,8 @@ const getReview = async (reviewId) => {
     return await axios.get(`shop/reviews/${reviewId}`)
 }
 
-const createReview = async (productId, text, parent) => {
-    return await axiosWithCredentials.post(`shop/reviews/`, {
-        product: productId,
-        text: text,
-        parent: parent
-    })
+const createReview = async (data) => {
+    return await axiosWithCredentials.post(`shop/reviews/`, data)
 }
 
 export const reviewAPI = {
