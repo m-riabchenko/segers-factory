@@ -3,9 +3,15 @@ import {FilterBlock} from "./FilterBlock";
 import Slider, {Range} from "rc-slider";
 import "rc-slider/assets/index.css";
 import {CategoryBlock} from "./CategoryBlock";
+import {ItemFilterBlock} from "../SlidingSidebarFilter/ItemFilterBlock";
 
 
-export const SidebarFilter = ({setUniversalQueryString, categories, setFilterCategory, filters, onHandleChangeCheckboxFilter}) => {
+export const SidebarFilter = ({
+                                  setUniversalQueryString,
+                                  categories,
+                                  onHandleChangeCheckboxFilter,
+                                  options
+                              }) => {
     const [sliderValue, setSliderValue] = useState([0, 500])
 
     const onHandleChange = value => {
@@ -45,14 +51,14 @@ export const SidebarFilter = ({setUniversalQueryString, categories, setFilterCat
                 </div>
 
                 <CategoryBlock categories={categories}
-                             setFilterCategory={setFilterCategory}
-                             setUniversalQueryString={setUniversalQueryString}/>
+                               setUniversalQueryString={setUniversalQueryString}/>
 
-                {Object.keys(filters).map((keyName, index) =>
-                    <FilterBlock
+
+                {options && options.map((option, index) =>
+                    <ItemFilterBlock
                         key={index}
-                        filterName={keyName}
-                        filterValues={filters[keyName]}
+                        filterName={option.option_name}
+                        filterValues={option.option_value}
                         onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}/>
                 )}
 

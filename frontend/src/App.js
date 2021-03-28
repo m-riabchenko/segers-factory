@@ -20,7 +20,7 @@ import {Order} from "./components/Order/Order";
 import {ProductDetail} from "./components/Shop/ProductDetail/ProductDetail";
 import {CartProvider} from "./contexts/CartContext";
 import {AddCategory} from "./components/Dashboard/AddCategory";
-import {AddProduct} from "./components/Dashboard/AddProduct";
+import {AddProduct} from "./components/Dashboard/CreateProduct/AddProduct";
 
 
 const App = () => {

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-export const CategoryBlock = ({categories, setFilterCategory, setUniversalQueryString}) => {
+export const CategoryBlock = ({categories, setUniversalQueryString}) => {
     const [isChecked, setIsChecked] = useState({})
 
     const onHandleChangeCheckBox = (categoryId) => {
@@ -9,7 +9,6 @@ export const CategoryBlock = ({categories, setFilterCategory, setUniversalQueryS
         } else {
             setIsChecked(categoryId)
             setUniversalQueryString(prev => ({...prev, category: categoryId}))
-            setFilterCategory(categoryId)
         }
     }
 

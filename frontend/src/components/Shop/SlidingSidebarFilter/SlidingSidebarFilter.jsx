@@ -8,10 +8,8 @@ export const SlidingSidebarFilter = ({
                                          categories,
                                          setUniversalQueryString,
                                          onHandleChangeCheckboxFilter,
-                                         setFilterCategory,
-                                         filters,
+                                         options,
                                      }) => {
-
     return (
         <>
             <div onClick={onClickToggle}
@@ -22,22 +20,22 @@ export const SlidingSidebarFilter = ({
                 <div className="filter__cart">
                     <div className="filter__cart__inner">
                         <div className="filter__menu__close__btn">
-                            <a className={"cursor-pointer"} onClick={onClickToggle} >
+                            <a className={"cursor-pointer"} onClick={onClickToggle}>
                                 <i className="zmdi zmdi-close"></i></a>
                         </div>
                         <div className="filter__content">
                             <div className="fiter__content__inner">
                                 <CategoryBlock categories={categories}
-                                               setFilterCategory={setFilterCategory}
                                                setUniversalQueryString={setUniversalQueryString}
                                 />
-                                {Object.keys(filters).map((keyName, index) =>
+                                {options && options.map((option, index) =>
                                     <ItemFilterBlock
                                         key={index}
-                                        filterName={keyName}
-                                        filterValues={filters[keyName]}
+                                        filterName={option.option_name}
+                                        filterValues={option.option_value}
                                         onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}/>
                                 )}
+
 
                             </div>
                         </div>

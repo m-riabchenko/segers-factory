@@ -9,11 +9,10 @@ export const Description = ({attributes, active}) => {
                     <div className="product__desc">
                         <h2 className="title__6">Details</h2>
 
-                        {attributes && attributes.variant
-                            .map(object => Object.entries(object)
-                                .map(([key, value], index) =>
-                                    <div key={index}>{key} - {value}</div>
-                                ))}
+                        {attributes && Object.entries(attributes)
+                            .map(([key, value], index) =>
+                                <div key={index}>{key} - {value}</div>
+                            )}
                     </div>
 
                 </div>

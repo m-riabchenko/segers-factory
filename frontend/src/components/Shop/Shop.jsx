@@ -21,9 +21,9 @@ export function Shop() {
     const onHandleChangeOptionsSort = e => {
         if (e.currentTarget.value !== "default") {
             const value = e.currentTarget.value
-            setUniversalQueryString(prev => ({...prev, order_by: value}))
+            setUniversalQueryString(prev => ({...prev, ordering: value}))
         } else {
-            delete universalQueryParams["order_by"]
+            delete universalQueryParams["ordering"]
         }
     }
 
@@ -41,10 +41,14 @@ export function Shop() {
         return queryParams;
     }, [])
 
+    const [options, setOptions] = useState(null)
+
     useEffect(() => {
         (async () => {
-            const productList = await productAPI.getProducts();
-            setProducts(productList)
+            const response = await productAPI.getProducts();
+            console.log(response)
+            setProducts(response.products)
+            setOptions(response.options)
             setLoading(false)
 
             const categoryList = await categoryAPI.getCategories();
@@ -55,7 +59,8 @@ export function Shop() {
     const productFilter = useCallback(async (queryParameters) => {
         setLoading(true)
         const response = await productAPI.getProductByFilters(queryParameters)
-        setProducts(response.data)
+        setProducts(response.data.products)
+        setOptions(response.data.options)
         setLoading(false)
     }, [])
 
@@ -98,16 +103,10 @@ export function Shop() {
         if (!isEmpty(universalQueryParams) || !isEmpty(queryParams)) {
             const universalParams = new URLSearchParams(universalQueryParams);
             productFilter(universalParams.toString() + buildQueryUrl(queryParams))
-            history.push("?" + universalParams.toString()  + buildQueryUrl(queryParams).toString())
+            history.push("?" + universalParams.toString() + buildQueryUrl(queryParams).toString())
         }
     }, [queryParams, universalQueryParams, productFilter, buildQueryUrl])
 
-    const [filters, setFilters] = useState({})
-
-    const setFilterCategory = async (categoryId) => {
-        const response = await categoryAPI.getCategoryFilters(categoryId)
-        setFilters(response.data.filters)
-    }
     return (
         <>
             <Breadcrumb namePage={"Shop"}/>
@@ -116,8 +115,7 @@ export function Shop() {
                                   categories={categories}
                                   setUniversalQueryString={setUniversalQueryString}
                                   onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}
-                                  setFilterCategory={setFilterCategory}
-                                  filters={filters}
+                                  options={options}
             />
 
             <section className="htc__shop__sidebar bg__white ptb--120">
@@ -127,8 +125,7 @@ export function Shop() {
 
                             <SidebarFilter setUniversalQueryString={setUniversalQueryString}
                                            categories={categories}
-                                           setFilterCategory={setFilterCategory}
-                                           filters={filters}
+                                           options={options}
                                            onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}/>
 
                         </div>
@@ -145,8 +142,8 @@ export function Shop() {
                                                 <select className="select-color selectpicker"
                                                         onChange={onHandleChangeOptionsSort}>
                                                     <option value={"default"}> Sort by ---</option>
-                                                    <option value={"low-price"}> Low-price</option>
-                                                    <option value={"high-price"}> High-price
+                                                    <option value={"price"}> Low-price</option>
+                                                    <option value={"-price"}> High-price
                                                     </option>
                                                 </select>
                                             </div>
