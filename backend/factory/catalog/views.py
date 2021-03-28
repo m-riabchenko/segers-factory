@@ -6,7 +6,7 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from factory.catalog.models import Category, Product, Review, Rating
+from factory.catalog.models import Category, Product, Review
 from factory.catalog import serializers, services
 from factory.catalog.serializers import ProductSerializer
 from django_filters import rest_framework as filters
@@ -61,7 +61,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = ProductSerializer(products, many=True)
         aggregate = products.aggregate(Max('price'), Min('price'), count=Count('id'))
         return Response(data={
-            "options": services.get_options_for_product_filter(products, request.GET.get('attr'), request.GET.get('category')),
+            "options": services.get_options_for_product_filter(products, request.GET.get('attr'),
+                                                               request.GET.get('category')),
             "quantity": aggregate['count'],
             "products": serializer.data,
             "range_price": {
@@ -99,9 +100,3 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(user=user)
-
-
-class RatingViewSet(viewsets.ModelViewSet):
-    queryset = Rating.objects.all()
-    serializer_class = serializers.RatingSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
