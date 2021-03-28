@@ -9,3 +9,28 @@
 /* ----------------------------------------------------
 	You can put your custom css code here: 
 -------------------------------------------------------*/
+
+.text_header {
+    font-size: 1.5em;
+    padding-top: 1em;
+    padding-left: 1em;
+}
+
+.text_attr {
+    font-size: 1.2em;
+    text-transform: capitalize;
+    padding: 10px 16px;
+}
+
+
+.big_radio {
+    width: 20px;
+    height: 20px;
+}
+
+.text_radio {
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
