@@ -11,13 +11,14 @@ import {useHistory} from "react-router";
 
 export function Shop() {
     const [products, setProducts] = useState([])
+    const [qtyProducts, setQtyProducts] = useState(0)
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true);
     const [toggleFilter, setToggleFilter] = useState(false)
     const [queryParams, setQueryString] = useState({})
     const [universalQueryParams, setUniversalQueryString] = useState({})
     const [optionsSort, setOptionsSort] = useState(["Low-price", "High-price"])
-
+    const HOST = "http://127.0.0.1:8000"
     const onHandleChangeOptionsSort = e => {
         if (e.currentTarget.value !== "default") {
             const value = e.currentTarget.value
@@ -48,6 +49,7 @@ export function Shop() {
             const response = await productAPI.getProducts();
             console.log(response)
             setProducts(response.products)
+            setQtyProducts(response.quantity)
             setOptions(response.options)
             setLoading(false)
 
@@ -60,6 +62,7 @@ export function Shop() {
         setLoading(true)
         const response = await productAPI.getProductByFilters(queryParameters)
         setProducts(response.data.products)
+        setQtyProducts(response.data.quantity)
         setOptions(response.data.options)
         setLoading(false)
     }, [])
@@ -148,7 +151,7 @@ export function Shop() {
                                                 </select>
                                             </div>
                                             <div className="shp__pro__show">
-                                                <span>Showing 1 - 4 of 25 results</span>
+                                                <span>Qty products - {qtyProducts} </span>
                                             </div>
                                         </div>
                                         <ul className="view__mode" role="tablist">
@@ -171,7 +174,10 @@ export function Shop() {
                                         {products.map((product) => <ProductCard key={product.id}
                                                                                 productId={product.id}
                                                                                 name={product.name}
-                                                                                price={product.price}/>)}
+                                                                                images={product.images}
+                                                                                price={product.price}
+                                                                                sale={product.sale}
+                                                                                HOST={HOST}/>)}
                                     </div>
                                 </div>
                                 <div className="row mt--60">

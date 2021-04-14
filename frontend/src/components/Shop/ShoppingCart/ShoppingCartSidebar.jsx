@@ -4,6 +4,7 @@ import {NavLink} from "react-router-dom";
 
 export const ShoppingCartSidebar = ({toggle, onClickToggleOff}) => {
     const {cart, loading, removeCartItem} = useContext(CartContext)
+    const HOST = "http://127.0.0.1:8000"
     return (
         <>
             <div onClick={() => onClickToggleOff(false)}
@@ -21,7 +22,7 @@ export const ShoppingCartSidebar = ({toggle, onClickToggleOff}) => {
                                 <div className="shp__single__product" key={item.id}>
                                     <div className="shp__pro__thumb">
                                         <a href="/#">
-                                            <img src="images/product/sm-img/1.jpg"
+                                            <img src={HOST + item.product.images['main-image']}
                                                  alt="product images"/>
                                         </a>
                                     </div>

@@ -9,7 +9,7 @@ import {Review} from "./Review";
 import ReactStars from "react-rating-stars-component";
 
 export const ProductDetail = (props) => {
-    const [product, setProduct] = useState([])
+    const [product, setProduct] = useState({})
     const [quantity, setQuantity] = useState(1)
     const [min, setMin] = useState(1)
     const [max, maxtMin] = useState(100)
@@ -39,6 +39,7 @@ export const ProductDetail = (props) => {
             setQuantity(Number(e.currentTarget.value))
         }
     }
+    const HOST = "http://127.0.0.1:8000"
     return (
         <>
             <section className="htc__product__details pt--120 pb--100 bg__white">
@@ -49,25 +50,31 @@ export const ProductDetail = (props) => {
                                 <ul className="product__small__images" role="tablist">
                                     <li role="presentation" className="pot-small-img active">
                                         <a href="/#img-tab-1" role="tab" data-toggle="tab">
-                                            <img src={imageProduct} alt={"photo2"}/>
+                                            <img
+                                                src={product.images ? HOST + product.images['main-image'] : imageProduct}
+                                                alt={"photo2"}/>
                                         </a>
                                     </li>
                                     <li role="presentation" className="pot-small-img">
                                         <a href="/#img-tab-2" role="tab" data-toggle="tab">
-                                            <img src={imageProduct}
-                                                 alt={"photo2"}/>
+                                            <img
+                                                src={product.images ? HOST + product.images['secondary-image-1'] : imageProduct}
+                                                alt={"photo2"}/>
                                         </a>
                                     </li>
                                     <li role="presentation" className="pot-small-img hidden-xs">
                                         <a href="/#img-tab-3" role="tab" data-toggle="tab">
-                                            <img src={imageProduct} alt={"photo2"}/>
+                                            <img
+                                                src={product.images ? HOST + product.images['secondary-image-2'] : imageProduct}
+                                                alt={"photo2"}/>
                                         </a>
                                     </li>
                                     <li role="presentation"
                                         className="pot-small-img hidden-xs hidden-sm">
                                         <a href="/#img-tab-4" role="tab" data-toggle="tab">
-                                            <img src={imageProduct}
-                                                 alt={"photo2"}/>
+                                            <img
+                                                src={product.images ? HOST + product.images['secondary-image-3'] : imageProduct}
+                                                alt={"photo2"}/>
                                         </a>
                                     </li>
                                 </ul>
@@ -76,38 +83,9 @@ export const ProductDetail = (props) => {
                                         <div role="tabpanel"
                                              className="tab-pane fade in active product-video-position"
                                              id="img-tab-1">
-                                            <img src={bigImage}
-                                                 alt={"photo2"}/>
-                                            <div className="product-video">
-
-                                            </div>
-                                        </div>
-                                        <div role="tabpanel"
-                                             className="tab-pane fade product-video-position"
-                                             id="img-tab-2">
-                                            <img src="images/product-details/big-img/12.jpg"
-                                                 alt={"photo2"}/>
-                                            <div className="product-video">
-
-                                            </div>
-                                        </div>
-                                        <div role="tabpanel"
-                                             className="tab-pane fade product-video-position"
-                                             id="img-tab-3">
-                                            <img src="images/product-details/big-img/11.jpg"
-                                                 alt={"photo2"}/>
-                                            <div className="product-video">
-
-                                            </div>
-                                        </div>
-                                        <div role="tabpanel"
-                                             className="tab-pane fade product-video-position"
-                                             id="img-tab-4">
-                                            <img src="images/product-details/big-img/12.jpg"
-                                                 alt={"photo2"}/>
-                                            <div className="product-video">
-
-                                            </div>
+                                            <img
+                                                src={product.images ? HOST + product.images['main-image'] : imageProduct}
+                                                alt={"photo2"}/>
                                         </div>
                                     </div>
                                 </div>
@@ -138,8 +116,13 @@ export const ProductDetail = (props) => {
                                     <p>{product.description}</p>
                                 </div>
                                 <ul className="pro__dtl__prize">
-                                    <li className="old__prize">$15.21</li>
-                                    <li>${product.price}</li>
+                                    {product.sale ?
+                                        <>
+                                            <li className="old__prize">{product.price} грн.</li>
+                                            <li>{(product.price - product.price * (product.sale / 100)).toFixed(2)} грн.</li>
+                                        </>
+                                        : <li >{product.price} грн.</li>
+                                    }
                                 </ul>
                                 <div className="pro__dtl__color">
                                     <h2 className="title__5">Choose Colour</h2>

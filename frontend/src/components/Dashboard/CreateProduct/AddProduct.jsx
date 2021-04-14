@@ -5,11 +5,12 @@ import {useAsync} from "react-use";
 import {RingLoader} from "react-spinners";
 import {useForm, Controller} from "react-hook-form";
 import {productAPI} from "../../../api/ProductAPI";
-import Select from 'react-select';
+import ImageUploading from 'react-images-uploading';
 import {VisibilityPanel} from "./VisibilityPanel";
 import {GeneralAttributes} from "./GeneralAttributes";
 import {Attributes} from "./Attributes";
 import {OrganizeProductPanel} from "./OrganizeProductPanel";
+import {ImageUpload} from "./ImageUpload";
 
 export const AddProduct = () => {
     const [selectedCategory, setSelectedCategory] = useState(null)
@@ -28,11 +29,12 @@ export const AddProduct = () => {
     }
 
     const onSubmit = (data) => {
+        console.log(data)
         let customAttr = {}
-        for (let key in data.customAttr){
+        for (let key in data.customAttr) {
             Object.assign(customAttr, {[key]: data.customAttr[key].value});
         }
-        productAPI.createProduct(selectedCategory, data.baseAttr, customAttr)
+        productAPI.createProduct(selectedCategory, data.baseAttr, customAttr, data.images)
             .then(() => console.log("Success"))
         reset()
     }
@@ -51,8 +53,10 @@ export const AddProduct = () => {
                         <div className="form-group col-md-2">
 
                         </div>
+
                         <div className="form-group col-md-6">
                             <GeneralAttributes register={register()}/>
+                            <ImageUpload control={control}/>
                             <Attributes register={register} value={value} control={control}/>
                         </div>
 
