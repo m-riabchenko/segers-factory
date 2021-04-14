@@ -20,7 +20,7 @@ class CartList(generics.ListAPIView):
             return Response(serializer.data)
 
 
-class CartItemList(generics.ListCreateAPIView):
+class CartItemCreate(generics.CreateAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     permission_classes = [permissions.IsAuthenticated]

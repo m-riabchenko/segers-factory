@@ -60,14 +60,17 @@ def count_products_each_attr(queryset) -> dict:
     return count_products
 
 
-def get_chosen_list(formatted_attr):
+def get_chosen_list(formatted_attr: dict) -> list:
+    """
+    Get attributes list which selected in query params
+    """
     chosen_list = []
     for chosen_item in formatted_attr.values():
         chosen_list.extend(chosen_item.split(','))
     return chosen_list
 
 
-def get_options_for_product_filter(queryset, attr, category_id):
+def get_options_for_product_filter(queryset, attr: str, category_id: int) -> list:
     products_by_category = Product.objects.filter(category_id=category_id)
     qty_products_in_category = count_products_each_attr(products_by_category)
     qty_products_in_filter_queryset = count_products_each_attr(queryset)
@@ -79,17 +82,20 @@ def get_options_for_product_filter(queryset, attr, category_id):
     else:
         formatted_attr = format_attr_params_to_dict(attr)
         is_chosen = get_chosen_list(formatted_attr)
-        values = list(formatted_attr.keys())
-        if len(values) == 1:
+        keys = list(formatted_attr.keys())
+        if len(keys) == 1:
             # if in query params only one attribute is specified
-            qty_products_per_attr = Counter(all_products_attr_in_category[values[0]].split(','))
+            qty_products_per_attr = Counter(all_products_attr_in_category[keys[0]].split(','))
             products_quantity = {**qty_products_in_filter_queryset, **qty_products_per_attr}
         else:
             products_quantity = qty_products_in_filter_queryset
     return create_options(products_quantity, is_chosen, all_products_attr_in_category)
 
 
-def create_options(products_quantity: dict, is_chosen: list, all_attributes) -> list:
+def create_options(products_quantity: dict, is_chosen: list, all_attributes: dict) -> list:
+    """
+    Get all options for filter
+    """
     options_list = []
     for key in all_attributes:
         # set unique value

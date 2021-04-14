@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -16,6 +18,9 @@ class CartItem(models.Model):
         return f"CartItem <product: {self.product.name}, count: {self.count}>"
 
     def get_item_total_price(self):
+        if self.product.sale:
+            discount_price = self.price - self.price * Decimal(self.product.sale / 100)
+            return discount_price * self.count
         return self.price * self.count
 
     class Meta:
@@ -34,4 +39,3 @@ class Cart(models.Model):
 
     def get_cart_total_price(self):
         return sum(item.get_item_total_price() for item in self.items.all())
-
