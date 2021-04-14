@@ -1,4 +1,5 @@
 import {axios, axiosWithCredentials} from "./utils";
+import axiosAPI from "axios";
 
 const getProducts = async () => {
     const response = await axios.get(`shop/products/`)
@@ -13,8 +14,8 @@ const getProductByFilters = async (queryParameters) => {
     return await axios.get(`shop/products/?${queryParameters}`)
 }
 
-const createProduct = async (categoryId, baseAttr, customAttr) => {
-    return await axiosWithCredentials.post(`shop/products/`, {
+const createProduct = async (categoryId, baseAttr, customAttr, images) => {
+    const response = await axiosWithCredentials.post(`shop/products/`, {
         category: categoryId,
         name: baseAttr.name,
         slug: baseAttr.name,
@@ -22,6 +23,26 @@ const createProduct = async (categoryId, baseAttr, customAttr) => {
         price: baseAttr.price,
         attributes: customAttr
     })
+    if (images) {
+        await saveImages(response.data.id, images)
+    }
+    return response
+}
+
+const saveImages = async (productId, images) => {
+    let formData = new FormData();
+    let imageName = ""
+    images.forEach((file, index) => {
+        if (index > 0) {
+            imageName = "secondary-image-" + index
+        } else {
+            imageName = "main-image"
+        }
+        formData.append("files", file.file, imageName + "." + file.file.type.split('/')[1]);
+    });
+    axiosWithCredentials.defaults.headers.common["Content-Type"] = "multipart/form-data"
+    await axiosWithCredentials.put('shop/products/' + productId + '/upload_image/', formData
+    )
 }
 
 const getReviewProduct = async (productId) => {
