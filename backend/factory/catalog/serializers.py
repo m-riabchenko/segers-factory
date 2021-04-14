@@ -2,7 +2,7 @@ from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from factory.catalog.models import Category, Product, Review
+from factory.catalog.models import Category, Product, Review, Image
 from factory.catalog.services import get_filters_data
 from factory.users.serializers import UserSerializer
 
@@ -13,10 +13,19 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "schema_attributes", "parent"]
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ["image"]
+
+
 class ProductSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField("get_images", read_only=True)
+
     class Meta:
         model = Product
-        fields = ["id", "name", "slug", "price", "description", "category", "attributes", "rating_avg"]
+        fields = ["id", "name", "slug", "price", "sale", "description", "category", "attributes",
+                  "rating_avg", "images"]
 
     def create(self, validated_data):
         """
@@ -31,6 +40,12 @@ class ProductSerializer(serializers.ModelSerializer):
         category_obj.schema_filters = data
         category_obj.save()
         return product
+
+    def get_images(self, product):
+        response_obj = {}
+        for img_obj in product.image_set.all():
+            response_obj[img_obj.name] = img_obj.image.url
+        return response_obj
 
 
 class ReviewSerializer(serializers.ModelSerializer):

@@ -1,3 +1,5 @@
+import os
+
 from django.db.models import Max, Min, Count
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
@@ -6,7 +8,7 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from factory.catalog.models import Category, Product, Review
+from factory.catalog.models import Category, Product, Review, Image
 from factory.catalog import serializers, services
 from factory.catalog.serializers import ProductSerializer
 from django_filters import rest_framework as filters
@@ -43,7 +45,7 @@ class ProductFilter(filters.FilterSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().prefetch_related('image_set')
     serializer_class = serializers.ProductSerializer
     parser_classes = (MultiPartParser, JSONParser)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -75,14 +77,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     def upload_image(self, request, pk=None):
         """Upload image and save"""
         try:
-            file = request.data['image']
+            files = request.FILES.getlist('files')
+            print(request.FILES.getlist('files'))
         except KeyError:
             raise ParseError('Request has no resource file attached')
-        product = self.get_queryset().filter(pk=pk).first()
-        if product is None:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        product.image = file
-        product.save()
+        for image in files:
+            image_obj, _ = Image.objects.get_or_create(name=image.name.split('.')[0], product_id=pk)
+            image_obj.image = image
+            image_obj.save()
         return Response(status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=True)

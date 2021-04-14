@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+from factory.catalog.storage import OverwriteStorage
+
 User = get_user_model()
 
 
@@ -27,7 +29,7 @@ class Category(MPTTModel):
 
 
 def product_file_name(instance, filename):
-    return '/'.join(['products', str(instance.name), filename])
+    return '/'.join(['products', instance.product.name, filename])
 
 
 class Product(models.Model):
@@ -36,12 +38,12 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    image = models.ImageField(upload_to=product_file_name, blank=True)
     available = models.BooleanField(default=True)
     rating_avg = models.FloatField(blank=True, null=True,
                                    validators=[MinValueValidator(1), MaxValueValidator(5)])
+    sale = models.IntegerField('Percentage discount', blank=True, default=0)
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now=True, blank=True, null=True)
     attributes = models.JSONField()
 
     class Meta:
@@ -50,6 +52,15 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Image(models.Model):
+    name = models.CharField(max_length=30)
+    image = models.ImageField(upload_to=product_file_name, storage=OverwriteStorage(), blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.name} - {self.image}"
 
 
 class Review(MPTTModel):
