@@ -17,7 +17,6 @@ export function Shop() {
     const [toggleFilter, setToggleFilter] = useState(false)
     const [queryParams, setQueryString] = useState({})
     const [universalQueryParams, setUniversalQueryString] = useState({})
-    const [optionsSort, setOptionsSort] = useState(["Low-price", "High-price"])
     const HOST = "http://127.0.0.1:8000"
     const onHandleChangeOptionsSort = e => {
         if (e.currentTarget.value !== "default") {
@@ -108,7 +107,7 @@ export function Shop() {
             productFilter(universalParams.toString() + buildQueryUrl(queryParams))
             history.push("?" + universalParams.toString() + buildQueryUrl(queryParams).toString())
         }
-    }, [queryParams, universalQueryParams, productFilter, buildQueryUrl])
+    }, [queryParams, universalQueryParams, productFilter, buildQueryUrl, history])
 
     return (
         <>
@@ -129,7 +128,8 @@ export function Shop() {
                             <SidebarFilter setUniversalQueryString={setUniversalQueryString}
                                            categories={categories}
                                            options={options}
-                                           onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}/>
+                                           onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}
+                                           productFilter={productFilter}/>
 
                         </div>
                         <div className="col-md-9 col-lg-9 col-sm-12 col-xs-12 smt-30">
@@ -154,14 +154,7 @@ export function Shop() {
                                                 <span>Qty products - {qtyProducts} </span>
                                             </div>
                                         </div>
-                                        <ul className="view__mode" role="tablist">
-                                            <li role="presentation" className="grid-view active"><a
-                                                href="/#grid-view" role="tab" data-toggle="tab"><i
-                                                className="zmdi zmdi-grid"></i></a></li>
-                                            <li role="presentation" className="list-view"><a
-                                                href="/#list-view" role="tab" data-toggle="tab"><i
-                                                className="zmdi zmdi-view-list"></i></a></li>
-                                        </ul>
+
                                     </div>
                                 </div>
                             </div>
@@ -171,12 +164,7 @@ export function Shop() {
                                          className="single-grid-view tab-pane fade in active clearfix">
                                         {loading ? <PacmanLoader/> : null}
 
-                                        {products.map((product) => <ProductCard key={product.id}
-                                                                                productId={product.id}
-                                                                                name={product.name}
-                                                                                images={product.images}
-                                                                                price={product.price}
-                                                                                sale={product.sale}
+                                        {products.map((product) => <ProductCard product={product}
                                                                                 HOST={HOST}/>)}
                                     </div>
                                 </div>
@@ -193,6 +181,7 @@ export function Shop() {
                     </div>
 
                 </div>
+
             </section>
         </>
     );

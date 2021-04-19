@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {FilterBlock} from "./FilterBlock";
-import Slider, {Range} from "rc-slider";
+import {Range} from "rc-slider";
 import "rc-slider/assets/index.css";
 import {CategoryBlock} from "./CategoryBlock";
 import {ItemFilterBlock} from "../SlidingSidebarFilter/ItemFilterBlock";
@@ -10,9 +9,11 @@ export const SidebarFilter = ({
                                   setUniversalQueryString,
                                   categories,
                                   onHandleChangeCheckboxFilter,
-                                  options
+                                  options,
+                                  productFilter
                               }) => {
     const [sliderValue, setSliderValue] = useState([0, 500])
+    const [search, setSearch] = useState("")
 
     const onHandleChange = value => {
         setSliderValue(value)
@@ -24,10 +25,27 @@ export const SidebarFilter = ({
             max_price: sliderValue[1],
         }))
     }
+    const onClickSearch = () => {
+        productFilter("name="+search)
+    }
+
+    console.log(search)
     return (
         <>
             <div className="htc__shop__left__sidebar hidden-xs hidden-sm">
                 <div className="htc-grid-range">
+                    <div className="search__inner">
+                        <form className="input-group mb--20">
+                            <input type="search" className="form-control" value={search}
+                                   onChange={(e) => setSearch(e.currentTarget.value)}/>
+                            <span className="input-group-btn">
+                            <button className="btn search-btn" type="button" onClick={onClickSearch}>
+                                <span className="glyphicon glyphicon-search"
+                                      aria-hidden="true"> </span>
+                            </button>
+                            </span>
+                        </form>
+                    </div>
                     <h4 className="section-title-4">FILTER BY PRICE</h4>
                     <div className="content-shopby">
                         <div className="price_filter s-filter clear">
@@ -41,7 +59,7 @@ export const SidebarFilter = ({
                                         <span>Price : ${sliderValue[0]} - ${sliderValue[1]}</span>
                                     </div>
                                     <div className="price--filter">
-                                        <a onClick={onClickSetPriceFilter}>Filter</a>
+                                        <a className={"cursor-pointer"} onClick={onClickSetPriceFilter}>Filter</a>
                                     </div>
 
                                 </div>
