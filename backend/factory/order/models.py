@@ -1,20 +1,26 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 
 from factory.cart.models import Cart
 from factory.catalog.models import Product
 
-User = get_user_model()
-
 
 class Order(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
-    address = models.CharField(max_length=250)
-    postal_code = models.CharField(max_length=20)
-    city = models.CharField(max_length=100)
+    phone = models.CharField(max_length=13)
+    order_message = models.TextField()
+
+    delivery = models.BooleanField(default=False)
+    done = models.BooleanField(default=False)
+
+    street = models.CharField(max_length=255, blank=True, null=True)
+    house_number = models.CharField(max_length=255, blank=True, null=True)
+    region = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    zip_code = models.CharField(max_length=10, blank=True, null=True)
+    delivery_message = models.TextField(blank=True, null=True)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -22,7 +28,7 @@ class Order(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return f'Order {self.id}'
+        return f'Order {self.first_name} {self.last_name} - {self.phone}'
 
 
 class OrderItem(models.Model):
