@@ -1,21 +1,29 @@
 import {CartItem} from "./CartItem";
-import React, {useContext, useEffect, useState} from "react";
+import React from "react";
 import {RingLoader} from "react-spinners";
-import {Link, NavLink} from "react-router-dom";
-import {CartContext} from "../../../contexts/CartContext";
+import {Link} from "react-router-dom";
 import {Breadcrumb} from "../../Breadcrumb/Breadcrumb";
+import {useCart} from "react-use-cart";
 
 export const ShoppingCart = () => {
-    const {cart, loading, updateCartItem, removeCartItem} = useContext(CartContext)
+    const {
+        isEmpty,
+        items,
+        updateItemQuantity,
+        removeItem,
+        cartTotal,
+        onItemUpdate,
+    } = useCart();
 
+    console.log(items)
+    if (isEmpty) return <h2>Cart is empty</h2>;
     return (
         <>
             <Breadcrumb namePage={"Cart"}/>
 
-            {loading ? <RingLoader/> : null}
+            {onItemUpdate ? <RingLoader/> : null}
             <div className="cart-main-area ptb--120 bg__white">
                 <div className="container">
-                    {cart.items.length === 0 ? <h2>Cart is empty</h2> :
                         <div className="row">
                             <div className="col-md-12 col-sm-12 col-xs-12">
                                 <form>
@@ -33,12 +41,11 @@ export const ShoppingCart = () => {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {cart.items.map((item) => (
+                                            {items.map((item) => (
                                                 <CartItem key={item.id}
                                                           item={item}
-                                                          loading={loading}
-                                                          onClickRemoveCartItem={removeCartItem}
-                                                          onUpdateCartItem={updateCartItem}/>
+                                                          onClickRemoveCartItem={removeItem}
+                                                          onUpdateCartItem={updateItemQuantity}/>
                                             ))}
                                             </tbody>
                                         </table>
@@ -63,40 +70,11 @@ export const ShoppingCart = () => {
                                                 <h2>Cart Totals</h2>
                                                 <table>
                                                     <tbody>
-                                                    {/*<tr className="cart-subtotal">*/}
-                                                    {/*    <th>Subtotal</th>*/}
-                                                    {/*    <td><span className="amount">£215.00</span>*/}
-                                                    {/*    </td>*/}
-                                                    {/*</tr>*/}
-                                                    {/*<tr className="shipping">*/}
-                                                    {/*    <th>Shipping</th>*/}
-                                                    {/*    <td>*/}
-                                                    {/*        <ul id="shipping_method">*/}
-                                                    {/*            <li>*/}
-                                                    {/*                <input type="radio"/>*/}
-                                                    {/*                <label>*/}
-                                                    {/*                    Flat Rate: <span*/}
-                                                    {/*                    className="amount">£7.00</span>*/}
-                                                    {/*                </label>*/}
-                                                    {/*            </li>*/}
-                                                    {/*            <li>*/}
-                                                    {/*                <input type="radio"/>*/}
-                                                    {/*                <label>*/}
-                                                    {/*                    Free Shipping*/}
-                                                    {/*                </label>*/}
-                                                    {/*            </li>*/}
-                                                    {/*            <li></li>*/}
-                                                    {/*        </ul>*/}
-                                                    {/*        <p><a*/}
-                                                    {/*            className="shipping-calculator-button"*/}
-                                                    {/*            href="/#">Calculate Shipping</a></p>*/}
-                                                    {/*    </td>*/}
-                                                    {/*</tr>*/}
                                                     <tr className="order-total">
                                                         <th>Total</th>
                                                         <td>
                                                             <strong><span
-                                                                className={loading ? "amount-red" : "amount"}>£{cart.total}</span></strong>
+                                                                className={onItemUpdate ? "amount-red" : "amount"}>{cartTotal} грн.</span></strong>
                                                         </td>
                                                     </tr>
                                                     </tbody>

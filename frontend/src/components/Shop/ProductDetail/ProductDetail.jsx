@@ -1,20 +1,19 @@
-import imageProduct from '../../../resources/images/product-details/small-img/1.jpg'
-import bigImage from '../../../resources/images/product-details/big-img/10.jpg'
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {productAPI} from "../../../api/ProductAPI";
 import {useToggle} from "react-use";
-import {CartContext} from "../../../contexts/CartContext";
 import {Description} from "./Descriptions";
 import {Review} from "./Review";
 import ReactStars from "react-rating-stars-component";
+import {useCart} from "react-use-cart";
+import {PacmanLoader} from "react-spinners";
 
 export const ProductDetail = (props) => {
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
-    const [min, setMin] = useState(1)
-    const [max, maxtMin] = useState(100)
     const [on, toggle] = useToggle(true);
-    const {addToCart} = useContext(CartContext)
+    const {addItem} = useCart();
+    const maxQty = 100
+    const minQty = 1
 
     useEffect(() => {
         (async () => {
@@ -25,21 +24,24 @@ export const ProductDetail = (props) => {
     }, [props.match.params.productId])
 
     const quantityIncrement = () => {
-        if (!(quantity >= max))
+        if (!(quantity >= maxQty))
             setQuantity(prev => prev + 1)
     }
     const quantityDecrement = () => {
-        if (!(quantity <= min))
+        if (!(quantity <= minQty))
             setQuantity(prev => prev - 1)
     }
     const quantityChange = e => {
-        if (Number(e.currentTarget.value) > max) {
-            setQuantity(max)
+        if (Number(e.currentTarget.value) > maxQty) {
+            setQuantity(maxQty)
         } else {
             setQuantity(Number(e.currentTarget.value))
         }
     }
     const HOST = "http://127.0.0.1:8000"
+
+    if (!product) return <PacmanLoader/>
+
     return (
         <>
             <section className="htc__product__details pt--120 pb--100 bg__white">
@@ -48,35 +50,16 @@ export const ProductDetail = (props) => {
                         <div className="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                             <div className="product__details__container">
                                 <ul className="product__small__images" role="tablist">
-                                    <li role="presentation" className="pot-small-img active">
-                                        <a href="/#img-tab-1" role="tab" data-toggle="tab">
-                                            <img
-                                                src={product.images ? HOST + product.images['main-image'] : imageProduct}
-                                                alt={"photo2"}/>
-                                        </a>
-                                    </li>
-                                    <li role="presentation" className="pot-small-img">
-                                        <a href="/#img-tab-2" role="tab" data-toggle="tab">
-                                            <img
-                                                src={product.images ? HOST + product.images['secondary-image-1'] : imageProduct}
-                                                alt={"photo2"}/>
-                                        </a>
-                                    </li>
-                                    <li role="presentation" className="pot-small-img hidden-xs">
-                                        <a href="/#img-tab-3" role="tab" data-toggle="tab">
-                                            <img
-                                                src={product.images ? HOST + product.images['secondary-image-2'] : imageProduct}
-                                                alt={"photo2"}/>
-                                        </a>
-                                    </li>
-                                    <li role="presentation"
-                                        className="pot-small-img hidden-xs hidden-sm">
-                                        <a href="/#img-tab-4" role="tab" data-toggle="tab">
-                                            <img
-                                                src={product.images ? HOST + product.images['secondary-image-3'] : imageProduct}
-                                                alt={"photo2"}/>
-                                        </a>
-                                    </li>
+                                    {product && Object.entries(product.images).map(([key, value], index) => (
+                                        <li role="presentation" className="pot-small-img"
+                                            key={index}>
+                                            <a href="/#img-tab-2" role="tab" data-toggle="tab">
+                                                <img
+                                                    src={HOST + value}
+                                                    alt={"photo2"}/>
+                                            </a>
+                                        </li>
+                                    ))}
                                 </ul>
                                 <div className="product__big__images">
                                     <div className="portfolio-full-image tab-content">
@@ -84,7 +67,7 @@ export const ProductDetail = (props) => {
                                              className="tab-pane fade in active product-video-position"
                                              id="img-tab-1">
                                             <img
-                                                src={product.images ? HOST + product.images['main-image'] : imageProduct}
+                                                src={HOST + product.images['main-image']}
                                                 alt={"photo2"}/>
                                         </div>
                                     </div>
@@ -121,7 +104,7 @@ export const ProductDetail = (props) => {
                                             <li className="old__prize">{product.price} грн.</li>
                                             <li>{(product.price - product.price * (product.sale / 100)).toFixed(2)} грн.</li>
                                         </>
-                                        : <li >{product.price} грн.</li>
+                                        : <li>{product.price} грн.</li>
                                     }
                                 </ul>
                                 <div className="pro__dtl__color">
@@ -162,7 +145,7 @@ export const ProductDetail = (props) => {
                                                            value={quantity}
                                                            onChange={quantityChange}
                                                            onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-') && evt.preventDefault()}
-                                                           min={min}
+                                                           min={minQty}
                                                     />
                                                 </div>
                                                 <button onClick={quantityIncrement}
@@ -174,7 +157,7 @@ export const ProductDetail = (props) => {
                                 </div>
                                 <ul className="pro__dtl__btn">
                                     <li className="buy__now__btn"><a
-                                        onClick={() => addToCart(product.id, quantity)}>buy now</a>
+                                        onClick={() => addItem(product, quantity)}>buy now</a>
                                     </li>
                                     <li><a href="/#"><span className="ti-heart"></span></a></li>
                                     <li><a href="/#"><span className="ti-email"></span></a></li>
@@ -204,11 +187,11 @@ export const ProductDetail = (props) => {
                         <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                             <ul className="product__deatils__tab mb--60" role="tablist">
                                 <li role="presentation" className={on ? "active" : "none"}>
-                                    <a onClick={() => toggle(true)} role="tab"
+                                    <a onClick={() => toggle(true)} role="tab" className={"cursor-pointer"}
                                        data-toggle="tab">Description</a>
                                 </li>
                                 <li role="presentation" className={!on ? "active" : "none"}>
-                                    <a onClick={() => toggle(false)} role="tab"
+                                    <a onClick={() => toggle(false)} role="tab" className={"cursor-pointer"}
                                        data-toggle="tab">Reviews</a>
                                 </li>
                             </ul>

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
-import productImage from "../../../resources/images/product/4.png"
 
 export const CartItem = ({
                              item,
@@ -13,8 +12,8 @@ export const CartItem = ({
     const minQty = 1
     const HOST = "http://127.0.0.1:8000"
     useEffect(() => {
-        setCountItemsProduct(item.count)
-    }, [item.count])
+        setCountItemsProduct(item.quantity)
+    }, [item.quantity])
 
     const onHandleChangeCountItem = (id, value) => {
         console.log(value)
@@ -34,19 +33,19 @@ export const CartItem = ({
             setCountItemsProduct(1)
         }
     }
+    console.log(item)
     return (
         <>
             <tr key={item.id}>
-                <td className="product-thumbnail"><NavLink to={"/product/" + item.product.id}><img
-                    src={HOST + item.product.images['main-image']} alt="product img"/></NavLink>
+                <td className="product-thumbnail">
+                    <NavLink to={"/product/" + item.id}>
+                    <img src={item.images && HOST + item.images['main-image']} alt="product img"/></NavLink>
                 </td>
                 <td className="product-name"><NavLink
-                    to={"/product/" + item.product.id}>{item.product.name}</NavLink></td>
+                    to={"/product/" + item.id}>{item.name}</NavLink></td>
                 <td className="product-price">
                   <span className="amount">
-                    {item.sale !== 0
-                        ? (item.price - item.price * (item.product.sale / 100)).toFixed(2)
-                        : item.price} грн.
+                      {item.price} грн.
                 </span>
                 </td>
                 <td className="product-quantity">
@@ -60,7 +59,7 @@ export const CartItem = ({
                            onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-' || evt.key === 'Enter') && evt.preventDefault()}
                     />
                 </td>
-                <td className="product-subtotal">{item.total} грн.</td>
+                <td className="product-subtotal">{item.itemTotal} грн.</td>
                 <td className="product-remove"><a className={"cursor-pointer"}
                                                   onClick={() => onClickRemoveCartItem(item.id)}>X</a>
                 </td>

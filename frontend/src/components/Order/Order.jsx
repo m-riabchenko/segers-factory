@@ -1,21 +1,22 @@
 import {useForm} from "react-hook-form";
 import {orderAPI} from "../../api/Order";
-import React, {useContext} from "react";
-import {CartContext} from "../../contexts/CartContext";
+import React from "react";
 import {NavLink} from "react-router-dom";
 import {Breadcrumb} from "../Breadcrumb/Breadcrumb";
+import {useCart} from "react-use-cart";
+import {useToggle} from "react-use";
 
 export const Order = () => {
-    const {register, handleSubmit} = useForm();
-    const {cart, clearCart} = useContext(CartContext)
+    const [onDelivery, toggleDelivery] = useToggle()
+    const {register, handleSubmit, reset} = useForm();
+    const {items, removeItem, isEmpty} = useCart();
 
     const onSubmit = (data) => {
-        return orderAPI.createOrder(data).then(() => clearCart())
-            .catch(error => {
-                if (error.response.status === 404) {
-                    alert("Oops, you should not have created an order with an empty cart!")
-                }
-            })
+        console.log(data)
+        return orderAPI.createOrder(data, onDelivery, items).then(() => {
+            items.forEach(item => removeItem(item.id))
+            reset()
+        })
     };
     return (
         <>
@@ -27,48 +28,70 @@ export const Order = () => {
                         <div className="col-md-8 col-lg-8">
                             <div className="ckeckout-left-sidebar">
                                 <div className="checkout-form">
-                                    <h2 className="section-title-3">Billing details</h2>
+                                    <h2 className="section-title-3">Платіжні дані</h2>
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className="checkout-form-inner">
                                             <div className="single-checkout-box">
                                                 <input ref={register} name={"firstName"} type="text"
-                                                       placeholder="First Name*"/>
+                                                       placeholder="Ім'я*"/>
                                                 <input ref={register} name={"lastName"} type="text"
-                                                       placeholder="Last Name*"/>
+                                                       placeholder="Прізвище*"/>
                                             </div>
                                             <div className="single-checkout-box">
                                                 <input ref={register} name={"email"} type="email"
                                                        placeholder="Emil*"/>
-                                                <input ref={register} name={"phone_number"}
+                                                <input ref={register} name={"phoneNumber"}
                                                        type="text" placeholder="Phone*"/>
                                             </div>
                                             <div className="single-checkout-box">
-                                                <textarea ref={register} name={"message"}
-                                                          placeholder="Message*"> </textarea>
+                                                <textarea ref={register} name={"messageOrder"}
+                                                          placeholder="Message*"></textarea>
                                             </div>
-                                            <div
-                                                className="single-checkout-box select-option mt--40">
-                                                <select>
-                                                    <option>Country*</option>
-                                                    <option>Bangladesh</option>
-                                                    <option>Bangladesh</option>
-                                                    <option>Bangladesh</option>
-                                                    <option>Bangladesh</option>
-                                                </select>
-                                                <input type="text" placeholder="Company Name*"/>
+                                            <div onClick={toggleDelivery}>
+                                                <input type="checkbox"
+                                                       className={"float-right-style"} style={{
+                                                    "margin-right": "10px",
+                                                    "transform": "scale(1.5)"
+                                                }} checked={onDelivery}/>
+                                                <h2 className="section-title-3 mt--20">
+                                                    Доставити на іншу адресу?</h2>
                                             </div>
-                                            <div className="single-checkout-box">
-                                                <input ref={register} name={"address"} type="text"
-                                                       placeholder="State*"/>
-                                                <input ref={register} name={"zipCode"} type="text"
-                                                       placeholder="Zip Code*"/>
-                                            </div>
-                                            <div className="single-checkout-box checkbox">
-                                                <input ref={register} name={"remindMe"}
-                                                       id="remind-me" type="checkbox"/>
-                                                <label htmlFor="remind-me"><span></span>Create a
-                                                    Account ?</label>
-                                            </div>
+                                            {onDelivery && <>
+                                                <div className="single-checkout-box select-option  mt--20">
+                                                    <input ref={register} name={"streetNumber"}
+                                                           type="text"
+                                                           placeholder="Номер вулиці*"/>
+                                                    <input ref={register} name={"houseNumber"}
+                                                           type="text"
+                                                           placeholder="Квартира/офіс/блок тощо (необов'язково)"/>
+                                                </div>
+                                                <div className="single-checkout-box">
+                                                    <input ref={register} name={"city"}
+                                                           type="text"
+                                                           placeholder="Місто/село*"/>
+                                                    <input ref={register} name={"region"}
+                                                           type="text"
+                                                           placeholder="Область/округ*"/>
+                                                </div>
+                                                <div className="single-checkout-box">
+                                                    <input ref={register} name={"zipCode"}
+                                                           type="text"
+                                                           placeholder="Поштовий код (Zip Code)*"/>
+                                                </div>
+                                                <div className="single-checkout-box">
+                                                    <textarea ref={register}
+                                                              name={"messageDelivery"}
+                                                              placeholder="Нотатки до вашого замовлення, наприклад спеціальні примітки для доставки (необов'язково)"></textarea>
+                                                </div>
+
+                                            </>}
+
+                                            {/*<div className="single-checkout-box checkbox">*/}
+                                            {/*    <input ref={register} name={"remindMe"}*/}
+                                            {/*           id="remind-me" type="checkbox"/>*/}
+                                            {/*    <label htmlFor="remind-me"><span></span>Create a*/}
+                                            {/*        Account ?</label>*/}
+                                            {/*</div>*/}
                                         </div>
                                         <div className="review-btn">
                                             <button className="fv-btn">Order</button>
@@ -119,13 +142,13 @@ export const Order = () => {
                         <div className="col-md-4 col-lg-4">
                             <div className="checkout-right-sidebar">
                                 <div className="our-important-note">
-                                    <h2 className="section-title-3">YOUR CART :</h2>
+                                    <h2 className="section-title-3">Ваша корзина :</h2>
                                     <br/><br/>
-                                    {!cart ? <h2>Cart is empty</h2> :
+                                    {isEmpty ? <h2>Cart is empty</h2> :
                                         <ul className="important-note">
-                                            {cart.items.map(item => (
-                                                <li><NavLink to={"/product/" + item.product.id}>
-                                                    <i className="zmdi zmdi-caret-right-circle"> x{item.count}</i>{item.product.name}
+                                            {items.map(item => (
+                                                <li><NavLink to={"/product/" + item.id}>
+                                                    <i className="zmdi zmdi-caret-right-circle"> x{item.quantity}</i>{item.name}
                                                 </NavLink></li>
                                             ))}
                                         </ul>

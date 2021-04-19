@@ -1,25 +1,23 @@
-import React, {useContext} from 'react';
-import productImage from "../../../resources/images/product/1.png";
-import {cartAPI} from "../../../api/CartAPI";
+import React from 'react';
 import {NavLink} from "react-router-dom";
-import {CartContext} from "../../../contexts/CartContext";
+import {useCart} from "react-use-cart";
 
 
-export const ProductCard = ({productId, name, images, price, sale, HOST}) => {
-    const {loading, addToCart} = useContext(CartContext)
+export const ProductCard = ({product, HOST}) => {
+    const {addItem} = useCart();
     const getDiscount = () => {
-        return (price - price * (sale / 100)).toFixed(2)
+        return (product.price - product.price * (product.sale / 100)).toFixed(2)
     }
     return (
-        <div className="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+        <div className="col-md-4 col-lg-4 col-sm-4 col-xs-12" key={product.id}>
             <div className="product">
                 <div className="product__inner">
                     <div className="pro__thumb">
-                        <NavLink to={"/product/" + productId}>
-                            <img src={HOST + images['main-image']} alt="product images"/>
+                        <NavLink to={"/product/" + product.id}>
+                            <img src={HOST + product.images['main-image']} alt="product images"/>
                         </NavLink>
-                        {sale !== 0 && <div className={"on-sale"}>
-                            <span>Sale {sale}%</span>
+                        {product.sale !== 0 && <div className={"on-sale"}>
+                            <span>Sale {product.sale}%</span>
                         </div>
                         }
 
@@ -29,7 +27,15 @@ export const ProductCard = ({productId, name, images, price, sale, HOST}) => {
                             <li><a data-toggle="modal" data-target="#productModal"
                                    title="Quick View" className="quick-view modal-view detail-link"
                                    href="/#"><span className="ti-plus"></span></a></li>
-                            <li><a className={"cursor-pointer"} onClick={() => addToCart(productId)}
+                            <li><a className={"cursor-pointer"} onClick={() => {
+                                if (product.sale) {
+                                    let productNewPrice = {...product}
+                                    productNewPrice.price = getDiscount()
+                                    addItem(productNewPrice)
+                                } else {
+                                    addItem(product)
+                                }
+                            }}
                                    title="Add To Cart"><span
                                 className="ti-shopping-cart"></span></a></li>
                             <li><a title="Wishlist" href="wishlist.html"><span
@@ -38,14 +44,14 @@ export const ProductCard = ({productId, name, images, price, sale, HOST}) => {
                     </div>
                 </div>
                 <div className="product__details">
-                    <h2><a href="product-details.html">{name}</a></h2>
+                    <h2><a href="product-details.html">{product.name}</a></h2>
                     <ul className="product__price">
-                        {sale ?
+                        {product.sale ?
                             <>
-                                <li className="old__price">{price} грн.</li>
+                                <li className="old__price">{product.price} грн.</li>
                                 <li className="new__price">{getDiscount()} грн.</li>
                             </>
-                            : <li className="new__price">{price} грн.</li>
+                            : <li className="new__price">{product.price} грн.</li>
                         }
                     </ul>
                 </div>
