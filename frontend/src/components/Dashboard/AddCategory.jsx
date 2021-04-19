@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {useFieldArray, Controller, useForm} from "react-hook-form";
 import {categoryAPI} from "../../api/CategoryAPI";
 import {Breadcrumb} from "../Breadcrumb/Breadcrumb";

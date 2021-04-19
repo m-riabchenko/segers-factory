@@ -1,8 +1,8 @@
 import React from "react";
-import Create, {makeCreatableSelect} from 'react-select/creatable';
+import Create from 'react-select/creatable';
 import {Controller} from "react-hook-form";
 
-export const Attributes = ({register, value, control}) => {
+export const Attributes = ({value, control, product}) => {
     const getArrayFromObject = (object) => {
         let arr = [];
         for (let key in object) {
@@ -46,7 +46,7 @@ export const Attributes = ({register, value, control}) => {
                                 isClearable
                                 control={control}
                                 controlShouldRenderValue={true}
-                                defaultValue={"none"}
+                                defaultValue={product ? {label: product.attributes[attr.name], value:  product.attributes[attr.name]} : "none"}
                                 // onInputChange={(e) => console.log(e)}
                             />
                         </div>

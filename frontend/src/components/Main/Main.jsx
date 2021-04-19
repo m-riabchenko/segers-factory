@@ -4,6 +4,7 @@ import icon1 from "../../resources/images/main-page/icon-1.png"
 import icon2 from "../../resources/images/main-page/sewing-machines.png"
 import icon3 from "../../resources/images/main-page/icon-3.png"
 import icon4 from "../../resources/images/main-page/icon-4.png"
+import {Link} from "react-router-dom";
 
 export const Main = () => {
     return (
@@ -24,7 +25,7 @@ export const Main = () => {
                                         робочого одягу, верхнього одягу, спіднього одягу та ін.</p>
                                 </div>
                                 <div className="store__btn">
-                                    <a href="#">contact us</a>
+                                    <Link to="/contact-us">contact us</Link>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +39,7 @@ export const Main = () => {
                         <p>В нас хороші умови праці та сучасне
                             обладнання,
                             швачки постійно підвищують свій рівень майстерності</p>
-                        <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                         <Link to={"/about-us"} className={"panel-btn"}>Детальніше</Link>
                     </div>
                 </div>
 
@@ -51,7 +52,7 @@ export const Main = () => {
                             <p>В нас хороші умови праці та сучасне
                                 обладнання,
                                 швачки постійно підвищують свій рівень майстерності</p>
-                            <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                            <Link to={"/about-us"} className={"panel-btn"}>Детальніше</Link>
                         </div>
                     </div>
                 </div>
@@ -65,7 +66,7 @@ export const Main = () => {
                                     <p className={"panel-head-text"}>Власний одяг </p>
                                     <p className={"panel-body-text"}>Розробляємо і шиємо власні
                                         моделі для продажу у своєму інтернет-магазині</p>
-                                    <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                                    <Link to={'/contact-us'} className={"panel-btn cursor-pointer"}>Замовити</Link>
 
                                 </div>
                             </div>
@@ -77,7 +78,7 @@ export const Main = () => {
                                     <p className={"panel-head-text"}>Пошиття під замовлення</p>
                                     <p className={"panel-body-text"}>Пошиття ваших моделей по
                                         індивідуальному замовленню.</p>
-                                    <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                                    <Link to={'/contact-us'} className={"panel-btn"}>Замовити</Link>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +90,7 @@ export const Main = () => {
                                     <p className={"panel-body-text"}>Масове пошиття ваших моделей -
                                         швидко, якісно у великих
                                         обсягах.</p>
-                                    <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                                    <Link to={'/contact-us'} className={"panel-btn"}>Замовити</Link>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +102,7 @@ export const Main = () => {
                                     <p className={"panel-head-text"}>Прінтування</p>
                                     <p className={"panel-body-text"}>Наносимо будь-яке зображення,
                                         на ваш вибір на футболки і інший одяг.</p>
-                                    <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                                    <Link to={'/contact-us'} className={"panel-btn"}>Замовити</Link>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +118,7 @@ export const Main = () => {
                         <br/>
                         <p>Висококваліфікований персонал робить викройки моделей одягу швидко і
                             якісно</p>
-                        <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                         <Link to={"/about-us"} className={"panel-btn"}>Детальніше</Link>
                     </div>
                 </div>
             </div>
@@ -130,7 +131,7 @@ export const Main = () => {
                         <br/>
                         <p>Висококваліфікований персонал робить викройки моделей одягу швидко і
                             якісно</p>
-                        <a className={"panel-btn cursor-pointer"}>Детальніше</a>
+                        <Link to={"/about-us"} className={"panel-btn"}>Детальніше</Link>
                     </div>
                 </div>
             </div>

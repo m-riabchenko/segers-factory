@@ -1,21 +1,18 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import {authAPI} from "../../../api/AuthAPI";
-import {CartContext} from "../../../contexts/CartContext";
 import {useHistory} from "react-router";
 
 
 export const Login = () => {
     const {register, errors, handleSubmit} = useForm();
     const [isLoginError, setIsLoginError] = useState(false)
-    const {setUserCart} = useContext(CartContext)
     let history = useHistory();
 
     const onSubmit = (data) => {
         return authAPI.login(data.email, data.password)
             .then(() => {
                 history.push("/");
-                setUserCart()
             })
             .catch(() => setIsLoginError(true))
     }
@@ -91,5 +88,6 @@ export const Login = () => {
                 <br/>
                 <br/>
             </div>
+
         </>)
 }

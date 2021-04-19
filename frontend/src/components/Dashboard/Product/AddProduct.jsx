@@ -1,18 +1,17 @@
 import {Breadcrumb} from "../../Breadcrumb/Breadcrumb";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {categoryAPI} from "../../../api/CategoryAPI";
 import {useAsync} from "react-use";
 import {RingLoader} from "react-spinners";
-import {useForm, Controller} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {productAPI} from "../../../api/ProductAPI";
-import ImageUploading from 'react-images-uploading';
 import {VisibilityPanel} from "./VisibilityPanel";
 import {GeneralAttributes} from "./GeneralAttributes";
 import {Attributes} from "./Attributes";
 import {OrganizeProductPanel} from "./OrganizeProductPanel";
 import {ImageUpload} from "./ImageUpload";
 
-export const AddProduct = () => {
+export const AddProduct = (props) => {
     const [selectedCategory, setSelectedCategory] = useState(null)
     const {register, handleSubmit, control, reset} = useForm();
 

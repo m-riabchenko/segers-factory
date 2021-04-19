@@ -13,15 +13,15 @@ export const SlidingSidebarFilter = ({
     return (
         <>
             <div onClick={onClickToggle}
-                 className={toggleFilter ? "body__overlay is-visible" : "body__overlay"}></div>
+                 className={toggleFilter ? "body__overlay is-visible" : "body__overlay"}> </div>
 
             <div
                 className={toggleFilter ? 'filter__wrap filter__menu__on' : 'filter__wrap'}>
                 <div className="filter__cart">
                     <div className="filter__cart__inner">
                         <div className="filter__menu__close__btn">
-                            <a className={"cursor-pointer"} onClick={onClickToggle}>
-                                <i className="zmdi zmdi-close"></i></a>
+                            <div className={"cursor-pointer"} onClick={onClickToggle}>
+                                <i className="zmdi zmdi-close"></i></div>
                         </div>
                         <div className="filter__content">
                             <div className="fiter__content__inner">
