@@ -10,6 +10,7 @@ const getReview = async (reviewId) => {
 }
 
 const createReview = async (data) => {
+    console.log(data)
     return await axiosWithCredentials.post(`shop/reviews/`, data)
 }
 

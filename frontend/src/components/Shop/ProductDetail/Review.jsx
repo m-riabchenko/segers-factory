@@ -21,7 +21,13 @@ export const Review = ({productId, active}) => {
     }
 
     const onSubmitReview = data => {
-        return reviewAPI.createReview({product: productId, text: data.text, rating: data.rating})
+        return reviewAPI.createReview({
+            product: productId,
+            full_name: data.fullName,
+            email: data.email,
+            text: data.text,
+            rating: data.rating
+        })
             .then(response => {
                 if (response.status === 201) {
                     getReviews()
@@ -31,8 +37,15 @@ export const Review = ({productId, active}) => {
     }
 
     const onSubmitReply = data => {
+        console.log(data)
         if (reply) {
-            return reviewAPI.createReview({product: productId, text: data.textReply, parent: reply})
+            return reviewAPI.createReview({
+                product: productId,
+                full_name: data.fullName,
+                email: data.email,
+                text: data.textReply,
+                parent: reply
+            })
                 .then(response => {
                     if (response.status === 201) {
                         getReviews()
@@ -63,7 +76,7 @@ export const Review = ({productId, active}) => {
                             </div>
                             <div className="review__details">
                                 <div className="review__info">
-                                    <h4><a href="/#">{review.user.email}</a></h4>
+                                    <h4><a href="/#">{review.full_name}</a></h4>
                                     <ul className="rating">
                                         <ReactStars
                                             count={5}
@@ -82,13 +95,23 @@ export const Review = ({productId, active}) => {
                                     </div>
                                 </div>
                                 <div className="review__date ">
-                                    <span>27 Jun, 2016 at 2:30pm</span>
+                                    <span>{review.created}</span>
                                 </div>
                                 <p>{review.text}</p>
                                 <div className="review-box message">
                                     {reply !== review.id ? null :
                                         <form onSubmit={handleSubmit(onSubmitReply)}>
                                             <br/><br/>
+                                            <div className="single-review-form">
+                                                <div className="review-box name">
+                                                    <input ref={register} type="text"
+                                                           name={"fullName"}
+                                                           placeholder="Type your name"/>
+                                                    <input ref={register} type="email"
+                                                           name={"email"}
+                                                           placeholder="Type your email"/>
+                                                </div>
+                                            </div>
                                             <textarea ref={register} name={"textReply"}
                                                       placeholder="Write your review"/>
                                             <div className="review-btn">
@@ -106,13 +129,13 @@ export const Review = ({productId, active}) => {
                                 </div>
                                 <div className="review__details">
                                     <div className="review__info">
-                                        <h4><a href="/#">{review.user.email}</a></h4>
+                                        <h4><a href="/#">{review.full_name}</a></h4>
                                         <ul className="rating">
                                             <> </>
                                         </ul>
                                     </div>
                                     <div className="review__date">
-                                        <span>27 Jun, 2016 at 2:30pm</span>
+                                        <span>{review.created}</span>
                                     </div>
                                     <p>{answer.text}</p>
                                 </div>
@@ -137,6 +160,14 @@ export const Review = ({productId, active}) => {
                 </div>
                 <div className="review__box">
                     <form id="review-form" onSubmit={handleSubmit(onSubmitReview)}>
+                        <div className="single-review-form">
+                            <div className="review-box name">
+                                <input ref={register} type="text" name={"fullName"}
+                                       placeholder="Type your name"/>
+                                <input ref={register} type="email" name={"email"}
+                                       placeholder="Type your email"/>
+                            </div>
+                        </div>
                         <div className="single-review-form">
                             <div className="review-box message">
                                 <textarea ref={register} name={"text"}
