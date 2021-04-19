@@ -1,6 +1,15 @@
 import React from 'react';
+import {Link} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {contactAPI} from "../../api/ContactAPI";
 
 export const Footer = (props) => {
+    const {register, errors, handleSubmit, reset} = useForm();
+
+    const onSubmit = (data) => {
+        console.log(data)
+        contactAPI.subscribe(data).then(reset())
+    }
 
     return (
         <>
@@ -70,11 +79,9 @@ export const Footer = (props) => {
                                 <div className="ft__widget">
                                     <h2 className="ft__title">Infomation</h2>
                                     <ul className="footer-categories">
-                                        <li><a href="about.html">About Us</a></li>
-                                        <li><a href="contact.html">Contact Us</a></li>
-                                        <li><p>Terms & Conditions</p></li>
+                                        <li><Link to={"/about-us"}>About Us</Link></li>
+                                        <li><Link to={"/contact-us"}>Contact Us</Link></li>
                                         <li><p>Returns & Exchanges</p></li>
-                                        <li><p>Shipping & Delivery</p></li>
                                         <li><p>Privacy Policy</p></li>
                                     </ul>
                                 </div>
@@ -84,41 +91,28 @@ export const Footer = (props) => {
                                 <div className="ft__widget">
                                     <h2 className="ft__title">Newsletter</h2>
                                     <div className="newsletter__form">
-                                        <p>Subscribe to our newsletter and get 10% off your first
-                                            purchase .</p>
+                                        <p>Subscribe to our newsletter.</p>
                                         <div className="input__box">
                                             <div id="mc_embed_signup">
-                                                <form method="post"
-                                                      id="mc-embedded-subscribe-form"
-                                                      name="mc-embedded-subscribe-form"
+                                                <form onSubmit={handleSubmit(onSubmit)}
                                                       className="validate" target="_blank"
                                                       noValidate>
                                                     <div id="mc_embed_signup_scroll"
                                                          className="htc__news__inner">
                                                         <div className="news__input">
-                                                            <input type="email" value=""
-                                                                   name="EMAIL"
+                                                            <input type="email"
+                                                                   ref={register({required: true})}
+                                                                   name="email"
                                                                    className="email"
-                                                                   id="mce-EMAIL"
                                                                    placeholder="Email Address"
-                                                                   required/>
+                                                            />
                                                         </div>
-                                                        <div style={{
-                                                            'position': 'absolute',
-                                                            'left': '-5000px'
-                                                        }}
-                                                             aria-hidden="true">
-                                                            <input type="text"
-                                                                   name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef"
-                                                                   tabIndex="-1" value=""/></div>
                                                         <div className="clearfix subscribe__btn">
                                                             <input
                                                                 type="submit"
                                                                 value="Send"
                                                                 name="subscribe"
-                                                                id="mc-embedded-subscribe"
                                                                 className="bst__btn btn--white__color"/>
-
                                                         </div>
                                                     </div>
                                                 </form>
@@ -134,14 +128,15 @@ export const Footer = (props) => {
                             <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                 <div className="copyright__inner">
                                     <div className="copyright">
-                                        <p>© 2017 <a href="https://freethemescloud.com/">Free themes
-                                            Cloud</a>
+                                        <p>© 2021 <a href="mailto:mriabchenko11@gmail.com"
+                                                     title={"mriabchenko11@gmail.com"}>By Mykola
+                                            Riabchenko </a>
                                             All Right Reserved.</p>
                                     </div>
                                     <ul className="footer__menu">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="shop.html">Product</a></li>
-                                        <li><a href="contact.html">Contact Us</a></li>
+                                        <li><Link to={'/'}>Home</Link></li>
+                                        <li><Link to={'/shop'}>Product</Link></li>
+                                        <li><Link to={"/contact-us"}>Contact Us</Link></li>
                                     </ul>
                                 </div>
                             </div>
