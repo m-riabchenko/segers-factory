@@ -67,7 +67,8 @@ class Review(MPTTModel):
     """
     Tree model of reviews for product
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField()
     text = models.TextField("content review", max_length=5000)
     parent = TreeForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children'
@@ -75,6 +76,8 @@ class Review(MPTTModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField("rating value", blank=True, null=True,
                                          validators=[MinValueValidator(1), MaxValueValidator(5)])
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user.first_name} - {self.product.name}"

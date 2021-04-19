@@ -21,13 +21,15 @@ from factory import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shop/', include('factory.cart.urls')),
-    path('shop/', include('factory.order.urls')),
-    path('shop/', include('factory.catalog.urls')),
+    path('api/shop/', include('factory.order.urls')),
+    path('api/shop/', include('factory.catalog.urls')),
+    path('api/job/', include('factory.vacancy.urls')),
+    path('api/contact/', include('factory.contact.urls')),
     path('silk/', include('silk.urls', namespace='silk')),
-    path('auth/', include('factory.users.urls')),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
+    path('api/auth/', include('factory.users.urls')),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth/', include('djoser.urls.jwt')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

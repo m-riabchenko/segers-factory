@@ -49,11 +49,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
     class Meta:
         model = Review
-        fields = ["id", "text", "parent", "product", 'user', 'rating']
+        fields = ["id", "full_name", "email", "text", "parent", "product", "rating", "create"]
 
     def get_fields(self):
         fields = super(ReviewSerializer, self).get_fields()
@@ -64,7 +62,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         review = Review.objects.create(**validated_data)
         product_id = validated_data["product"].id
         product_obj = get_object_or_404(Product, id=product_id)
-        count_avg = round(product_obj.review_set.aggregate(avg=Avg('rating'))['avg'], 1)
-        product_obj.rating_avg = count_avg
+        if 'rating' in validated_data:
+            count_avg = round(product_obj.review_set.aggregate(avg=Avg('rating'))['avg'], 1)
+            product_obj.rating_avg = count_avg
         product_obj.save()
         return review
