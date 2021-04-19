@@ -2400,12 +2400,12 @@ product__style--7
     transition: all 0.3s ease 0s;
 }
 
-.filter__list li:hover a,
-.filter__menu__close__btn a:hover i {
+.filter__list li:hover div,
+.filter__menu__close__btn div:hover i {
     color: #ff4136;
 }
 
-.filter__menu__close__btn a i {
+.filter__menu__close__btn div i {
     color: #999;
     font-size: 36px;
     transition: 0.3s;

@@ -1,6 +1,6 @@
 import React from "react";
 
-export const GeneralAttributes = ({register}) => {
+export const GeneralAttributes = ({register, name, price, description}) => {
     return (
         <section className="panel panel-default">
             <div className={"text_header"}>General Information</div>
@@ -12,13 +12,15 @@ export const GeneralAttributes = ({register}) => {
                                className="form-control input-lg"
                                ref={register}
                                name={"baseAttr.name"}
+                               defaultValue={name}
                                placeholder="Name"/>
                     </div>
                     <div className={"col-md-4"}>
-                        <input type="text"
+                        <input type="number"
                                className="form-control input-lg"
                                ref={register}
                                name={"baseAttr.price"}
+                               defaultValue={price}
                                placeholder="Price"/>
                     </div>
                 </div>
@@ -27,6 +29,7 @@ export const GeneralAttributes = ({register}) => {
                     <div className={"col-md-12 mtb--20"}>
                         <textarea className="form-control input-lg"
                                   ref={register}
+                                  defaultValue={description}
                                   name="baseAttr.descriptions"
                                   placeholder="Descriptions"/>
                     </div>

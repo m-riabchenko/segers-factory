@@ -1,27 +1,28 @@
 import ImageUploading from 'react-images-uploading';
-import React, {useState} from "react";
-import imageProduct from '../../../resources/images/product-details/small-img/1.jpg'
-import bigImage from '../../../resources/images/product-details/big-img/10.jpg'
-import imgIcon from '../../../resources/images/product/photography-icon-png-2392.png'
+import React, {useEffect, useState} from "react";
 import {Controller} from "react-hook-form";
-import {useToggle} from "react-use";
 
-export const ImageUpload = ({control}) => {
+export const ImageUpload = ({control, productImages}) => {
     const [images, setImages] = useState(null);
-    const [onAddImages, toggleImage] = useToggle(false);
     const [currentNumImg, setCurrentNumImg] = useState(0)
     const maxNumberImg = 4;
+    const HOST = "http://127.0.0.1:8000"
 
-    const onSelectImg = (imageList, addUpdateIndex) => {
+    useEffect(() => {
+        let newImgArr = []
+        Object.entries(productImages).map(([key, value]) => {
+            newImgArr.push({"data_url": HOST + value, "old_image": key})
+        })
+        setImages(newImgArr);
+        setCurrentNumImg(newImgArr.length)
+    }, [productImages])
+
+
+    const onSelectImg = (imageList) => {
+        console.log(imageList)
         setImages(imageList);
         setCurrentNumImg(imageList.length)
     };
-
-    const onMaxImages = () => {
-        if (currentNumImg >= maxNumberImg) {
-            alert("Limit images!")
-        }
-    }
 
     return (
         <section className="panel panel-default">
@@ -40,6 +41,8 @@ export const ImageUpload = ({control}) => {
                                 onChange(imageList)
                             }}
                             multiple
+                            maxFileSize={5242880}
+                            imgExtension={['.jpg', '.png', '.gif']}
                             maxNumber={maxNumberImg}
                             dataURLKey="data_url"
                             value={images}
@@ -50,14 +53,12 @@ export const ImageUpload = ({control}) => {
                                   onImageRemoveAll,
                                   onImageUpdate,
                                   onImageRemove,
-                                  isDragging,
-                                  dragProps,
                               }) => (
                                 // write your building UI
                                 <div className="upload__image-wrapper">
                                     {currentNumImg !== maxNumberImg ?
                                         <div className={"btn btn-success"}
-                                             onClick={onImageUpload}>Add images +++
+                                             onClick={onImageUpload}>Add images
 
                                         </div>
                                         : <div className={"btn btn-success"} disabled>
