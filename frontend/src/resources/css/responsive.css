@@ -332,9 +332,7 @@
     .main__menu {
         justify-content: flex-start;
     }
-    .slider__bg--1 {
-        background: rgba(0, 0, 0, 0) url("../../resources/images/slider/bg/1.png") no-repeat scroll right center / cover;
-    }
+
     .sticky__header.scroll-header .logo {
         margin-bottom: 0;
     }
