@@ -6,7 +6,7 @@ services:
         volumes:
           - ./data/db:/var/lib/postgresql/data
         env_file:
-            - ./.env-db.dev
+            - ./.env-db.example
     nginx: 
         restart: unless-stopped
         build:
@@ -22,7 +22,7 @@ services:
     backend:
         restart: unless-stopped
         env_file:
-            - .env.dev
+            - .env.expample
         build:
             context: .
             dockerfile: ./docker/backend/Dockerfile
