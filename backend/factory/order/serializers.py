@@ -1,7 +1,5 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from factory.cart.models import Cart
 from factory.order.models import Order, OrderItem
 
 

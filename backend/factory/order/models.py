@@ -1,6 +1,5 @@
 from django.db import models
 
-from factory.cart.models import Cart
 from factory.catalog.models import Product
 
 

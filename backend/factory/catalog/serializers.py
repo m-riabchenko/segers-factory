@@ -4,7 +4,6 @@ from rest_framework import serializers
 
 from factory.catalog.models import Category, Product, Review, Image
 from factory.catalog.services import get_filters_data
-from factory.users.serializers import UserSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):

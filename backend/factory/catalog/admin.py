@@ -1,14 +1,11 @@
-from django import forms
 from django.contrib import admin
-from django.shortcuts import redirect
-from django.urls import reverse, path
-from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter, \
-    RelatedOnlyDropdownFilter, ChoiceDropdownFilter, SimpleDropdownFilter
+from django_admin_listfilter_dropdown.filters import  RelatedDropdownFilter
 from mptt.admin import MPTTModelAdmin
 
 from factory.catalog.models import Category, Product
+
+from factory.settings import HOST
 
 
 @admin.register(Category)
@@ -31,7 +28,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'category__name')
     ordering = ('-created',)
     list_display_links = ('update_product',)
-    change_list_template = "admin/change_list2.html"
+    change_list_template = "admin/change_list_product.html"
 
     def has_add_permission(self, request):
         return False
@@ -42,4 +39,4 @@ class ProductAdmin(admin.ModelAdmin):
 
     def update_product(self, obj):
         return mark_safe(
-            f'<a href="http://localhost:3000/dashboard/product/{obj.pk}" target="_blank"><input type="button" value="update" /></a>')
+            f'<a href="{HOST}/dashboard/product-update/{obj.pk}" target="_blank"><input type="button" value="update" /></a>')
