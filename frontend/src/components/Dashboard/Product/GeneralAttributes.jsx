@@ -12,7 +12,7 @@ export const GeneralAttributes = ({register, name, price, description}) => {
                                className="form-control input-lg"
                                ref={register}
                                name={"baseAttr.name"}
-                               defaultValue={name}
+                               defaultValue={name ? name : null}
                                placeholder="Name"/>
                     </div>
                     <div className={"col-md-4"}>
@@ -20,7 +20,7 @@ export const GeneralAttributes = ({register, name, price, description}) => {
                                className="form-control input-lg"
                                ref={register}
                                name={"baseAttr.price"}
-                               defaultValue={price}
+                               defaultValue={price ? price : null}
                                placeholder="Price"/>
                     </div>
                 </div>
@@ -29,7 +29,7 @@ export const GeneralAttributes = ({register, name, price, description}) => {
                     <div className={"col-md-12 mtb--20"}>
                         <textarea className="form-control input-lg"
                                   ref={register}
-                                  defaultValue={description}
+                                  defaultValue={description ? description : null}
                                   name="baseAttr.descriptions"
                                   placeholder="Descriptions"/>
                     </div>

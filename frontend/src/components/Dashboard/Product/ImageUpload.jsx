@@ -9,12 +9,14 @@ export const ImageUpload = ({control, productImages}) => {
     const HOST = "http://127.0.0.1:8000"
 
     useEffect(() => {
-        let newImgArr = []
-        Object.entries(productImages).map(([key, value]) => {
-            newImgArr.push({"data_url": HOST + value, "old_image": key})
-        })
-        setImages(newImgArr);
-        setCurrentNumImg(newImgArr.length)
+        if (productImages) {
+            let newImgArr = []
+            Object.entries(productImages).map(([key, value]) => {
+                newImgArr.push({"data_url": HOST + value, "old_image": key})
+            })
+            setImages(newImgArr);
+            setCurrentNumImg(newImgArr.length)
+        }
     }, [productImages])
 
 

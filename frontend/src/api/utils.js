@@ -1,5 +1,7 @@
 import axiosAPI from "axios";
 
+const HOST = 'http://127.0.0.1/api/'
+
 const getTokenFromLocalStorage = () => {
     let authToken = localStorage.getItem("auth-token")
     if (!authToken) {
@@ -11,14 +13,14 @@ const getTokenFromLocalStorage = () => {
 
 export const axiosWithCredentials = axiosAPI.create({
     withCredentials: true,
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: HOST,
     headers: {
         Authorization: getTokenFromLocalStorage()
     }
 })
 
 export const axios = axiosAPI.create({
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: HOST,
 })
 
 export const setTokenInAxiosRequest = () => {
