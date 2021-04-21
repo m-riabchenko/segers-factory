@@ -5,7 +5,11 @@ do
     echo "Waiting for server volume..."
 done
 
-python manage.py makemigrations
+until python manage.py makemigrations
+do
+    echo "Waiting makemigrations..."
+done
+
 
 until python manage.py migrate
 do
