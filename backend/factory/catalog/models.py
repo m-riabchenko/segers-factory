@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.template.defaultfilters import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 
 from factory.catalog.storage import OverwriteStorage
@@ -52,6 +53,10 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(f'{self.name} {self.id}')
+        super(Product, self).save(*args, **kwargs)
 
 
 class Image(models.Model):
