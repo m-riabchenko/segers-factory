@@ -10,6 +10,10 @@ class OrderAdmin(admin.ModelAdmin):
         "first_name", "last_name", "email", "phone", "order_message", "delivery", 'done',
         "street", "house_number", "region", "city", "zip_code", "delivery_message",
     )
+    list_filter = (
+        ('done', admin.BooleanFieldListFilter),
+        ('delivery', admin.BooleanFieldListFilter),
+    )
     list_editable = ('done',)
     search_fields = (
         'first_name', 'last_name', 'email', 'phone', 'street', 'house_number', 'region', 'city',
@@ -21,4 +25,5 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ("order", "product", "price", "quantity")
-    search_fields = ("order__first_name", "order__last_name", "order__phone", "order__email", "product__name")
+    search_fields = ("order__first_name", "order__last_name", "order__phone",
+                     "order__email", "product__name")
