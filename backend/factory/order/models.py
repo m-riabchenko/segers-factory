@@ -4,22 +4,18 @@ from factory.catalog.models import Product
 
 
 class Order(models.Model):
+    STATUS = [
+        ('Waiting', 'Waiting for confirmation'),
+        ('Accepted', 'Accepted'),
+        ('In processing', 'In processing'),
+        ('Done', 'Done'),
+    ]
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.CharField(max_length=13)
     order_message = models.TextField()
-
-    delivery = models.BooleanField(default=False)
-    done = models.BooleanField(default=False)
-
-    street = models.CharField(max_length=255, blank=True, null=True)
-    house_number = models.CharField(max_length=255, blank=True, null=True)
-    region = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=255, blank=True, null=True)
-    zip_code = models.CharField(max_length=10, blank=True, null=True)
-    delivery_message = models.TextField(blank=True, null=True)
-
+    status = models.CharField(max_length=20, choices=STATUS, default="Waiting")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -27,7 +23,7 @@ class Order(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return f'Order {self.first_name} {self.last_name} - {self.phone}'
+        return f'Order {self.first_name} {self.last_name} {self.phone}'
 
 
 class OrderItem(models.Model):
@@ -38,3 +34,25 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f'OrderItem {self.id}'
+
+
+class Delivery(models.Model):
+    STATUS = [
+        ('Waiting', 'Waiting'),
+        ('Delivering', 'Delivering'),
+        ('Delivered', 'Delivered'),
+    ]
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="delivery")
+    message = models.TextField()
+    code = models.CharField(max_length=20, blank=True, null=True)
+    street = models.CharField(max_length=255)
+    house_number = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    zip_code = models.CharField(max_length=10)
+    status = models.CharField(max_length=10, choices=STATUS, default="Waiting")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Delivery ({self.id})'
