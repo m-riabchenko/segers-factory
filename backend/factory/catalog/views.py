@@ -1,15 +1,12 @@
-from django.db.models import Max, Min, Count
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
+
+from factory.catalog.documents import ProductFacetedSearch
 from factory.catalog.models import Category, Product, Review, Image
 from factory.catalog import serializers, services
-from factory.catalog.serializers import ProductSerializer
-from django_filters import rest_framework as filters
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -23,54 +20,30 @@ class CategoryViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_200_OK)
 
 
-class ProductFilter(filters.FilterSet):
-    name = filters.CharFilter(lookup_expr='icontains')
-    min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
-    max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
-    attr = filters.CharFilter(field_name="attributes", method='filter_product_attr')
-
-    @staticmethod
-    def filter_product_attr(queryset, name, value):
-        """
-        Filter product by attributes which saved in json field
-        """
-        attr_params_dict = services.format_attr_params_to_dict(value)
-        queries = services.get_queries_by_attr_params(attr_params_dict)
-        return queryset.filter(queries)
-
-    class Meta:
-        model = Product
-        fields = ['category', 'min_price', 'max_price']
-
-
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().prefetch_related('image_set')
     serializer_class = serializers.ProductSerializer
     parser_classes = (MultiPartParser, JSONParser)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_class = ProductFilter
     ordering_fields = ["price"]
 
-    def list(self, request):
-        if request.GET.get('attr') and not request.GET.get('category'):
-            return Response(
-                data={"message": "Chose category. Category params is required!"},
-                status=status.HTTP_404_NOT_FOUND
-            )
-        products = self.filter_queryset(self.get_queryset())
-        serializer = ProductSerializer(products, many=True)
-        aggregate = products.aggregate(Max('price'), Min('price'), count=Count('id'))
-        return Response(data={
-            "options": services.get_options_for_product_filter(products, request.GET.get('attr'),
-                                                               request.GET.get('category')),
-            "quantity": aggregate['count'],
-            "products": serializer.data,
-            "range_price": {
-                "min": aggregate["price__min"],
-                "max": aggregate["price__max"]
-            }
-        })
+    def list(self, request, *args, **kwargs):
+        limit = int(request.GET.get('limit', '20'))
+        offset = int(request.GET.get('offset', '0'))
+        if limit > 100:
+            return Response(data={"error": "limit parameters can't be more than 100"})
+        product_filters = services.preparation_query_params(request.GET, ProductFacetedSearch().facets)
+        res = ProductFacetedSearch(filters=product_filters)[offset:offset + limit].execute()
+        return Response(
+            data={
+                "count": res.hits.total.value,
+                "options": services.get_options_in_needed_format(res.facets),
+                "products": services.extract_fields_from_faceted_response(res),
+                "range_price": {
+                    "max": res.aggs.max_price.value,
+                    "min": res.aggs.min_price.value}},
+            status=status.HTTP_200_OK
+        )
 
     @action(methods=['put'], detail=True)
     def upload_image(self, request, pk=None):
@@ -83,7 +56,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             image_obj, _ = Image.objects.get_or_create(name=image.name.split('.')[0], product_id=pk)
             image_obj.image = image
             image_obj.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response(data=self.serializer_class(Product.objects.get(pk=pk)).data,
+                        status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=True)
     def reviews(self, request, pk=None):
