@@ -9,7 +9,7 @@ export const ItemFilterBlock = ({filterName, filterValues, onHandleChangeCheckbo
                     {filterValues.map((value, index) => <li key={index}>
                         <input type="checkbox" name={filterName}
                                onChange={onHandleChangeCheckboxFilter}
-                               value={value.option_value_name}/><span> {value.option_value_name} ({value.products_quantity}) </span></li>
+                               value={value.name}/><span> {value.name} ({value.quantity}) </span></li>
                     )}
                 </ul>
             </div>

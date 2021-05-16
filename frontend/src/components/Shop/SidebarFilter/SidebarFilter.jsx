@@ -26,10 +26,9 @@ export const SidebarFilter = ({
         }))
     }
     const onClickSearch = () => {
-        productFilter("name="+search)
+        productFilter("search="+search)
     }
 
-    console.log(search)
     return (
         <>
             <div className="htc__shop__left__sidebar hidden-xs hidden-sm">
@@ -75,8 +74,8 @@ export const SidebarFilter = ({
                 {options && options.map((option, index) =>
                     <ItemFilterBlock
                         key={index}
-                        filterName={option.option_name}
-                        filterValues={option.option_value}
+                        filterName={option.name}
+                        filterValues={option.value}
                         onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}/>
                 )}
 

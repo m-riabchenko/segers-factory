@@ -31,8 +31,8 @@ export const SlidingSidebarFilter = ({
                                 {options && options.map((option, index) =>
                                     <ItemFilterBlock
                                         key={index}
-                                        filterName={option.option_name}
-                                        filterValues={option.option_value}
+                                        filterName={option.name}
+                                        filterValues={option.value}
                                         onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}/>
                                 )}
 

@@ -32,21 +32,20 @@ export function Shop() {
         let queryParams = ""
         for (let key in parameters) {
             let value = parameters[key];
-            qs += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "/";
+            qs += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
         }
         if (qs.length > 0) {
             qs = qs.substring(0, qs.length - 1); //chop off last "&"
-            queryParams = "&attr=" + qs;
+            queryParams = qs;
         }
         return queryParams;
     }, [])
 
     const [options, setOptions] = useState(null)
-
+    console.log(products)
     useEffect(() => {
         (async () => {
             const response = await productAPI.getProducts();
-            console.log(response)
             setProducts(response.products)
             setQtyProducts(response.quantity)
             setOptions(response.options)
@@ -108,7 +107,6 @@ export function Shop() {
             history.push("?" + universalParams.toString() + buildQueryUrl(queryParams).toString())
         }
     }, [queryParams, universalQueryParams, productFilter, buildQueryUrl, history])
-
     return (
         <>
             <Breadcrumb namePage={"Shop"}/>
@@ -119,7 +117,6 @@ export function Shop() {
                                   onHandleChangeCheckboxFilter={onHandleChangeCheckboxFilter}
                                   options={options}
             />
-
             <section className="htc__shop__sidebar bg__white ptb--120">
                 <div className="container">
                     <div className="row">
@@ -163,7 +160,6 @@ export function Shop() {
                                     <div role="tabpanel" id="grid-view"
                                          className="single-grid-view tab-pane fade in active clearfix">
                                         {loading ? <PacmanLoader/> : null}
-
                                         {products.map((product) => <ProductCard product={product}
                                                                                 HOST={HOST}/>)}
                                     </div>
@@ -177,11 +173,8 @@ export function Shop() {
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </section>
         </>
     );
