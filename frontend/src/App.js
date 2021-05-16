@@ -3,8 +3,6 @@ import './resources/css/shortcode/header.css'
 import './resources/css/themify-icons.css'
 import './resources/css/custom.css'
 import './resources/style.css'
-import './resources/css/owl.theme.default.min.css'
-import './resources/css/owl.carousel.min.css'
 import './resources/css/core.css'
 import './resources/css/shortcode/shortcodes.css'
 import './resources/css/responsive.css'
@@ -24,44 +22,57 @@ import {Main} from "./components/Main/Main";
 import {Vacancy} from "./components/Vacancy/Vacancy";
 import {ContactUs} from "./components/Contact Us/ContactUs";
 import {AboutUs} from "./components/AboutUs/AboutUs";
-
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import {useEffect} from "react";
+import {useLocation} from "react-router-dom";
 import {CartProvider} from "react-use-cart";
 import {UpdateProduct} from "./components/Dashboard/Product/UpdateProduct";
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import {AlertTemplate} from "./components/Alert/AlertTemplate";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+    const {pathname} = useLocation();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
-  return null;
+    return null;
 }
+
+const options = {
+  position: positions.BOTTOM_CENTER,
+  timeout: 5000,
+  offset: '30px',
+  transition: transitions.SCALE
+}
+
 
 const App = () => {
     return (
         <BrowserRouter>
-            <ScrollToTop />
-             <CartProvider>
-                <Header/>
-                <div className="body__overlay"></div>
-                <Route exact path='/' render={() => <Main/>}/>
-                <Route path='/register' render={() => <Register/>}/>
-                <Route path='/login' render={() => <Login/>}/>
-                <Route path='/shop' render={() => <Shop/>}/>
-                <Route path='/cart' render={() => <ShoppingCart/>}/>
-                <Route path='/order' render={() => <Order/>}/>
-                <Route path='/vacancy' render={() => <Vacancy/>}/>
-                <Route path='/about-us' render={() => <AboutUs/>}/>
-                <Route path='/contact-us' render={() => <ContactUs/>}/>
-                <Route path='/product/:productId' render={(props) => <ProductDetail {...props}/>}/>
-                <Route path='/dashboard/category/' render={() => <AddCategory/>}/>
-                <Route path='/dashboard/product-create/' render={() => <AddProduct />}/>
-                <Route path='/dashboard/product-update/:productId' render={(props) => <UpdateProduct {...props}/>}/>
-                <Footer/>
-            </CartProvider>
+            <ScrollToTop/>
+            <AlertProvider template={AlertTemplate} {...options}>
+                <CartProvider>
+                    <Header/>
+                    <div className="body__overlay"></div>
+                    <Route exact path='/' render={() => <Main/>}/>
+                    <Route path='/register' render={() => <Register/>}/>
+                    <Route path='/login' render={() => <Login/>}/>
+                    <Route path='/shop' render={() => <Shop/>}/>
+                    <Route path='/cart' render={() => <ShoppingCart/>}/>
+                    <Route path='/order' render={() => <Order/>}/>
+                    <Route path='/vacancy' render={() => <Vacancy/>}/>
+                    <Route path='/about-us' render={() => <AboutUs/>}/>
+                    <Route path='/contact-us' render={() => <ContactUs/>}/>
+                    <Route path='/product/:productId'
+                           render={(props) => <ProductDetail {...props}/>}/>
+                    <Route path='/dashboard/category/' render={() => <AddCategory/>}/>
+                    <Route path='/dashboard/product-create/' render={() => <AddProduct/>}/>
+                    <Route path='/dashboard/product-update/:productId'
+                           render={(props) => <UpdateProduct {...props}/>}/>
+                    <Footer/>
+                </CartProvider>
+                </AlertProvider>
         </BrowserRouter>
     )
 }

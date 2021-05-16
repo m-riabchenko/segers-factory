@@ -1,21 +1,32 @@
 import {useForm} from "react-hook-form";
-import {orderAPI} from "../../api/Order";
+import {orderAPI} from "../../api/OrderAPI";
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {Breadcrumb} from "../Breadcrumb/Breadcrumb";
 import {useCart} from "react-use-cart";
 import {useToggle} from "react-use";
+import {useAlert} from "react-alert";
 
 export const Order = () => {
     const [onDelivery, toggleDelivery] = useToggle()
     const {register, handleSubmit, reset} = useForm();
     const {items, removeItem, isEmpty} = useCart();
-
+    const newAlert = useAlert()
     const onSubmit = (data) => {
-        console.log(data)
-        return orderAPI.createOrder(data, onDelivery, items).then(() => {
+        return orderAPI.createOrder(data, onDelivery, items).then(response => {
             items.forEach(item => removeItem(item.id))
             reset()
+            if (response.status === 201) {
+                newAlert.show('Ваше замовлення прийнято в обробку', {
+                    type: 'success',
+                })
+            }
+            else {
+                newAlert.show('Щось пішло не так. Спробуйте пізніше', {
+                    type: 'error',
+                })
+            }
+
         })
     };
     return (
@@ -57,7 +68,8 @@ export const Order = () => {
                                                     Доставити на іншу адресу?</h2>
                                             </div>
                                             {onDelivery && <>
-                                                <div className="single-checkout-box select-option  mt--20">
+                                                <div
+                                                    className="single-checkout-box select-option  mt--20">
                                                     <input ref={register} name={"streetNumber"}
                                                            type="text"
                                                            placeholder="Номер вулиці*"/>
@@ -83,15 +95,7 @@ export const Order = () => {
                                                               name={"messageDelivery"}
                                                               placeholder="Нотатки до вашого замовлення, наприклад спеціальні примітки для доставки (необов'язково)"></textarea>
                                                 </div>
-
                                             </>}
-
-                                            {/*<div className="single-checkout-box checkbox">*/}
-                                            {/*    <input ref={register} name={"remindMe"}*/}
-                                            {/*           id="remind-me" type="checkbox"/>*/}
-                                            {/*    <label htmlFor="remind-me"><span></span>Create a*/}
-                                            {/*        Account ?</label>*/}
-                                            {/*</div>*/}
                                         </div>
                                         <div className="review-btn">
                                             <button className="fv-btn">Order</button>

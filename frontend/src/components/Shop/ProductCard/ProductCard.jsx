@@ -1,10 +1,12 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import {useCart} from "react-use-cart";
+import {useAlert} from "react-alert";
 
 
 export const ProductCard = ({product, HOST}) => {
     const {addItem} = useCart();
+    const newAlert = useAlert()
     const getDiscount = () => {
         return (product.price - product.price * (product.sale / 100)).toFixed(2)
     }
@@ -35,6 +37,9 @@ export const ProductCard = ({product, HOST}) => {
                                 } else {
                                     addItem(product)
                                 }
+                                newAlert.show('Товар додано у корзину', {
+                                    type: 'success',
+                                })
                             }}
                                    title="Add To Cart"><span
                                 className="ti-shopping-cart"></span></a></li>

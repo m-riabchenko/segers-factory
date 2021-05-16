@@ -15,7 +15,6 @@ export const ShoppingCart = () => {
         onItemUpdate,
     } = useCart();
 
-    console.log(items)
     if (isEmpty) return <h2>Cart is empty</h2>;
     return (
         <>
@@ -88,7 +87,6 @@ export const ShoppingCart = () => {
                                 </form>
                             </div>
                         </div>
-                    }
                 </div>
             </div>
         </>

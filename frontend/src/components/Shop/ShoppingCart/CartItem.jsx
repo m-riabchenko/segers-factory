@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
+import {useAlert} from "react-alert";
 
 export const CartItem = ({
                              item,
@@ -14,7 +15,7 @@ export const CartItem = ({
     useEffect(() => {
         setCountItemsProduct(item.quantity)
     }, [item.quantity])
-
+    const newAlert = useAlert()
     const onHandleChangeCountItem = (id, value) => {
         console.log(value)
         if (value > maxQty) {
@@ -39,7 +40,8 @@ export const CartItem = ({
             <tr key={item.id}>
                 <td className="product-thumbnail">
                     <NavLink to={"/product/" + item.id}>
-                    <img src={item.images && HOST + item.images['main-image']} alt="product img"/></NavLink>
+                        <img src={item.images && HOST + item.images['main-image']}
+                             alt="product img"/></NavLink>
                 </td>
                 <td className="product-name"><NavLink
                     to={"/product/" + item.id}>{item.name}</NavLink></td>
@@ -61,7 +63,12 @@ export const CartItem = ({
                 </td>
                 <td className="product-subtotal">{item.itemTotal} грн.</td>
                 <td className="product-remove"><a className={"cursor-pointer"}
-                                                  onClick={() => onClickRemoveCartItem(item.id)}>X</a>
+                                                  onClick={() => {
+                                                      onClickRemoveCartItem(item.id)
+                                                      newAlert.show('Товар видалено із корзини', {
+                                                          type: 'success',
+                                                      })
+                                                  }}>X</a>
                 </td>
             </tr>
         </>

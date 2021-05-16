@@ -2,13 +2,20 @@ import React from "react";
 import {Breadcrumb} from "../Breadcrumb/Breadcrumb";
 import {useForm} from "react-hook-form";
 import {contactAPI} from "../../api/ContactAPI";
+import {useAlert} from "react-alert";
 
 export const ContactUs = () => {
     const {register, errors, handleSubmit, reset} = useForm();
-
+    const newAlert = useAlert()
     const onSubmit = (data) => {
-        console.log(data)
-        contactAPI.sendMessage(data).then(reset())
+        contactAPI.sendMessage(data).then(response => {
+            reset()
+            if (response.status === 201) {
+                newAlert.show('Ви відправили повідомлення', {
+                    type: 'success',
+                })
+            }
+        })
     }
 
 
@@ -34,7 +41,7 @@ export const ContactUs = () => {
                     <label>Повідомлення *</label>
                     <textarea ref={register} className="form-control" name={"message"} rows="6"/>
                 </div>
-                <button className="panel-btn" >Відправити</button>
+                <button className="panel-btn">Відправити</button>
 
             </form>
         </>
