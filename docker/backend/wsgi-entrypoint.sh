@@ -19,4 +19,6 @@ done
 
 python manage.py collectstatic --noinput
 
+python manage.py search_index --rebuild
+
 gunicorn factory.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
