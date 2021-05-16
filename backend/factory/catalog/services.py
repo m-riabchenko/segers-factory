@@ -51,10 +51,12 @@ def generate_properties_for_json_text_fields() -> dict:
     return properties
 
 
-def generate_nested_facets() -> dict:
+def generate_facets(schema: list) -> dict:
     """Return dict with NestedFacet for JSONField"""
-    facets = {}
-    for attribute in get_all_attributes_schemas():
+    facets = {
+        'category': NestedFacet('category', TermsFacet(field="category.id")),
+    }
+    for attribute in schema:
         terms_facet = TermsFacet(field=f"attributes.{attribute['name']}")
         facets[attribute['name']] = NestedFacet('attributes', terms_facet)
     return facets
@@ -79,13 +81,15 @@ def get_options_in_needed_format(facets) -> list:
     return options
 
 
-def extract_fields_from_faceted_response(response):
+def extract_fields_from_faceted_response(response) -> list:
     products = []
     for product in response.hits:
         products.append({
             'id': product.id,
             "name": product.name,
             "price": product.price,
+            "sale": product.sale,
             'images': product.images.to_dict(),
             "rating_avg": product.rating_avg,
         })
+    return products

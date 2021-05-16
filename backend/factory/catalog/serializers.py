@@ -23,7 +23,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["id", "name", "slug", "price", "sale", "description", "category", "attributes",
+        fields = ["id", "name", "price", "sale", "description", "category", "attributes",
                   "rating_avg", "images"]
 
     def create(self, validated_data):
@@ -39,6 +39,13 @@ class ProductSerializer(serializers.ModelSerializer):
         category_obj.schema_filters = data
         category_obj.save()
         return product
+
+    def validate_attributes(self, value):
+        try:
+            dict(value)
+        except ValueError:
+            raise serializers.ValidationError("Attributes must be a dict format")
+        return value
 
     def get_images(self, product):
         response_obj = {}

@@ -1,15 +1,16 @@
 from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
-from elasticsearch_dsl import FacetedSearch, TermsFacet, A
+from elasticsearch_dsl import FacetedSearch, TermsFacet, A, RangeFacet, FacetedResponse, NestedFacet
 from factory.catalog.models import Product
 from factory.catalog.services import generate_properties_for_json_text_fields, \
-    generate_nested_facets
+    generate_facets, get_all_attributes_schemas
 
 
 @registry.register_document
 class ProductDocument(Document):
     attributes = fields.NestedField(properties=generate_properties_for_json_text_fields())
-    category = fields.IntegerField()
+    category = fields.NestedField(
+        properties={"id": fields.IntegerField(), "name": fields.TextField(fielddata=True)})
     images = fields.NestedField()
 
     def get_queryset(self):
@@ -19,7 +20,10 @@ class ProductDocument(Document):
         return instance.attributes
 
     def prepare_category(self, instance):
-        return instance.category.id
+        return {
+            "id": instance.category.id,
+            "name": instance.category.name
+        }
 
     def prepare_images(self, instance):
         response_obj = {}
@@ -40,6 +44,7 @@ class ProductDocument(Document):
             'id',
             'name',
             'price',
+            'sale',
             'rating_avg',
         ]
 
@@ -47,12 +52,18 @@ class ProductDocument(Document):
 class ProductFacetedSearch(FacetedSearch):
     doc_types = [ProductDocument, ]
     index = 'products'
-    fields = ['name', 'description', 'attributes']
+    fields = ['name']
 
-    facets = {
-        'category': TermsFacet(field="category"),
-        **generate_nested_facets()
-    }
+    facets = generate_facets(schema=get_all_attributes_schemas())
+
+    def query(self, search, query):
+        if not query:
+            return search
+        if query.get('search', 0):
+            search = search.query("query_string", fields=self.fields, query=f"*{query['search']}*")
+        if 'price' in query:
+            return search.filter("range", price={"gte": query['price']['min_price'],
+                                                 "lte": query['price']['max_price']})
 
     def aggregate(self, search):
         super().aggregate(search)

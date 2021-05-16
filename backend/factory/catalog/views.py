@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
+from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, JSONParser
 from rest_framework.response import Response
 
@@ -28,20 +29,51 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering_fields = ["price"]
 
     def list(self, request, *args, **kwargs):
-        limit = int(request.GET.get('limit', '20'))
-        offset = int(request.GET.get('offset', '0'))
-        if limit > 100:
-            return Response(data={"error": "limit parameters can't be more than 100"})
-        product_filters = services.preparation_query_params(request.GET, ProductFacetedSearch().facets)
-        res = ProductFacetedSearch(filters=product_filters)[offset:offset + limit].execute()
+        try:
+            limit = int(request.GET.get('limit', 20))
+            offset = int(request.GET.get('offset', 0))
+            if limit > 100:
+                return Response(data={"error": "limit parameters can't be more than 100"},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            max_price = request.GET.get('max_price', None)
+            min_price = request.GET.get('min_price', None)
+            if max_price and min_price:
+                max_price = int(max_price)
+                min_price = int(min_price)
+            category_id = int(request.GET.get("category", 0))
+        except ValueError:
+            return Response(
+                data={"error": "ValueError. Query parameter has incorrect input value type"},
+                status=status.HTTP_400_BAD_REQUEST)
+
+        product_filters = services.preparation_query_params(request.query_params,
+                                                            ProductFacetedSearch.facets)
+        faceted_search = ProductFacetedSearch(
+            query={
+                "search": request.GET.get('search', None),
+                "price": {"max_price": max_price, "min_price": min_price}},
+            filters=product_filters)
+
+        if not product_filters:
+            # sets default facets
+            faceted_search.facets = services.generate_facets(schema=[])
+
+        if category_id:
+            # set facets which belong only chosen category
+            category = get_object_or_404(Category, id=category_id)
+            faceted_search.facets = services.generate_facets(category.schema_attributes)
+
+        response = faceted_search[offset:offset + limit].execute()
+
         return Response(
             data={
-                "count": res.hits.total.value,
-                "options": services.get_options_in_needed_format(res.facets),
-                "products": services.extract_fields_from_faceted_response(res),
+                "count": response.hits.total.value,
+                "options": services.get_options_in_needed_format(response.facets),
+                "products": services.extract_fields_from_faceted_response(response),
                 "range_price": {
-                    "max": res.aggs.max_price.value,
-                    "min": res.aggs.min_price.value}},
+                    "max": response.aggs.max_price.value,
+                    "min": response.aggs.min_price.value}},
             status=status.HTTP_200_OK
         )
 

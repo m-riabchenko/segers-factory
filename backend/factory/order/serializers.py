@@ -14,7 +14,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         cart_items = validated_data.pop('cart_items')
-        if validated_data["delivery"]:
+        if 'delivery' in validated_data:
             delivery = validated_data.pop("delivery")
             order = Order.objects.create(**validated_data)
             Delivery.objects.create(order_id=order.id, **delivery)
