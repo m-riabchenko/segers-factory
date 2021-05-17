@@ -1,14 +1,7 @@
 version: '3.7'
 
 services:
-    db:
-        image: postgres
-        container_name: postgres
-        volumes:
-          - ./data/db:/var/lib/postgresql/data
-        env_file:
-            - ./databese.env
-    nginx: 
+    nginx:
         restart: unless-stopped
         container_name: nginx
         build:
@@ -36,7 +29,6 @@ services:
         expose:
             - 8000
         depends_on:
-            - db
             - elasticsearch
     redis:
         image: redis:alpine
@@ -66,7 +58,7 @@ services:
         depends_on:
             - redis
     elasticsearch:
-        container_name: django_elasticsearch_dsl_drf_elasticsearch
+        container_name: elasticsearch
         build:
             context: .
             dockerfile: ./docker/elasticsearch/Dockerfile
@@ -77,7 +69,6 @@ services:
             - "9200:9200"
             - "9300:9300"
         environment:
-            #    - bootstrap.memory_lock=true
             - discovery.type=single-node
             - xpack.security.enabled=false
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
