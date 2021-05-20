@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 from factory.catalog.models import Category, Product, Review, Image
-from factory.catalog.services import get_filters_data
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -24,21 +23,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ["id", "name", "price", "sale", "description", "category", "attributes",
-                  "rating_avg", "images"]
-
-    def create(self, validated_data):
-        """
-        Add new data in category field schema_filters after product create
-        """
-        product = Product.objects.create(**validated_data)
-        category_id = validated_data["category"].id
-        category_obj = get_object_or_404(Category, id=category_id)
-        data = get_filters_data(Product.objects.filter(category_id=category_id))
-        for key in data:
-            data[key] = list(set(str(data[key]).split(',')))
-        category_obj.schema_filters = data
-        category_obj.save()
-        return product
+                  "rating_avg", "images", "available"]
 
     def validate_attributes(self, value):
         try:

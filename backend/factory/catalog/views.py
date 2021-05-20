@@ -1,3 +1,6 @@
+from elasticsearch.exceptions import ConnectionError
+from elasticsearch_dsl import Search
+from elasticsearch_dsl.aggs import Nested, Terms
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
@@ -14,11 +17,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = serializers.CategorySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-    @action(methods=['get'], detail=True)
-    def filters(self, request, pk=None):
-        return Response(data={"filters": Category.objects.get(pk=pk).schema_filters},
-                        status=status.HTTP_200_OK)
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -64,7 +62,11 @@ class ProductViewSet(viewsets.ModelViewSet):
             category = get_object_or_404(Category, id=category_id)
             faceted_search.facets = services.generate_facets(category.schema_attributes)
 
-        response = faceted_search[offset:offset + limit].execute()
+        try:
+            response = faceted_search[offset:offset + limit].execute()
+        except ConnectionError:
+            return Response(data={"error": "Failed connection to Elasticsearch"},
+                            status=status.HTTP_404_NOT_FOUND)
 
         return Response(
             data={
@@ -97,6 +99,30 @@ class ProductViewSet(viewsets.ModelViewSet):
         reviews = product.review_set.filter(parent__isnull=True).distinct()
         serializer = serializers.ReviewSerializer(reviews, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=True)
+    def unique_values(self, request, pk=None):
+        """
+        Response unique products attribute values
+        """
+        schema = Category.objects.get(product__id=pk).schema_attributes
+        s = Search()
+        for attr in schema:
+            s.aggs.bucket(attr["name"],
+                          Nested(aggs={'inner': Terms(field=f'attributes.{attr["name"]}')},
+                                 path='attributes'))
+        try:
+            response = s.execute()
+        except ConnectionError:
+            return Response(data={"error": "Failed connection to Elasticsearch"},
+                            status=status.HTTP_404_NOT_FOUND)
+        unique_attr_values = {}
+        for attr in schema:
+            buckets = response.aggs[attr['name']]['inner']['buckets']
+            unique_attr_values[attr['name']] = []
+            for value in buckets:
+                unique_attr_values[attr['name']].append(value['key'])
+        return Response(data={"filters": unique_attr_values}, status=status.HTTP_200_OK)
 
 
 class ReviewViewSet(viewsets.ModelViewSet):

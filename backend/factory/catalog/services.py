@@ -1,17 +1,7 @@
 from django_elasticsearch_dsl import fields
 from elasticsearch_dsl import NestedFacet, TermsFacet
 
-from factory.catalog.models import Product, Category
-
-
-def get_filters_data(queryset) -> dict:
-    """
-    Get all variant attributes filter by category
-    """
-    data = {}
-    for product in queryset:
-        data = {**data, **product.attributes}
-    return data
+from factory.catalog.models import Category
 
 
 def preparation_query_params(query_params: dict, facets: dict) -> dict:
