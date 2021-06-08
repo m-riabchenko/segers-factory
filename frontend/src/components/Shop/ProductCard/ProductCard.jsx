@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {useCart} from "react-use-cart";
 import {useAlert} from "react-alert";
 
@@ -49,7 +49,7 @@ export const ProductCard = ({product, HOST}) => {
                     </div>
                 </div>
                 <div className="product__details">
-                    <h2><a href="product-details.html">{product.name}</a></h2>
+                    <h2><Link to={"/product/" + product.id}>{product.name}</Link></h2>
                     <ul className="product__price">
                         {product.sale ?
                             <>

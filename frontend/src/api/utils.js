@@ -1,6 +1,6 @@
 import axiosAPI from "axios";
 
-const HOST = 'http://127.0.0.1/api/'
+const URL = 'http://127.0.0.1:8000/api/'
 
 const getTokenFromLocalStorage = () => {
     let authToken = localStorage.getItem("auth-token")
@@ -13,14 +13,14 @@ const getTokenFromLocalStorage = () => {
 
 export const axiosWithCredentials = axiosAPI.create({
     withCredentials: true,
-    baseURL: HOST,
+    baseURL: URL,
     headers: {
         Authorization: getTokenFromLocalStorage()
     }
 })
 
 export const axios = axiosAPI.create({
-    baseURL: HOST,
+    baseURL: URL,
 })
 
 export const setTokenInAxiosRequest = () => {

@@ -31,18 +31,16 @@ export const UpdateProduct = (props) => {
             return response.data
         }
     }, [product])
-    console.log(value, product)
     const onSelectCategory = e => {
         setSelectedCategory(e.currentTarget.value)
     }
 
     const onSubmit = async (data) => {
-        console.log(data)
         let customAttr = {}
         for (let key in data.customAttr) {
             Object.assign(customAttr, {[key]: data.customAttr[key].value});
         }
-        await productAPI.updateProduct(selectedCategory, data.baseAttr, customAttr, data.images, product.images)
+        await productAPI.updateProduct(selectedCategory, data.baseAttr, customAttr, data.images, props.match.params.productId)
         reset()
     }
 
@@ -59,9 +57,7 @@ export const UpdateProduct = (props) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-row">
                         <div className="form-group col-md-2">
-
                         </div>
-
                         <div className="form-group col-md-6">
                             <GeneralAttributes register={register()} name={product.name}
                                                price={product.price}

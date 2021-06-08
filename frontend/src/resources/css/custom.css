@@ -38,7 +38,7 @@
 
 .text_radio {
     font-weight: normal;
-    font-size: 1rem;
+    font-size: 1.2rem;
     padding-left: 10px;
     padding-bottom: 10px;
 }
@@ -298,10 +298,15 @@ p.first-paragraph {
 }
 
 .contact-content {
-    margin: 2% auto; /* 15% from the top and centered */
+    margin: 2% auto;
     padding: 25px;
 }
 
 .search-btn {
     background-color: gray;
+}
+
+.big-checkbox {
+    width: 15px;
+    height: 15px;
 }

@@ -61,7 +61,7 @@ export const AddProduct = (props) => {
 
                         <div className="form-group col-md-3">
                             <OrganizeProductPanel onSelectCategory={onSelectCategory}/>
-                            <VisibilityPanel/>
+                            <VisibilityPanel register={register}/>
                         </div>
                     </div>
                     <input type="submit" className={"btn btn-primary btn-lg center-block"}/>

@@ -22,15 +22,15 @@ const createProduct = async (categoryId, baseAttr, customAttr, images) => {
         price: baseAttr.price,
         attributes: customAttr
     })
+    console.log(images)
     if (images) {
         await saveImages(response.data.id, images)
     }
     return response
 }
 
-const updateProduct = async (categoryId, baseAttr, customAttr, images) => {
-    // const response = await axiosWithCredentials.put(`shop/products/`, {
-    //     category: categoryId,
+const updateProduct = async (categoryId, baseAttr, customAttr, images,  productId) => {
+    // const response = await axiosWithCredentials.patch(`shop/products/`+ productId + '/', {
     //     name: baseAttr.name,
     //     slug: baseAttr.name,
     //     description: baseAttr.descriptions,
@@ -38,12 +38,13 @@ const updateProduct = async (categoryId, baseAttr, customAttr, images) => {
     //     attributes: customAttr
     // })
     if (images) {
-        await saveImages(53, images)
+        await saveImages(productId, images)
     }
     // return response
 }
 
 const saveImages = async (productId, images) => {
+    console.log(images)
     let formData = new FormData();
     let imageName = ""
     images.forEach((file, index) => {
@@ -57,6 +58,7 @@ const saveImages = async (productId, images) => {
         }
     });
     axiosWithCredentials.defaults.headers.common["Content-Type"] = "multipart/form-data"
+    console.log(images)
     await axiosWithCredentials.put('shop/products/' + productId + '/upload_image/', formData
     )
 }

@@ -10,7 +10,7 @@ const getCategory = async (categoryId) => {
 }
 
 const getCategoryFilters = async (categoryId) => {
-    return await axios.get(`shop/categories/${categoryId}/filters`)
+    return await axios.get(`shop/categories/${categoryId}/unique_values/`)
 }
 
 const createCategory = async (name, schemaAttributes, parent) => {
