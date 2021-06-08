@@ -18,6 +18,30 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CategorySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    @action(methods=['get'], detail=True)
+    def unique_values(self, request, pk=None):
+        """
+        Response unique products attribute values
+        """
+        schema = Category.objects.get(pk=pk).schema_attributes
+        s = Search()
+        for attr in schema:
+            s.aggs.bucket(attr["name"],
+                          Nested(aggs={'inner': Terms(field=f'attributes.{attr["name"]}')},
+                                 path='attributes'))
+        try:
+            response = s.execute()
+        except ConnectionError:
+            return Response(data={"error": "Failed connection to Elasticsearch"},
+                            status=status.HTTP_404_NOT_FOUND)
+        unique_attr_values = {}
+        for attr in schema:
+            buckets = response.aggs[attr['name']]['inner']['buckets']
+            unique_attr_values[attr['name']] = []
+            for value in buckets:
+                unique_attr_values[attr['name']].append(value['key'])
+        return Response(data={"filters": unique_attr_values}, status=status.HTTP_200_OK)
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().prefetch_related('image_set')
@@ -99,30 +123,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         reviews = product.review_set.filter(parent__isnull=True).distinct()
         serializer = serializers.ReviewSerializer(reviews, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-    @action(methods=['get'], detail=True)
-    def unique_values(self, request, pk=None):
-        """
-        Response unique products attribute values
-        """
-        schema = Category.objects.get(product__id=pk).schema_attributes
-        s = Search()
-        for attr in schema:
-            s.aggs.bucket(attr["name"],
-                          Nested(aggs={'inner': Terms(field=f'attributes.{attr["name"]}')},
-                                 path='attributes'))
-        try:
-            response = s.execute()
-        except ConnectionError:
-            return Response(data={"error": "Failed connection to Elasticsearch"},
-                            status=status.HTTP_404_NOT_FOUND)
-        unique_attr_values = {}
-        for attr in schema:
-            buckets = response.aggs[attr['name']]['inner']['buckets']
-            unique_attr_values[attr['name']] = []
-            for value in buckets:
-                unique_attr_values[attr['name']].append(value['key'])
-        return Response(data={"filters": unique_attr_values}, status=status.HTTP_200_OK)
 
 
 class ReviewViewSet(viewsets.ModelViewSet):

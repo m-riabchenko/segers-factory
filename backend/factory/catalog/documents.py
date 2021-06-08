@@ -14,7 +14,7 @@ class ProductDocument(Document):
     images = fields.NestedField()
 
     def get_queryset(self):
-        return Product.objects.all().prefetch_related('image_set')
+        return Product.objects.filter(available=True).prefetch_related('image_set')
 
     def prepare_attributes(self, instance):
         return instance.attributes

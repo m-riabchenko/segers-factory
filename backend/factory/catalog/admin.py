@@ -18,7 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
     fields = (('name', 'price'), 'description', 'category')
     readonly_fields = ('created', 'updated')
     list_display = (
-        'name', 'price', 'category', 'rating_avg', 'sale', 'get_image', 'available', 'created',
+        'name', 'price', 'category', 'rating_avg', 'sale', 'product_image', 'available', 'created',
         'updated', 'update_product')
     list_editable = ('price', 'sale', 'available')
     list_filter = (
@@ -30,13 +30,18 @@ class ProductAdmin(admin.ModelAdmin):
     list_display_links = ('update_product',)
     change_list_template = "admin/change_list_product.html"
 
+    def get_form(self, request, *args, **kwargs):
+        form = super(ProductAdmin, self).get_form(request, *args, **kwargs)
+        form.request = request
+        return form
+
     def has_add_permission(self, request):
         return False
 
-    def get_image(self, obj):
+    def product_image(self, obj):
         image = obj.image_set.get(name="main-image")
         return mark_safe(f'<img src={image.image.url} width="50">')
 
     def update_product(self, obj):
         return mark_safe(
-            f'<a href="{HOST}/dashboard/product-update/{obj.pk}" target="_blank"><input type="button" value="update" /></a>')
+            f'<a href="{HOST}/login/?next=dashboard/product-update/{obj.pk}" target="_blank"><input type="button" value="update" /></a>')
