@@ -19,9 +19,9 @@ export const Header = () => {
                         <div className="row">
                             <div className="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                                 <div className="logo">
-                                    <a href="index.html">
+                                    <Link to={"/"}>
                                         <img src={logo} alt="logo"/>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="col-md-8 col-lg-8 col-sm-6 col-xs-6">

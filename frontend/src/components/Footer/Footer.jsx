@@ -21,10 +21,10 @@ export const Footer = (props) => {
                             <div className="col-md-3 col-lg-3 col-sm-6">
                                 <div className="ft__widget">
                                     <div className="ft__logo">
-                                        <a href="index.html">
+                                        <Link to={"/"}>
                                             <img src={logo}
                                                  alt="footer logo"/>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="footer-address">
                                         <ul>
