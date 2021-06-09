@@ -154,14 +154,14 @@ SIMPLE_JWT = {
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'localhost:9200'
+        'hosts': 'elasticsearch:9200'
     },
 }
 
 HOST = "http://127.0.0.1/"
 
 STATIC_URL = '/django_static/'
-STATIC_ROOT = BASE_DIR / 'django_static'
+STATIC_ROOT = BASE_DIR / 'server/django_static'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
