@@ -31,7 +31,7 @@ export const Order = () => {
     };
     return (
         <>
-            <Breadcrumb namePage={"Order"}/>
+            <Breadcrumb namePage={"Оформлення замовлення"}/>
 
             <section className="our-checkout-area ptb--120 bg__white">
                 <div className="container">
@@ -39,7 +39,7 @@ export const Order = () => {
                         <div className="col-md-8 col-lg-8">
                             <div className="ckeckout-left-sidebar">
                                 <div className="checkout-form">
-                                    <h2 className="section-title-3">Платіжні дані</h2>
+                                    <h2 className="section-title-3">ПЛАТІЖНІ ДАНІ</h2>
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className="checkout-form-inner">
                                             <div className="single-checkout-box">
@@ -52,11 +52,11 @@ export const Order = () => {
                                                 <input ref={register} name={"email"} type="email"
                                                        placeholder="Emil*"/>
                                                 <input ref={register} name={"phoneNumber"}
-                                                       type="text" placeholder="Phone*"/>
+                                                       type="text" placeholder="Номер телфону*"/>
                                             </div>
                                             <div className="single-checkout-box">
                                                 <textarea ref={register} name={"messageOrder"}
-                                                          placeholder="Message*"></textarea>
+                                                          placeholder="Повідомлення"></textarea>
                                             </div>
                                             <div onClick={toggleDelivery}>
                                                 <input type="checkbox"
@@ -98,7 +98,7 @@ export const Order = () => {
                                             </>}
                                         </div>
                                         <div className="review-btn">
-                                            <button className="fv-btn">Order</button>
+                                            <button className="fv-btn">Замовлення</button>
                                         </div>
                                     </form>
                                 </div>
@@ -159,8 +159,8 @@ export const Order = () => {
                                     }
                                 </div>
                                 <div className="puick-contact-area mt--60">
-                                    <h2 className="section-title-3">Quick Contract</h2>
-                                    <a href="phone:+8801722889963">+012 345 678 102 </a>
+                                    <h2 className="section-title-3">Швидкий зв'язок</h2>
+                                    <a href="phone:+8801722889963">+380 345 678 102 </a>
                                 </div>
                             </div>
                         </div>

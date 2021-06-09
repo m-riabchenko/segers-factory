@@ -18,7 +18,7 @@ export const ShoppingCart = () => {
     if (isEmpty) return <h2>Cart is empty</h2>;
     return (
         <>
-            <Breadcrumb namePage={"Cart"}/>
+            <Breadcrumb namePage={"Корзина"}/>
 
             {onItemUpdate ? <RingLoader/> : null}
             <div className="cart-main-area ptb--120 bg__white">
@@ -31,12 +31,12 @@ export const ShoppingCart = () => {
                                         <table>
                                             <thead>
                                             <tr>
-                                                <th className="product-thumbnail">Image</th>
-                                                <th className="product-name">Product</th>
-                                                <th className="product-price">Price</th>
-                                                <th className="product-quantity">Quantity</th>
-                                                <th className="product-subtotal">Total</th>
-                                                <th className="product-remove">Remove</th>
+                                                <th className="product-thumbnail"><b>Зображення</b></th>
+                                                <th className="product-name"><b>Назва</b></th>
+                                                <th className="product-price">Ціна</th>
+                                                <th className="product-quantity">Кількість</th>
+                                                <th className="product-subtotal">Сума</th>
+                                                <th className="product-remove">Видалити</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -54,23 +54,22 @@ export const ShoppingCart = () => {
                                     <div className="row">
                                         <div className="col-md-8 col-sm-7 col-xs-12">
                                             <div className="buttons-cart">
-                                                <input type={"submit"} value="Update Cart"/>
-                                                <Link to={"/shop"}>Continue Shopping</Link>
+                                                {/*<input type={"submit"} value="Update Cart"/>*/}
+                                                <Link to={"/shop"}>Продовжити покупки</Link>
                                             </div>
-                                            <div className="coupon">
-                                                <h3>Coupon</h3>
-                                                <p>Enter your coupon code if you have one.</p>
-                                                <input type="text" placeholder="Coupon code"/>
-                                                <input type="submit" value="Apply Coupon"/>
-                                            </div>
+                                            {/*<div className="coupon">*/}
+                                            {/*    <h3>Coupon</h3>*/}
+                                            {/*    <p>Enter your coupon code if you have one.</p>*/}
+                                            {/*    <input type="text" placeholder="Coupon code"/>*/}
+                                            {/*    <input type="submit" value="Apply Coupon"/>*/}
+                                            {/*</div>*/}
                                         </div>
                                         <div className="col-md-4 col-sm-5 col-xs-12">
                                             <div className="cart_totals">
-                                                <h2>Cart Totals</h2>
                                                 <table>
                                                     <tbody>
                                                     <tr className="order-total">
-                                                        <th>Total</th>
+                                                        <th>Загальна Сума</th>
                                                         <td>
                                                             <strong><span
                                                                 className={onItemUpdate ? "amount-red" : "amount"}>{cartTotal} грн.</span></strong>
@@ -79,7 +78,7 @@ export const ShoppingCart = () => {
                                                     </tbody>
                                                 </table>
                                                 <div className="wc-proceed-to-checkout">
-                                                    <Link to={"/order"}>Proceed to Checkout</Link>
+                                                    <Link to={"/order"}>Перейти до оформлення</Link>
                                                 </div>
                                             </div>
                                         </div>

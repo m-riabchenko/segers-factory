@@ -25,26 +25,30 @@ export const Vacancy = () => {
         <>
             <Breadcrumb namePage={"Вакансії"}/>
             <div className={"container"}>
-                <h1 className={"mt--150 mb--150"}>На даний момент немає відкритих вакансій</h1>
-                {vacancies.map(vacancy => (
-                    <>
-                        <div className={"form-row"}>
-                            <div className={"col-md-6 col-lg-6 col-sm-12 col-xs-12\""}>
-                                <hr/>
-                                <h1 className={"mtb--20"}><b>{vacancy.position}</b></h1>
-                                <div className={"default-li"}
-                                     dangerouslySetInnerHTML={{__html: vacancy.description}}></div>
-                                <div className="panel-btn cursor-pointer"
-                                     onClick={() => onRespondVacancy(vacancy)}>
-                                    Відкгукнутись
+                {vacancies ? vacancies.map(vacancy => (
+                        <>
+                            <div className={"form-row mt--50"}>
+                                <div className={"col-md-6 col-lg-6 col-sm-12 col-xs-12\""}>
+                                    <h1 className={"mtb--20"}><b>{vacancy.position}</b></h1>
+                                    <div className={"default-li"}
+                                         dangerouslySetInnerHTML={{__html: vacancy.description}}></div>
+                                    <div className="panel-btn cursor-pointer"
+                                         onClick={() => onRespondVacancy(vacancy)}>
+                                        Відкгукнутись
+                                    </div>
+                                    <hr/>
                                 </div>
                             </div>
-                        </div>
-                    </>
-                ))
-                }
+                        </>
+                    ))
+                    :
+                    <h1 className={"mt--150 mb--150"}>На даний момент немає відкритих вакансій</h1>}
                 {openModal && <ModalWindow toggle={toggleOpenModal} vacancy={currentVacancy}/>}
+
             </div>
+                    <br/>
+                <br/>
+                <br/>
         </>
     )
 }

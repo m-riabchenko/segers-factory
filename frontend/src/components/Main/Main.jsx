@@ -25,7 +25,7 @@ export const Main = () => {
                                         робочого одягу, верхнього одягу, спіднього одягу та ін.</p>
                                 </div>
                                 <div className="store__btn">
-                                    <Link to="/contact-us">contact us</Link>
+                                    <Link to="/contact-us">Зворотній зв'язок</Link>
                                 </div>
                             </div>
                         </div>

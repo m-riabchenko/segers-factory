@@ -7,7 +7,7 @@ import React from "react";
 export const AboutUs = () => {
     return (
         <>
-            <Breadcrumb namePage={"About Us"}/>
+            <Breadcrumb namePage={"Про Нас"}/>
              <div className={"mt--50"}></div>
             <div className={"container"}>
                 <div className={" form-row"}>

@@ -27,11 +27,11 @@ export const Header = () => {
                             <div className="col-md-8 col-lg-8 col-sm-6 col-xs-6">
                                 <nav className="mainmenu__nav hidden-xs hidden-sm">
                                     <ul className="main__menu">
-                                        <li><NavLink to={""}>Home</NavLink></li>
-                                        <li><NavLink to={"/shop"}>Shop</NavLink></li>
-                                        <li><NavLink to={"/vacancy"}>Vacancies</NavLink></li>
-                                        <li><NavLink to={"/about-us"}>About us</NavLink></li>
-                                        <li><NavLink to={"/contact-us"}>Contact us</NavLink></li>
+                                        <li><NavLink to={""}><b>Головна</b></NavLink></li>
+                                        <li><NavLink to={"/shop"}><b>Магазин</b></NavLink></li>
+                                        <li><NavLink to={"/vacancy"}><b>Вакансії</b></NavLink></li>
+                                        <li><NavLink to={"/about-us"}><b>Про нас</b></NavLink></li>
+                                        <li><NavLink to={"/contact-us"}><b>Контакти</b></NavLink></li>
                                     </ul>
                                 </nav>
 
@@ -56,23 +56,23 @@ export const Header = () => {
                                 <hr/>
                                 <NavLink exact={true} activeClassName={"active-mobile-menu"}
                                          to={"/"} onClick={setToggle}>
-                                    <div className={"mobile-menu-element"}>Home</div>
+                                    <div className={"mobile-menu-element"}>Головна</div>
                                 </NavLink>
                                 <NavLink activeClassName={"active-mobile-menu"} to={"/shop"}
                                          onClick={setToggle}>
-                                    <div className={"mobile-menu-element"}>Shop</div>
+                                    <div className={"mobile-menu-element"}>Магазин</div>
                                 </NavLink>
                                 <NavLink activeClassName={"active-mobile-menu"} to={"/vacancy"}
                                          onClick={setToggle}>
-                                    <div className={"mobile-menu-element"}>Vacancies</div>
+                                    <div className={"mobile-menu-element"}>Вакансії</div>
                                 </NavLink>
                                 <NavLink activeClassName={"active-mobile-menu"} to={"/about-us"}
                                          onClick={setToggle}>
-                                    <div className={"mobile-menu-element"}>About us</div>
+                                    <div className={"mobile-menu-element"}>Про нас</div>
                                 </NavLink>
                                 <NavLink activeClassName={"active-mobile-menu"} to={"/contact-us"}
                                          onClick={setToggle}>
-                                    <div className={"mobile-menu-element"}>Contact us</div>
+                                    <div className={"mobile-menu-element"}>Контакти</div>
                                 </NavLink>
 
                                 <hr/>

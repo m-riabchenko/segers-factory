@@ -10,7 +10,7 @@ export const CategoryBlock = ({categories,setUniversalQueryString, setQueryStrin
     return (
         <>
             <div className="single__filter__category">
-                <h2>Categories</h2>
+                <h2>Категорії</h2>
                 <br/>
                 <ul className="filter__list" key={"category.id"}>
                     {

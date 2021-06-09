@@ -69,10 +69,9 @@ export function Shop(props) {
                 return true
             }
             const response = await productAPI.getProducts();
-
             setProducts(response.products)
             setRangePrice(response.range_price)
-            setQtyProducts(response.quantity)
+            setQtyProducts(response.count)
             setOptions(response.options)
             setLoading(false)
         })()
@@ -82,11 +81,10 @@ export function Shop(props) {
         setLoading(true)
         const response = await productAPI.getProductByFilters(queryParameters)
         setProducts(response.data.products)
-        setQtyProducts(response.data.quantity)
+        setQtyProducts(response.data.count)
         setOptions(response.data.options)
         setLoading(false)
         let query_string = {}
-        console.log("fgds")
         if (query === "query") {
             let option = response.data.options
             option.map(op => {
@@ -100,11 +98,9 @@ export function Shop(props) {
                                     query_string[op["name"]] = [val["name"]]
                                 }
                                 setQueryString(query_string)
-                                console.log(query_string)
                             }
                         })
                     }
-                    return op["name"]
                 })
             })
         }
@@ -157,10 +153,9 @@ export function Shop(props) {
     const pagination = () => {
         setOffset(prev => prev + 30)
     }
-
     return (
         <>
-            <Breadcrumb namePage={"Shop"}/>
+            <Breadcrumb namePage={"Магазин"}/>
             <SlidingSidebarFilter toggleFilter={toggleFilter}
                                   onClickToggle={onClickToggle}
                                   categories={categories}
@@ -199,14 +194,17 @@ export function Shop(props) {
                                             <div className="order-single-btn">
                                                 <select className="select-color selectpicker"
                                                         onChange={onHandleChangeOptionsSort}>
-                                                    <option value={"default"}> Sort by ---</option>
-                                                    <option value={"price"}> Low-price</option>
-                                                    <option value={"-price"}> High-price
+                                                    <option value={"default"}> Сортування ---
+                                                    </option>
+                                                    <option value={"price"}> Від дешевих до
+                                                        дорогих
+                                                    </option>
+                                                    <option value={"-price"}> Від дорогих до дешевих
                                                     </option>
                                                 </select>
                                             </div>
                                             <div className="shp__pro__show">
-                                                <span>Qty products - {qtyProducts} </span>
+                                                <span>К-сть продуктів - {qtyProducts} </span>
                                             </div>
                                         </div>
 

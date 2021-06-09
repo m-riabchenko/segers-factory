@@ -21,7 +21,7 @@ export const ContactUs = () => {
 
     return (
         <>
-            <Breadcrumb namePage={"Contact Us"}/>
+            <Breadcrumb namePage={"Контакти"}/>
             <br/>
             <br/>
             <div className={"text-center"}><h1>Контактна сторінка</h1>
@@ -30,7 +30,7 @@ export const ContactUs = () => {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className={"modal-content contact-content"}>
                 <div className="form-group">
-                    <label>Ваше ім' *</label>
+                    <label>Ваше ім'я *</label>
                     <input ref={register} type="text" name={'fullName'} className="form-control"/>
                 </div>
                 <div className="form-group">

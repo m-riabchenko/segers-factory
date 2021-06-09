@@ -8,7 +8,6 @@ export const Footer = (props) => {
     const {register, errors, handleSubmit, reset} = useForm();
 
     const onSubmit = (data) => {
-        console.log(data)
         contactAPI.subscribe(data).then(reset())
     }
 
@@ -65,34 +64,34 @@ export const Footer = (props) => {
                             </div>
                             <div className="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30">
                                 <div className="ft__widget">
-                                    <h2 className="ft__title">Categories</h2>
+                                    <h2 className="ft__title"><b>Категорії</b></h2>
                                     <ul className="footer-categories">
-                                        <li><a href="shop-sidebar.html">Men</a></li>
-                                        <li><a href="shop-sidebar.html">Women</a></li>
-                                        <li><a href="shop-sidebar.html">Accessories</a></li>
-                                        <li><a href="shop-sidebar.html">Shoes</a></li>
-                                        <li><a href="shop-sidebar.html">Dress</a></li>
-                                        <li><a href="shop-sidebar.html">Denim</a></li>
+                                        <li><a className={"cursor-pointer"}>---</a></li>
+                                        <li><a className={"cursor-pointer"}>---</a></li>
+                                        <li><a className={"cursor-pointer"}>---</a></li>
+                                        <li><a className={"cursor-pointer"}>---</a></li>
+                                        <li><a className={"cursor-pointer"}>---</a></li>
+                                        <li><a className={"cursor-pointer"}>---</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div className="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30">
                                 <div className="ft__widget">
-                                    <h2 className="ft__title">Infomation</h2>
+                                    <h2 className="ft__title"><b>Інформація</b></h2>
                                     <ul className="footer-categories">
-                                        <li><Link to={"/about-us"}>About Us</Link></li>
-                                        <li><Link to={"/contact-us"}>Contact Us</Link></li>
-                                        <li><p>Returns & Exchanges</p></li>
-                                        <li><p>Privacy Policy</p></li>
+                                        <li><Link to={"/about-us"}><b>Про нас</b></Link></li>
+                                        <li><Link to={"/vacancy"}><b>Вакансії</b></Link></li>
+                                        <li><Link to={"/contact-us"}><b>Сторінка зворотнього зв'язку</b></Link></li>
+
                                     </ul>
                                 </div>
                             </div>
                             <div
                                 className="col-md-3 col-lg-3 col-lg-offset-1 col-sm-6 smt-30 xmt-30">
                                 <div className="ft__widget">
-                                    <h2 className="ft__title">Newsletter</h2>
+                                    <h2 className="ft__title"><b>Новини</b></h2>
                                     <div className="newsletter__form">
-                                        <p>Subscribe to our newsletter.</p>
+                                        <p>Підпишись на нашу email росзсилку.</p>
                                         <div className="input__box">
                                             <div id="mc_embed_signup">
                                                 <form onSubmit={handleSubmit(onSubmit)}

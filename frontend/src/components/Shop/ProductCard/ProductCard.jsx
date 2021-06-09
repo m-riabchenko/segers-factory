@@ -26,9 +26,9 @@ export const ProductCard = ({product, HOST}) => {
                     </div>
                     <div className="product__hover__info">
                         <ul className="product__action">
-                            <li><a data-toggle="modal" data-target="#productModal"
-                                   title="Quick View" className="quick-view modal-view detail-link"
-                                   href="/#"><span className="ti-plus"></span></a></li>
+                            {/*<li><a data-toggle="modal" data-target="#productModal"*/}
+                            {/*       title="Quick View" className="quick-view modal-view detail-link"*/}
+                            {/*       href="/#"><span className="ti-plus"></span></a></li>*/}
                             <li><a className={"cursor-pointer"} onClick={() => {
                                 if (product.sale) {
                                     let productNewPrice = {...product}
@@ -42,9 +42,9 @@ export const ProductCard = ({product, HOST}) => {
                                 })
                             }}
                                    title="Add To Cart"><span
-                                className="ti-shopping-cart"></span></a></li>
-                            <li><a title="Wishlist" href="wishlist.html"><span
-                                className="ti-heart"></span></a></li>
+                                className="ti-plus"></span></a></li>
+                            {/*<li><a title="Wishlist" href="wishlist.html"><span*/}
+                            {/*    className="ti-heart"></span></a></li>*/}
                         </ul>
                     </div>
                 </div>

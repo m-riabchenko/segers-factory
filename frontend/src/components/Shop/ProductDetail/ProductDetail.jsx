@@ -6,11 +6,13 @@ import {Review} from "./Review";
 import ReactStars from "react-rating-stars-component";
 import {useCart} from "react-use-cart";
 import {PacmanLoader} from "react-spinners";
+import {useAlert} from "react-alert";
 
 export const ProductDetail = (props) => {
     const [product, setProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
     const [on, toggle] = useToggle(true);
+    const newAlert = useAlert()
     const {addItem} = useCart();
     const maxQty = 100
     const minQty = 1
@@ -19,6 +21,7 @@ export const ProductDetail = (props) => {
         (async () => {
             const response = await productAPI.getProductDetail(props.match.params.productId);
             setProduct(response.data)
+            setQuantity(1)
             return response.data
         })()
     }, [props.match.params.productId])
@@ -107,31 +110,31 @@ export const ProductDetail = (props) => {
                                         : <li>{product.price} грн.</li>
                                     }
                                 </ul>
-                                <div className="pro__dtl__color">
-                                    <h2 className="title__5">Choose Colour</h2>
-                                    <ul className="pro__choose__color">
-                                        <li className="red"><a href="/#"><i
-                                            className="zmdi zmdi-circle"></i></a></li>
-                                        <li className="blue"><a href="/#"><i
-                                            className="zmdi zmdi-circle"></i></a></li>
-                                        <li className="perpal"><a href="/#"><i
-                                            className="zmdi zmdi-circle"></i></a></li>
-                                        <li className="yellow"><a href="/#"><i
-                                            className="zmdi zmdi-circle"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="pro__dtl__size">
-                                    <h2 className="title__5">Size</h2>
-                                    <ul className="pro__choose__size">
-                                        <li><a href="/#">xl</a></li>
-                                        <li><a href="/#">m</a></li>
-                                        <li><a href="/#">ml</a></li>
-                                        <li><a href="/#">lm</a></li>
-                                        <li><a href="/#">xxl</a></li>
-                                    </ul>
-                                </div>
+                                {/*<div className="pro__dtl__color">*/}
+                                {/*    <h2 className="title__5">Choose Colour</h2>*/}
+                                {/*    <ul className="pro__choose__color">*/}
+                                {/*        <li className="red"><a href="/#"><i*/}
+                                {/*            className="zmdi zmdi-circle"></i></a></li>*/}
+                                {/*        <li className="blue"><a href="/#"><i*/}
+                                {/*            className="zmdi zmdi-circle"></i></a></li>*/}
+                                {/*        <li className="perpal"><a href="/#"><i*/}
+                                {/*            className="zmdi zmdi-circle"></i></a></li>*/}
+                                {/*        <li className="yellow"><a href="/#"><i*/}
+                                {/*            className="zmdi zmdi-circle"></i></a></li>*/}
+                                {/*    </ul>*/}
+                                {/*</div>*/}
+                                {/*<div className="pro__dtl__size">*/}
+                                {/*    <h2 className="title__5">Size</h2>*/}
+                                {/*    <ul className="pro__choose__size">*/}
+                                {/*        <li><a href="/#">xl</a></li>*/}
+                                {/*        <li><a href="/#">m</a></li>*/}
+                                {/*        <li><a href="/#">ml</a></li>*/}
+                                {/*        <li><a href="/#">lm</a></li>*/}
+                                {/*        <li><a href="/#">xxl</a></li>*/}
+                                {/*    </ul>*/}
+                                {/*</div>*/}
                                 <div className="product-action-wrap">
-                                    <div className="prodict-statas"><span>Quantity :</span></div>
+                                    <div className="prodict-statas"><span>Кількість :</span></div>
                                     <div className="product-quantity">
                                         <div className="product-quantity">
                                             <div className="cart-plus-minus form-row">
@@ -156,8 +159,14 @@ export const ProductDetail = (props) => {
                                     </div>
                                 </div>
                                 <ul className="pro__dtl__btn">
-                                    <li className="buy__now__btn"><a
-                                        onClick={() => addItem(product, quantity)}>buy now</a>
+                                    <li className="buy__now__btn"><a className={"cursor-pointer"}
+                                        onClick={() => {
+                                            console.log(quantity)
+                                            addItem(product, quantity)
+                                            newAlert.show('Товар доданий в корзину', {
+                                            type: 'success',
+                                            })
+                                        }}>buy now</a>
                                     </li>
                                     <li><a href="/#"><span className="ti-heart"></span></a></li>
                                     <li><a href="/#"><span className="ti-email"></span></a></li>

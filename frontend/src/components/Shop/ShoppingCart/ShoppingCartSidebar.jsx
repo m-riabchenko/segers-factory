@@ -54,15 +54,15 @@ export const ShoppingCartSidebar = ({setToggleCart}) => {
                             ))}
                         </div>
                         <ul className="shoping__total">
-                            <li className="subtotal">Total:</li>
+                            <li className="subtotal">Сума:</li>
                             <li className="total__price">{cartTotal} грн.</li>
                         </ul>
 
                         <ul className="shopping__btn">
-                            <li><NavLink onClick={setToggleCart} to={"/cart"}>View Cart</NavLink>
+                            <li><NavLink onClick={setToggleCart} to={"/cart"}><b>Переглянути корзину</b></NavLink>
                             </li>
                             <li className="shp__checkout"><NavLink onClick={setToggleCart}
-                                                                   to={"/order"}>Checkout</NavLink>
+                                                                   to={"/order"}><b>Оформити замовлення</b></NavLink>
                             </li>
                         </ul>
                     </>}

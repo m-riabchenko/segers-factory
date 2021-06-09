@@ -65,20 +65,20 @@ export const Login = () => {
                                         className="btn btn-primary center-block btn-lg">Login
                                 </button>
                             </form>
-                            <div className="htc__social__connect">
-                                <h2>Or Login With</h2>
-                                <ul className="htc__soaial__list">
-                                    <li><a className="bg--twitter" href="/#"><i
-                                        className="zmdi zmdi-twitter"></i></a></li>
-                                    <li><a className="bg--instagram" href="/#"><i
-                                        className="zmdi zmdi-instagram"></i></a></li>
-                                    <li><a className="bg--facebook" href="/#"><i
-                                        className="zmdi zmdi-facebook"></i></a>
-                                    </li>
-                                    <li><a className="bg--googleplus" href="/#"><i
-                                        className="zmdi zmdi-google-plus"></i></a></li>
-                                </ul>
-                            </div>
+                            {/*<div className="htc__social__connect">*/}
+                            {/*    <h2>Or Login With</h2>*/}
+                            {/*    <ul className="htc__soaial__list">*/}
+                            {/*        <li><a className="bg--twitter" href="/#"><i*/}
+                            {/*            className="zmdi zmdi-twitter"></i></a></li>*/}
+                            {/*        <li><a className="bg--instagram" href="/#"><i*/}
+                            {/*            className="zmdi zmdi-instagram"></i></a></li>*/}
+                            {/*        <li><a className="bg--facebook" href="/#"><i*/}
+                            {/*            className="zmdi zmdi-facebook"></i></a>*/}
+                            {/*        </li>*/}
+                            {/*        <li><a className="bg--googleplus" href="/#"><i*/}
+                            {/*            className="zmdi zmdi-google-plus"></i></a></li>*/}
+                            {/*    </ul>*/}
+                            {/*</div>*/}
 
                         </div>
                     </div>

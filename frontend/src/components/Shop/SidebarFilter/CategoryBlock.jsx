@@ -16,7 +16,7 @@ export const CategoryBlock = ({categories, setUniversalQueryString, setQueryStri
     return (
         <>
             <div className="htc__shop__cat">
-                <h2 className="section-title-4">Categories</h2>
+                <h2 className="section-title-4">Категорії</h2>
                     <ul className="sidebar__list">
                         {
                             categories.map((category) => <li key={category.id}>

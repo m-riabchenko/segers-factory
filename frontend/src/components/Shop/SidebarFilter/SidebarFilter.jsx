@@ -59,7 +59,7 @@ export const SidebarFilter = ({
                             <div className="slider__range--output">
                                 <div className="price__output--wrap">
                                     <div className="price--output">
-                                        <span>Price : {sliderValue[0]} - {sliderValue[1]} грн.</span>
+                                        <span>Ціна : {sliderValue[0]} - {sliderValue[1]} грн.</span>
                                     </div>
                                     <div className="price--filter">
                                         <a className={"cursor-pointer"}
