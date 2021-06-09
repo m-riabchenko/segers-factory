@@ -3,7 +3,7 @@ import {NavLink, Link} from "react-router-dom";
 import "./Header.css"
 import {ShoppingCartSidebar} from "../Shop/ShoppingCart/ShoppingCartSidebar";
 import {useToggle, useWindowScroll} from "react-use";
-
+import logo from "../../resources/images/logo.png"
 
 export const Header = () => {
     const [toggle, setToggle] = useToggle(true)
@@ -20,7 +20,7 @@ export const Header = () => {
                             <div className="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                                 <div className="logo">
                                     <a href="index.html">
-                                        <img src="images/logo/logo.png" alt="logo"/>
+                                        <img src={logo} alt="logo"/>
                                     </a>
                                 </div>
                             </div>
@@ -38,8 +38,8 @@ export const Header = () => {
                             </div>
                             <div className="col-md-2 col-sm-4 col-xs-3">
                                 <ul className="menu-extra">
-                                    <li className="search search__open hidden-xs"><span
-                                        className="ti-search"></span></li>
+                                    {/*<li className="search search__open hidden-xs"><span*/}
+                                    {/*    className="ti-search"></span></li>*/}
                                     <li><Link to={"/login"}><span
                                         className="ti-user"></span></Link>
                                     </li>

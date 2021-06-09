@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import {useFieldArray, Controller, useForm} from "react-hook-form";
 import {categoryAPI} from "../../api/CategoryAPI";
 import {Breadcrumb} from "../Breadcrumb/Breadcrumb";
 import {useAsync} from "react-use";
+import Select from "react-select/";
+
 
 export const AddCategory = () => {
     const {register, control, handleSubmit} = useForm()
@@ -24,7 +26,7 @@ export const AddCategory = () => {
     return (
         <>
             <Breadcrumb namePage={"Dashboard"}/>
-            <div className="container">
+            <div className="container mt--60 mb--20">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-row">
                         <div className="form-group col-md-6">
@@ -37,11 +39,17 @@ export const AddCategory = () => {
                         <div className="form-group col-md-6">
                             <label htmlFor="exampleFormControlSelect1">Select category parent or
                                 skip</label>
-                            <select className="form-control" ref={register} name="parent">
-                                {value && value.map((category, index) => (
-                                    <option value={category.id} key={index}>{category.name}</option>
-                                ))}
-                            </select>
+                            <Controller
+                                as={Select}
+                                control={control}
+                                options={value && value.map(category => {
+                                    return {"value": category.id, "label": category.name}
+                                })}
+                                name={"parent"}
+                                isClearable
+                                controlShouldRenderValue={true}
+                                defaultValue={null}
+                            />
                         </div>
                     </div>
                     <div className="form-row">

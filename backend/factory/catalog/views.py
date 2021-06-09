@@ -64,6 +64,8 @@ class ProductViewSet(viewsets.ModelViewSet):
                 max_price = int(max_price)
                 min_price = int(min_price)
             category_id = int(request.GET.get("category", 0))
+
+            ordering = request.GET.get('ordering', "-rating_avg")
         except ValueError:
             return Response(
                 data={"error": "ValueError. Query parameter has incorrect input value type"},
@@ -74,8 +76,9 @@ class ProductViewSet(viewsets.ModelViewSet):
         faceted_search = ProductFacetedSearch(
             query={
                 "search": request.GET.get('search', None),
-                "price": {"max_price": max_price, "min_price": min_price}},
-            filters=product_filters)
+                "price": {"max_price": max_price, "min_price": min_price},
+            },
+            filters=product_filters, sort=[ordering])
 
         if not product_filters:
             # sets default facets

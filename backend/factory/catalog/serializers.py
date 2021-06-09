@@ -6,10 +6,15 @@ from factory.catalog.models import Category, Product, Review, Image
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    quantity = serializers.SerializerMethodField("get_category_quantity", read_only=True)
+
     class Meta:
         model = Category
-        fields = ["id", "name", "schema_attributes", "parent"]
+        fields = ["id", "name", "schema_attributes", "parent", "quantity"]
 
+    def get_category_quantity(self, category):
+        quantity = Product.objects.filter(category=category, available=True).count()
+        return quantity
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:

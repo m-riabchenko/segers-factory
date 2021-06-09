@@ -1,5 +1,5 @@
 import React from "react";
-import Create from 'react-select/creatable';
+import Create  from 'react-select/creatable';
 import {Controller} from "react-hook-form";
 
 export const Attributes = ({value, control, product}) => {

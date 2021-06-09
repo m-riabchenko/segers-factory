@@ -26,7 +26,7 @@ import {useEffect} from "react";
 import {useLocation} from "react-router-dom";
 import {CartProvider} from "react-use-cart";
 import {UpdateProduct} from "./components/Dashboard/Product/UpdateProduct";
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import {transitions, positions, Provider as AlertProvider} from 'react-alert'
 import {AlertTemplate} from "./components/Alert/AlertTemplate";
 
 function ScrollToTop() {
@@ -40,10 +40,10 @@ function ScrollToTop() {
 }
 
 const options = {
-  position: positions.BOTTOM_CENTER,
-  timeout: 5000,
-  offset: '30px',
-  transition: transitions.SCALE
+    position: positions.BOTTOM_CENTER,
+    timeout: 5000,
+    offset: '30px',
+    transition: transitions.SCALE
 }
 
 
@@ -58,7 +58,7 @@ const App = () => {
                     <Route exact path='/' render={() => <Main/>}/>
                     <Route path='/register' render={() => <Register/>}/>
                     <Route path='/login' render={() => <Login/>}/>
-                    <Route path='/shop' render={() => <Shop/>}/>
+                    <Route path='/shop' render={(props) => <Shop {...props}/>}/>
                     <Route path='/cart' render={() => <ShoppingCart/>}/>
                     <Route path='/order' render={() => <Order/>}/>
                     <Route path='/vacancy' render={() => <Vacancy/>}/>
@@ -72,7 +72,7 @@ const App = () => {
                            render={(props) => <UpdateProduct {...props}/>}/>
                     <Footer/>
                 </CartProvider>
-                </AlertProvider>
+            </AlertProvider>
         </BrowserRouter>
     )
 }

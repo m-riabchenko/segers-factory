@@ -23,8 +23,13 @@ export const AddProduct = (props) => {
         }
     }, [selectedCategory])
 
-    const onSelectCategory = e => {
-        setSelectedCategory(e.currentTarget.value)
+    const onSelectCategory = item => {
+        if (item) {
+            setSelectedCategory(item.value)
+        }
+        else {
+            setSelectedCategory(null)
+        }
     }
 
     const onSubmit = (data) => {

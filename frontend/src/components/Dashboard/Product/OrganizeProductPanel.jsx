@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {categoryAPI} from "../../../api/CategoryAPI";
+import Select from "react-select/";
 
 export const OrganizeProductPanel = ({onSelectCategory}) => {
 
@@ -8,7 +9,9 @@ export const OrganizeProductPanel = ({onSelectCategory}) => {
     useEffect(() => {
         (async () => {
             const categoryList = await categoryAPI.getCategories();
-            setCategories(categoryList)
+            setCategories(categoryList.map(category => {
+                return {"value": category.id, "label": category.name}
+            }))
         })()
     }, [])
 
@@ -17,13 +20,15 @@ export const OrganizeProductPanel = ({onSelectCategory}) => {
             <div className={"text_header"}>Organize Product</div>
             <hr/>
             <div className="panel-body">
-                <select onChange={onSelectCategory}
-                        className="form-control input-lg mb--10">
-                    {categories.map(category => (
-                        <option value={category.id}
-                                key={category.id}>{category.name}</option>
-                    ))}
-                </select>
+                <Select
+                    options={categories}
+                    className="col-md-12 mtb--10"
+                    name={"category"}
+                    isClearable
+                    controlShouldRenderValue={true}
+                    defaultValue={"none"}
+                    onChange={(value) => onSelectCategory(value)}
+                />
             </div>
         </section>
     )

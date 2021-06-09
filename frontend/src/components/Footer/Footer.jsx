@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {contactAPI} from "../../api/ContactAPI";
+import logo from "../../resources/images/logo.png"
 
 export const Footer = (props) => {
     const {register, errors, handleSubmit, reset} = useForm();
@@ -21,7 +22,7 @@ export const Footer = (props) => {
                                 <div className="ft__widget">
                                     <div className="ft__logo">
                                         <a href="index.html">
-                                            <img src="../../resources/images/logo/logo.png"
+                                            <img src={logo}
                                                  alt="footer logo"/>
                                         </a>
                                     </div>
@@ -48,18 +49,18 @@ export const Footer = (props) => {
                                                     <i className="zmdi zmdi-phone-in-talk"></i>
                                                 </div>
                                                 <div className="address-text">
-                                                    <p>+012 345 678 102 </p>
+                                                    <p>+380 345 678 102 </p>
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
-                                    <ul className="social__icon">
-                                        <li><p><i className="zmdi zmdi-twitter"></i></p></li>
-                                        <li><p><i className="zmdi zmdi-instagram"></i></p></li>
-                                        <li><p><i className="zmdi zmdi-facebook"></i></p></li>
-                                        <li><p><i className="zmdi zmdi-google-plus"></i></p>
-                                        </li>
-                                    </ul>
+                                    {/*<ul className="social__icon">*/}
+                                    {/*    <li><p><i className="zmdi zmdi-twitter"></i></p></li>*/}
+                                    {/*    <li><p><i className="zmdi zmdi-instagram"></i></p></li>*/}
+                                    {/*    <li><p><i className="zmdi zmdi-facebook"></i></p></li>*/}
+                                    {/*    <li><p><i className="zmdi zmdi-google-plus"></i></p>*/}
+                                    {/*    </li>*/}
+                                    {/*</ul>*/}
                                 </div>
                             </div>
                             <div className="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30">

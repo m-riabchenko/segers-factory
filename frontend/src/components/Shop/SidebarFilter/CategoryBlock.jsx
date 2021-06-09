@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-export const CategoryBlock = ({categories, setUniversalQueryString}) => {
+export const CategoryBlock = ({categories, setUniversalQueryString, setQueryString}) => {
     const [isChecked, setIsChecked] = useState({})
 
     const onHandleChangeCheckBox = (categoryId) => {
@@ -9,13 +9,14 @@ export const CategoryBlock = ({categories, setUniversalQueryString}) => {
         } else {
             setIsChecked(categoryId)
             setUniversalQueryString(prev => ({...prev, category: categoryId}))
+            // setQueryString({})
         }
     }
 
     return (
         <>
             <div className="htc__shop__cat">
-                <h4 className="section-title-4">Categories</h4>
+                <h2 className="section-title-4">Categories</h2>
                     <ul className="sidebar__list">
                         {
                             categories.map((category) => <li key={category.id}>
@@ -23,7 +24,7 @@ export const CategoryBlock = ({categories, setUniversalQueryString}) => {
                                            checked={isChecked === category.id}
                                            name={category.id}
                                            onChange={() => onHandleChangeCheckBox(category.id)}/> {category.name}
-                                    <span> {category.id} </span>
+                                    <span> {category.quantity} </span>
                                 </li>
                             )
                         }

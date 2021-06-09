@@ -25,6 +25,7 @@ export const Vacancy = () => {
         <>
             <Breadcrumb namePage={"Вакансії"}/>
             <div className={"container"}>
+                <h1 className={"mt--150 mb--150"}>На даний момент немає відкритих вакансій</h1>
                 {vacancies.map(vacancy => (
                     <>
                         <div className={"form-row"}>
