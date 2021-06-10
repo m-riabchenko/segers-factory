@@ -17,8 +17,7 @@ export const AboutUs = () => {
                         </div>
                         <div className={"col-md-6 col-xa-6"}>
                             <h1 className={"mtb--10 text-center"}>Наша історія</h1>
-                            <p className={"text-justify first-paragraph"}>Швейна фабрика «West Style» заснована 16
-                                червня 2015 року. Основним
+                            <p className={"text-justify first-paragraph"}>Швейна фабрика,
                                 напрямком нашої діяльності є пошиття трикотажного одягу для жінок
                                 (плаття, блузи, кардигани, спідниці, штани). У своїй роботі ми
                                 використовуємо давальницьку сировину (тканина, нитки, фурнітура та

@@ -25,10 +25,13 @@ export const Vacancy = () => {
         <>
             <Breadcrumb namePage={"Вакансії"}/>
             <div className={"container"}>
+
                 {vacancies ? vacancies.map(vacancy => (
                         <>
                             <div className={"form-row mt--50"}>
                                 <div className={"col-md-6 col-lg-6 col-sm-12 col-xs-12\""}>
+                                                                    <hr/>
+
                                     <h1 className={"mtb--20"}><b>{vacancy.position}</b></h1>
                                     <div className={"default-li"}
                                          dangerouslySetInnerHTML={{__html: vacancy.description}}></div>
@@ -36,7 +39,6 @@ export const Vacancy = () => {
                                          onClick={() => onRespondVacancy(vacancy)}>
                                         Відкгукнутись
                                     </div>
-                                    <hr/>
                                 </div>
                             </div>
                         </>
@@ -46,9 +48,9 @@ export const Vacancy = () => {
                 {openModal && <ModalWindow toggle={toggleOpenModal} vacancy={currentVacancy}/>}
 
             </div>
-                    <br/>
-                <br/>
-                <br/>
+            <br/>
+            <br/>
+            <br/>
         </>
     )
 }
