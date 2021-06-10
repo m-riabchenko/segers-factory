@@ -1,6 +1,13 @@
 version: '3.7'
 
 services:
+    db:
+        image: postgres
+        container_name: postgres
+        volumes:
+          - ./data/db:/var/lib/postgresql/data
+        env_file:
+            - ./databese.env
     nginx:
         restart: unless-stopped
         container_name: nginx
@@ -30,6 +37,7 @@ services:
             - 8000
         depends_on:
             - elasticsearch
+            - db
     redis:
         image: redis:alpine
         container_name: redis
