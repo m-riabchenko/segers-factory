@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_admin_listfilter_dropdown',
     'ckeditor',
-    'django_celery_beat',
     'django_elasticsearch_dsl',
 ]
 
@@ -89,7 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'factory.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -123,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uk-uk'
 
 TIME_ZONE = 'UTC'
 
@@ -154,11 +152,11 @@ SIMPLE_JWT = {
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'elasticsearch:9200'
+        'hosts': 'localhost:9200'
     },
 }
 
-HOST = "http://127.0.0.1/"
+HOST = os.environ.get("HOST"),
 
 STATIC_URL = '/django_static/'
 STATIC_ROOT = BASE_DIR / 'server/django_static'
