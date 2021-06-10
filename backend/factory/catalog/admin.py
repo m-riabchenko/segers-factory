@@ -1,16 +1,24 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from django_admin_listfilter_dropdown.filters import  RelatedDropdownFilter
+from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from mptt.admin import MPTTModelAdmin
 
-from factory.catalog.models import Category, Product
+from factory.catalog.models import Category, Product, Review
 
 from factory.settings import HOST
+
+
+@admin.register(Review)
+class ReviewAdmin(MPTTModelAdmin):
+    list_display = ["full_name", "email", "parent", "product", "created"]
+    search_fields = ('full_name', "email")
+
 
 
 @admin.register(Category)
 class CategoryAdmin(MPTTModelAdmin):
     list_display = ['name', 'date_created', 'date_updated']
+    search_fields = ('name', )
 
 
 @admin.register(Product)
@@ -44,4 +52,4 @@ class ProductAdmin(admin.ModelAdmin):
 
     def update_product(self, obj):
         return mark_safe(
-            f'<a href="{HOST}/login/?next=dashboard/product-update/{obj.pk}" target="_blank"><input type="button" value="update" /></a>')
+            f'<a href="{HOST}dashboard/product-update/{obj.pk}" target="_blank"><input type="button" value="update" /></a>')

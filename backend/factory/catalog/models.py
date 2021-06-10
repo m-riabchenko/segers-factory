@@ -24,6 +24,10 @@ class Category(MPTTModel):
     class MPTTMeta:
         order_insertion_by = ['name']
 
+    class Meta:
+        verbose_name = "Категорія"
+        verbose_name_plural = "Категорії"
+
     def __str__(self):
         return f"{self.name}"
 
@@ -49,6 +53,8 @@ class Product(models.Model):
     class Meta:
         ordering = ('name',)
         index_together = (('id', 'slug'),)
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукти"
 
     def __str__(self):
         return f"{self.name}"
@@ -62,6 +68,10 @@ class Image(models.Model):
     name = models.CharField(max_length=30)
     image = models.ImageField(upload_to=product_file_name, storage=OverwriteStorage(), blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Зображення"
+        verbose_name_plural = "Зображення"
 
     def __str__(self):
         return f"{self.product.name} - {self.name} - {self.image}"
@@ -83,5 +93,9 @@ class Review(MPTTModel):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Відгук"
+        verbose_name_plural = "Відгуки"
+
     def __str__(self):
-        return f"{self.user.first_name} - {self.product.name}"
+        return f"{self.full_name} - {self.product.name}"

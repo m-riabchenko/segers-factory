@@ -6,6 +6,10 @@ class NewsletterEmail(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, blank=True, null=True)
 
+    class Meta:
+        verbose_name = "Підписка на розсилку"
+        verbose_name_plural = "Підписки на розсилку"
+
     def __str__(self):
         return f"{self.email}"
 
@@ -17,6 +21,10 @@ class ContactUs(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Повідомлення з форми зворотного зв'язку"
+        verbose_name_plural = "Повідомлення з форми зворотного зв'язку"
 
     def __str__(self):
         return f"{self.full_name}"

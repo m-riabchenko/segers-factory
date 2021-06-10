@@ -69,8 +69,8 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+        verbose_name = 'Користувач'
+        verbose_name_plural = 'Користувачі'
 
     def __str__(self):
         return self.email
