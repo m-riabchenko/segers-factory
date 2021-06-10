@@ -11,7 +11,7 @@ export const CartItem = ({
     const [countItemsProduct, setCountItemsProduct] = useState(0)
     const maxQty = 100
     const minQty = 1
-    const HOST = "http://127.0.0.1:8000"
+    const HOST = window.location.hostname
     useEffect(() => {
         setCountItemsProduct(item.quantity)
     }, [item.quantity])

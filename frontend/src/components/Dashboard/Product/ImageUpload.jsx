@@ -28,8 +28,8 @@ export const ImageUpload = ({control, productImages}) => {
 
     return (
         <section className="panel panel-default">
-            <div className={"text_header pull-left"}>Upload images</div>
-            <div className={"text_header-right"}>Max images - {currentNumImg}/{maxNumberImg}</div>
+            <div className={"text_header pull-left"}>Завантажити зображення</div>
+            <div className={"text_header-right"}>Макс. зображень - {currentNumImg}/{maxNumberImg}</div>
 
             <hr/>
             <div className="panel-body">
@@ -60,16 +60,16 @@ export const ImageUpload = ({control, productImages}) => {
                                 <div className="upload__image-wrapper">
                                     {currentNumImg !== maxNumberImg ?
                                         <div className={"btn btn-success"}
-                                             onClick={onImageUpload}>Add images
+                                             onClick={onImageUpload}>Додати
 
                                         </div>
                                         : <div className={"btn btn-success"} disabled>
-                                            Add images
+                                            Додати
 
                                         </div>
                                     }
                                     <div className={"btn btn-danger pull-right"}
-                                         onClick={onImageRemoveAll}>Remove all images
+                                         onClick={onImageRemoveAll}>Видалити всі
                                     </div>
 
                                     {imageList.map((image, index) => (

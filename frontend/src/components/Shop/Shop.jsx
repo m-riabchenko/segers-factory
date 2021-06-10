@@ -22,7 +22,7 @@ export function Shop(props) {
 
     const [limit, setLimit] = useState(30)
     const [offset, setOffset] = useState(0)
-    const HOST = "http://127.0.0.1:8000"
+    const HOST = window.location.hostname
     const onHandleChangeOptionsSort = e => {
         if (e.currentTarget.value !== "default") {
             const value = e.currentTarget.value

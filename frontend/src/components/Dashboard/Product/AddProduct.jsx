@@ -10,10 +10,12 @@ import {GeneralAttributes} from "./GeneralAttributes";
 import {Attributes} from "./Attributes";
 import {OrganizeProductPanel} from "./OrganizeProductPanel";
 import {ImageUpload} from "./ImageUpload";
+import {useHistory} from "react-router";
 
 export const AddProduct = (props) => {
     const [selectedCategory, setSelectedCategory] = useState(null)
     const {register, handleSubmit, control, reset} = useForm();
+    let history = useHistory();
 
     const {value, loading, error} = useAsync(async () => {
         reset()
@@ -26,20 +28,20 @@ export const AddProduct = (props) => {
     const onSelectCategory = item => {
         if (item) {
             setSelectedCategory(item.value)
-        }
-        else {
+        } else {
             setSelectedCategory(null)
         }
     }
-
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data)
         let customAttr = {}
         for (let key in data.customAttr) {
             Object.assign(customAttr, {[key]: data.customAttr[key].value});
         }
-        productAPI.createProduct(selectedCategory, data.baseAttr, customAttr, data.images)
-            .then(() => console.log("Success"))
+        let response = await productAPI.createProduct(selectedCategory, data.baseAttr, customAttr, data.images)
+        if (response.statusCode === 401) {
+            history.push("/login")
+        }
         reset()
     }
 

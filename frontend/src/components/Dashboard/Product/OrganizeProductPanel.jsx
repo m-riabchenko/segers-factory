@@ -17,7 +17,7 @@ export const OrganizeProductPanel = ({onSelectCategory}) => {
 
     return (
         <section className="panel panel-default">
-            <div className={"text_header"}>Organize Product</div>
+            <div className={"text_header"}>Виберіть категорію</div>
             <hr/>
             <div className="panel-body">
                 <Select

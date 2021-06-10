@@ -11,8 +11,7 @@ export const ShoppingCartSidebar = ({setToggleCart}) => {
         cartTotal,
     } = useCart();
     const newAlert = useAlert()
-    const HOST = "http://127.0.0.1:8000"
-
+    const HOST = window.location.hostname
     return (
         <>
             <div onClick={setToggleCart} className={"body__overlay is-visible"}></div>

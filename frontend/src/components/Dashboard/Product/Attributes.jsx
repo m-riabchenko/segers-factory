@@ -25,7 +25,7 @@ export const Attributes = ({value, control, product}) => {
 
     return (
         <section className="panel panel-default">
-            <div className={"text_header"}>Attributes</div>
+            <div className={"text_header"}>Атрибути</div>
             <hr/>
             <div className="panel-body">
                 {value && getArrayFromObject(value['filters']).map((attr, index) => (

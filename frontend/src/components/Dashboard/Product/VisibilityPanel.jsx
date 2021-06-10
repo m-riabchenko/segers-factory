@@ -3,7 +3,7 @@ import React from "react";
 export const VisibilityPanel = ({register}) => {
     return (
         <section className="panel panel-default">
-            <div className={"text_header"}>Visibility</div>
+            <div className={"text_header"}>Доступність</div>
             <hr/>
             <div className="panel-body">
                 <div className="form-check">
@@ -12,10 +12,9 @@ export const VisibilityPanel = ({register}) => {
                            defaultChecked={true}/>
                     <label className="text_radio"
                            htmlFor="checkbox">
-                        Available
+                        Відображати в пошуку
                     </label>
                 </div>
-                <hr/>
             </div>
         </section>
     )

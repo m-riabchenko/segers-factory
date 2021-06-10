@@ -41,7 +41,7 @@ export const ProductDetail = (props) => {
             setQuantity(Number(e.currentTarget.value))
         }
     }
-    const HOST = "http://127.0.0.1:8000"
+    const HOST = window.location.hostname
 
     if (!product) return <PacmanLoader/>
 
