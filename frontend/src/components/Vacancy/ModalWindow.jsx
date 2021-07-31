@@ -33,7 +33,7 @@ export const ModalWindow = ({toggle, vacancy}) => {
                                    className="form-control" placeholder="Ім'я" name={"firstName"}/>
                             {errors.firstName && errors.firstName.type === "required" && (
                                 <small className="form-text text-muted text-danger">
-                                    <b>This is required</b> </small>
+                                    <b>Це поле обов'язкове</b> </small>
                             )}
                         </div>
                     </div>
@@ -45,7 +45,7 @@ export const ModalWindow = ({toggle, vacancy}) => {
                                    name={"lastName"}/>
                             {errors.lastName && errors.lastName.type === "required" && (
                                 <small className="form-text text-muted text-danger">
-                                    <b>This is required</b> </small>
+                                    <b>Це поле обов'язкове</b> </small>
                             )}
                         </div>
                     </div>
@@ -57,11 +57,11 @@ export const ModalWindow = ({toggle, vacancy}) => {
                                    name={"phone"}/>
                             {errors.phone && errors.phone.type === "required" && (
                                 <small className="form-text text-muted text-danger">
-                                    <b>This is required</b> </small>
+                                    <b>Це поле обов'язкове</b> </small>
                             )}
                             {errors.phone && errors.phone.type === "minLength" && (
                                 <small className="form-text text-muted text-danger">
-                                    <b>Wrong number</b> </small>
+                                    <b>Некоректний номер</b> </small>
                             )}
                         </div>
                     </div>

@@ -15,7 +15,7 @@ export const ShoppingCart = () => {
         onItemUpdate,
     } = useCart();
 
-    if (isEmpty) return <h2>Cart is empty</h2>;
+    if (isEmpty) return <h2>Ваша корзина пуста</h2>;
     return (
         <>
             <Breadcrumb namePage={"Корзина"}/>

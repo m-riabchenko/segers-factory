@@ -2,6 +2,7 @@ import React from "react";
 import {Link, NavLink} from "react-router-dom";
 import {useCart} from "react-use-cart";
 import {useAlert} from "react-alert";
+import {HOST} from "../../../api/utils";
 
 export const ShoppingCartSidebar = ({setToggleCart}) => {
     const {
@@ -11,7 +12,6 @@ export const ShoppingCartSidebar = ({setToggleCart}) => {
         cartTotal,
     } = useCart();
     const newAlert = useAlert()
-    const HOST = window.location.hostname
     return (
         <>
             <div onClick={setToggleCart} className={"body__overlay is-visible"}></div>
@@ -22,7 +22,7 @@ export const ShoppingCartSidebar = ({setToggleCart}) => {
                         <a className={"cursor-pointer"} onClick={setToggleCart}><i
                             className="zmdi zmdi-close"></i></a>
                     </div>
-                    {isEmpty ? <h2>Cart is empty</h2> : <>
+                    {isEmpty ? <h2>Ваша корзина пуста</h2> : <>
                         <div className="shp__cart__wrap">
                             {items.map(item => (
                                 <div className="shp__single__product" key={item.id}>

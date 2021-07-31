@@ -37,7 +37,6 @@ export const Review = ({productId, active}) => {
     }
 
     const onSubmitReply = data => {
-        console.log(data)
         if (reply) {
             return reviewAPI.createReview({
                 product: productId,
@@ -106,16 +105,16 @@ export const Review = ({productId, active}) => {
                                                 <div className="review-box name">
                                                     <input ref={register} type="text"
                                                            name={"fullName"}
-                                                           placeholder="Type your name"/>
+                                                           placeholder="Введіть ваше ім'я"/>
                                                     <input ref={register} type="email"
                                                            name={"email"}
-                                                           placeholder="Type your email"/>
+                                                           placeholder="Введіть ваш email"/>
                                                 </div>
                                             </div>
                                             <textarea ref={register} name={"textReply"}
-                                                      placeholder="Write your review"/>
+                                                      placeholder="Коментар"/>
                                             <div className="review-btn">
-                                                <button className="fv-btn">reply</button>
+                                                <button className="fv-btn">Відповісти</button>
                                             </div>
                                         </form>
                                     }
@@ -129,13 +128,13 @@ export const Review = ({productId, active}) => {
                                 </div>
                                 <div className="review__details">
                                     <div className="review__info">
-                                        <h4><a href="/#">{review.full_name}</a></h4>
+                                        <h4><a href="/#">{answer.full_name}</a></h4>
                                         <ul className="rating">
                                             <> </>
                                         </ul>
                                     </div>
                                     <div className="review__date">
-                                        <span>{review.created}</span>
+                                        <span>{answer.created}</span>
                                     </div>
                                     <p>{answer.text}</p>
                                 </div>
@@ -145,8 +144,8 @@ export const Review = ({productId, active}) => {
                     </div>
                 )}
                 <div className="rating__wrap">
-                    <h2 className="rating-title">Write A review</h2>
-                    <h4 className="rating-title-2">Your Rating</h4>
+                    <h2 className="rating-title">Залиште відгук!</h2>
+                    <h4 className="rating-title-2">Оцініть товар</h4>
                     <div className="rating__list">
                         <Controller
                             as={ReactStars}
@@ -163,19 +162,19 @@ export const Review = ({productId, active}) => {
                         <div className="single-review-form">
                             <div className="review-box name">
                                 <input ref={register} type="text" name={"fullName"}
-                                       placeholder="Type your name"/>
+                                       placeholder="Введіть ваше ім'я"/>
                                 <input ref={register} type="email" name={"email"}
-                                       placeholder="Type your email"/>
+                                       placeholder="Введіть ваше email"/>
                             </div>
                         </div>
                         <div className="single-review-form">
                             <div className="review-box message">
                                 <textarea ref={register} name={"text"}
-                                          placeholder="Write your review"/>
+                                          placeholder="Коментар"/>
                             </div>
                         </div>
                         <div className="review-btn">
-                            <button className="fv-btn">submit review</button>
+                            <button className="fv-btn">Відправити відгук</button>
                         </div>
                     </form>
                 </div>
