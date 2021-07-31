@@ -311,3 +311,16 @@ p.first-paragraph {
     height: 15px;
 }
 
+.not-found {
+    margin-bottom: 200px;
+    margin-top: 200px;
+    text-align: center;
+}
+
+.product_image {
+    max-width: 400px;
+}
+
+.red-border {
+    border:1px solid red;
+}
