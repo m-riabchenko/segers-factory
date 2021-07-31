@@ -10,7 +10,7 @@ export const GeneralAttributes = ({register, name, price, description}) => {
                     <div className={"col-md-8"}>
                         <input type="text"
                                className="form-control input-lg"
-                               ref={register({required: true})}
+                               ref={register}
                                name={"baseAttr.name"}
                                defaultValue={name ? name : null}
                                placeholder="Name"/>
@@ -20,7 +20,7 @@ export const GeneralAttributes = ({register, name, price, description}) => {
                                min={1}
                                onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-' || evt.key === 'Enter') && evt.preventDefault()}
                                className="form-control input-lg"
-                               ref={register({required: true})}
+                               ref={register}
                                name={"baseAttr.price"}
                                defaultValue={price ? price : null}
                                placeholder="Price"/>

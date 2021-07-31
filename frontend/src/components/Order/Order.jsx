@@ -6,13 +6,17 @@ import {Breadcrumb} from "../Breadcrumb/Breadcrumb";
 import {useCart} from "react-use-cart";
 import {useToggle} from "react-use";
 import {useAlert} from "react-alert";
+import {useHistory} from "react-router";
+
 
 export const Order = () => {
-    const [onDelivery, toggleDelivery] = useToggle()
-    const {register, handleSubmit, reset} = useForm();
+    const [onDelivery, toggleDelivery] = useToggle(false)
+    const {register, errors, handleSubmit, reset} = useForm();
     const {items, removeItem, isEmpty} = useCart();
     const newAlert = useAlert()
+    const history = useHistory()
     const onSubmit = (data) => {
+
         return orderAPI.createOrder(data, onDelivery, items).then(response => {
             items.forEach(item => removeItem(item.id))
             reset()
@@ -20,8 +24,8 @@ export const Order = () => {
                 newAlert.show('Ваше замовлення прийнято в обробку', {
                     type: 'success',
                 })
-            }
-            else {
+                history.push("/shop")
+            } else {
                 newAlert.show('Щось пішло не так. Спробуйте пізніше', {
                     type: 'error',
                 })
@@ -42,18 +46,72 @@ export const Order = () => {
                                     <h2 className="section-title-3">ПЛАТІЖНІ ДАНІ</h2>
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className="checkout-form-inner">
-                                            <div className="single-checkout-box">
-                                                <input ref={register} name={"firstName"} type="text"
-                                                       placeholder="Ім'я*"/>
-                                                <input ref={register} name={"lastName"} type="text"
-                                                       placeholder="Прізвище*"/>
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">Ім'я
+                                                    *</label>
+                                                <div className="col-sm-8">
+                                                    <input ref={register({required: true})}
+                                                           type="text"
+                                                           className="form-control"
+                                                           placeholder="Введіть ім'я*"
+                                                           name={"firstName"}/>
+                                                    {errors.firstName && errors.firstName.type === "required" && (
+                                                        <small
+                                                            className="form-text text-muted text-danger">
+                                                            <b>Це поле обов'язкове!</b> </small>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div className="single-checkout-box">
-                                                <input ref={register} name={"email"} type="email"
-                                                       placeholder="Emil*"/>
-                                                <input ref={register} name={"phoneNumber"}
-                                                       type="text" placeholder="Номер телфону*"/>
+                                            <div className="form-group row">
+                                                <label
+                                                    className="col-sm-4 col-form-label">Прізвище*</label>
+                                                <div className="col-sm-8">
+                                                    <input ref={register({required: true})}
+                                                           type="text"
+                                                           className="form-control"
+                                                           placeholder="Введіть прізвище*"
+                                                           name={"lastName"}/>
+                                                    {errors.lastName && errors.lastName.type === "required" && (
+                                                        <small
+                                                            className="form-text text-muted text-danger">
+                                                            <b>Це поле обов'язкове!</b> </small>
+                                                    )}
+                                                </div>
                                             </div>
+                                            <div className="form-group row">
+                                                <label
+                                                    className="col-sm-4 col-form-label">Email*</label>
+                                                <div className="col-sm-8">
+                                                    <input ref={register({required: true})}
+                                                           type="email"
+                                                           className="form-control"
+                                                           placeholder="Введіть email*"
+                                                           name={"email"}/>
+                                                    {errors.email && errors.email.type === "required" && (
+                                                        <small
+                                                            className="form-text text-muted text-danger">
+                                                            <b>Це поле обов'язкове!</b> </small>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="form-group row">
+                                                <label className="col-sm-4 col-form-label">Номер
+                                                    телефону *</label>
+                                                <div className="col-sm-8">
+                                                    <input ref={register({required: true})}
+                                                           type="text"
+                                                           className="form-control"
+                                                           placeholder="Введіть номер телефону*"
+                                                           name={"phoneNumber"}/>
+                                                    {errors.phoneNumber && errors.phoneNumber.type === "required" && (
+                                                        <small
+                                                            className="form-text text-muted text-danger">
+                                                            <b>Це поле обов'язкове!</b> </small>
+                                                    )}
+
+                                                </div>
+                                            </div>
+
                                             <div className="single-checkout-box">
                                                 <textarea ref={register} name={"messageOrder"}
                                                           placeholder="Повідомлення"></textarea>
@@ -68,27 +126,83 @@ export const Order = () => {
                                                     Доставити на іншу адресу?</h2>
                                             </div>
                                             {onDelivery && <>
-                                                <div
-                                                    className="single-checkout-box select-option  mt--20">
-                                                    <input ref={register} name={"streetNumber"}
-                                                           type="text"
-                                                           placeholder="Номер вулиці*"/>
-                                                    <input ref={register} name={"houseNumber"}
-                                                           type="text"
-                                                           placeholder="Квартира/офіс/блок тощо (необов'язково)"/>
+                                                <div className="form-group row mt--20">
+                                                    <label className="col-sm-4 col-form-label">Номер
+                                                        вулиці*</label>
+                                                    <div className="col-sm-8">
+                                                        <input ref={register({required: true})}
+                                                               type="text"
+                                                               className="form-control"
+                                                               placeholder="Введіть номер вулиці*"
+                                                               name={"streetNumber"}/>
+                                                        {errors.streetNumber && errors.streetNumber.type === "required" && (
+                                                            <small
+                                                                className="form-text text-muted text-danger">
+                                                                <b>Це поле обов'язкове!</b> </small>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <div className="single-checkout-box">
-                                                    <input ref={register} name={"city"}
-                                                           type="text"
-                                                           placeholder="Місто/село*"/>
-                                                    <input ref={register} name={"region"}
-                                                           type="text"
-                                                           placeholder="Область/округ*"/>
+                                                <div className="form-group row ">
+                                                    <label
+                                                        className="col-sm-4 col-form-label">Квартира/офіс/блок</label>
+                                                    <div className="col-sm-8">
+                                                        <input ref={register}
+                                                               type="text"
+                                                               className="form-control"
+                                                               placeholder="Квартира/офіс/блок (необов'язково)"
+                                                               name={"houseNumber"}/>
+                                                    </div>
                                                 </div>
-                                                <div className="single-checkout-box">
-                                                    <input ref={register} name={"zipCode"}
-                                                           type="text"
-                                                           placeholder="Поштовий код (Zip Code)*"/>
+
+                                                <div className="form-group row ">
+                                                    <label
+                                                        className="col-sm-4 col-form-label">Місто/село*</label>
+                                                    <div className="col-sm-8">
+                                                        <input ref={register({required: true})}
+                                                               type="text"
+                                                               className="form-control"
+                                                               placeholder="Введіть Місто/село*"
+                                                               name={"city"}/>
+                                                        {errors.city && errors.city.type === "required" && (
+                                                            <small
+                                                                className="form-text text-muted text-danger">
+                                                                <b>Це поле обов'язкове!</b> </small>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                <div className="form-group row ">
+                                                    <label
+                                                        className="col-sm-4 col-form-label">Область/округ*</label>
+                                                    <div className="col-sm-8">
+                                                        <input ref={register({required: true})}
+                                                               type="text"
+                                                               className="form-control"
+                                                               placeholder="Введіть Область/округ*"
+                                                               name={"region"}/>
+                                                        {errors.region && errors.region.type === "required" && (
+                                                            <small
+                                                                className="form-text text-muted text-danger">
+                                                                <b>Це поле обов'язкове!</b> </small>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                <div className="form-group row ">
+                                                    <label className="col-sm-4 col-form-label">Поштовий
+                                                        код (Zip Code)*</label>
+                                                    <div className="col-sm-8">
+                                                        <input ref={register({required: true})}
+                                                               type="text"
+                                                               className="form-control"
+                                                               placeholder="Введіть Поштовий код (Zip Code)*"
+                                                               name={"zipCode"}/>
+                                                        {errors.zipCode && errors.zipCode.type === "required" && (
+                                                            <small
+                                                                className="form-text text-muted text-danger">
+                                                                <b>Це поле обов'язкове!</b> </small>
+                                                        )}
+                                                    </div>
                                                 </div>
                                                 <div className="single-checkout-box">
                                                     <textarea ref={register}
@@ -148,7 +262,7 @@ export const Order = () => {
                                 <div className="our-important-note">
                                     <h2 className="section-title-3">Ваша корзина :</h2>
                                     <br/><br/>
-                                    {isEmpty ? <h2>Cart is empty</h2> :
+                                    {isEmpty ? <h2>Пусто</h2> :
                                         <ul className="important-note">
                                             {items.map(item => (
                                                 <li><NavLink to={"/product/" + item.id}>

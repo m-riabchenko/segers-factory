@@ -38,7 +38,9 @@ export const SidebarFilter = ({
                     <div className="search__inner">
                         <form className="input-group mb--20">
                             <input type="search" className="form-control" value={search}
-                                   onChange={(e) => setSearch(e.currentTarget.value)}/>
+                                   onChange={(e) => setSearch(e.currentTarget.value)}
+                                   onKeyDown={(evt) => (evt.key === 'e' || evt.key === '-' || evt.key === 'Enter')}
+                            />
                             <span className="input-group-btn">
                             <button className="btn search-btn" type="button"
                                     onClick={onClickSearch}>
@@ -48,7 +50,7 @@ export const SidebarFilter = ({
                             </span>
                         </form>
                     </div>
-                    <h4 className="section-title-4">FILTER BY PRICE</h4>
+                    <h4 className="section-title-4">Фільтр за ціною</h4>
                     <div className="content-shopby">
                         <div className="price_filter s-filter clear">
                             <Range min={rangePrice && rangePrice.min}
@@ -63,7 +65,7 @@ export const SidebarFilter = ({
                                     </div>
                                     <div className="price--filter">
                                         <a className={"cursor-pointer"}
-                                           onClick={onClickSetPriceFilter}>Filter</a>
+                                           onClick={onClickSetPriceFilter}>Фільтрувати</a>
                                     </div>
 
                                 </div>
@@ -74,7 +76,7 @@ export const SidebarFilter = ({
 
                 <CategoryBlock categories={categories}
                                setUniversalQueryString={setUniversalQueryString}
-                setQueryString={setQueryString}/>
+                               setQueryString={setQueryString}/>
 
 
                 {options && options.map((option, index) =>

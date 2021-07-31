@@ -31,15 +31,27 @@ export const ContactUs = () => {
             <form onSubmit={handleSubmit(onSubmit)} className={"modal-content contact-content"}>
                 <div className="form-group">
                     <label>Ваше ім'я *</label>
-                    <input ref={register} type="text" name={'fullName'} className="form-control"/>
+                    <input ref={register({required: true})} type="text" name={'fullName'} className="form-control"/>
+                    {errors.fullName && errors.fullName.type === "required" && (
+                                <small className="form-text text-muted text-danger">
+                                    <b>Це поле обов'язкове</b> </small>
+                            )}
                 </div>
                 <div className="form-group">
                     <label>Номер телефону *</label>
-                    <input ref={register} type="text" name={'phone'} className="form-control"/>
+                    <input ref={register({required: true})} type="text" name={'phone'} className="form-control"/>
+                    {errors.phone && errors.phone.type === "required" && (
+                                <small className="form-text text-muted text-danger">
+                                    <b>Це поле обов'язкове</b> </small>
+                            )}
                 </div>
                 <div className="form-group">
                     <label>Повідомлення *</label>
-                    <textarea ref={register} className="form-control" name={"message"} rows="6"/>
+                    <textarea ref={register({required: true})} className="form-control" name={"message"} rows="6"/>
+                    {errors.message && errors.message.type === "required" && (
+                                <small className="form-text text-muted text-danger">
+                                    <b>Це поле обов'язкове</b> </small>
+                            )}
                 </div>
                 <button className="panel-btn">Відправити</button>
 
