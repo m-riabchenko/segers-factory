@@ -1,5 +1,8 @@
+import json
+import os
+import subprocess
 from elasticsearch.exceptions import ConnectionError
-from elasticsearch_dsl import Search
+from elasticsearch_dsl import Search, Q
 from elasticsearch_dsl.aggs import Nested, Terms
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
@@ -10,7 +13,7 @@ from rest_framework.response import Response
 
 from factory.catalog.documents import ProductFacetedSearch
 from factory.catalog.models import Category, Product, Review, Image
-from factory.catalog import serializers, services
+from factory.catalog import serializers, services, tasks
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -24,7 +27,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         Response unique products attribute values
         """
         schema = Category.objects.get(pk=pk).schema_attributes
-        s = Search()
+        s = Search().query('nested', path='category', query=Q("match", category__id=pk))
         for attr in schema:
             s.aggs.bucket(attr["name"],
                           Nested(aggs={'inner': Terms(field=f'attributes.{attr["name"]}')},
@@ -44,7 +47,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all().prefetch_related('image_set')
+    queryset = Product.objects.filter(available=True).prefetch_related('image_set')
     serializer_class = serializers.ProductSerializer
     parser_classes = (MultiPartParser, JSONParser)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -64,7 +67,6 @@ class ProductViewSet(viewsets.ModelViewSet):
                 max_price = int(max_price)
                 min_price = int(min_price)
             category_id = int(request.GET.get("category", 0))
-
             ordering = request.GET.get('ordering', "-rating_avg")
         except ValueError:
             return Response(
@@ -94,7 +96,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         except ConnectionError:
             return Response(data={"error": "Failed connection to Elasticsearch"},
                             status=status.HTTP_404_NOT_FOUND)
-
         return Response(
             data={
                 "count": response.hits.total.value,

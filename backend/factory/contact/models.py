@@ -17,7 +17,7 @@ class NewsletterEmail(models.Model):
 class ContactUs(models.Model):
     full_name = models.CharField(max_length=255)
     email = models.EmailField(blank=True, null=True)
-    phone = models.CharField(max_length=13)
+    phone = models.CharField(max_length=20)
     message = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, blank=True, null=True)

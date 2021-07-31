@@ -16,6 +16,7 @@ class CategorySerializer(serializers.ModelSerializer):
         quantity = Product.objects.filter(category=category, available=True).count()
         return quantity
 
+
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
@@ -47,7 +48,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ["id", "full_name", "email", "text", "parent", "product", "rating", "create"]
+        fields = ["id", "full_name", "email", "text", "parent", "product", "rating"]
 
     def get_fields(self):
         fields = super(ReviewSerializer, self).get_fields()

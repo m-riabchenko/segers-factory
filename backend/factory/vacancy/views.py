@@ -6,7 +6,7 @@ from factory.vacancy.models import Vacancy, Resume
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
-    queryset = Vacancy.objects.all()
+    queryset = Vacancy.objects.filter(available=True)
     serializer_class = serializers.VacancySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

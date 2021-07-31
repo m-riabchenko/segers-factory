@@ -41,7 +41,6 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    slug = models.SlugField(max_length=200, unique=True, blank=True)
     available = models.BooleanField(default=True)
     rating_avg = models.FloatField(blank=True, null=True,
                                    validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -52,7 +51,6 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
-        index_together = (('id', 'slug'),)
         verbose_name = "Продукт"
         verbose_name_plural = "Продукти"
 

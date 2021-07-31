@@ -19,7 +19,7 @@ class Vacancy(models.Model):
 class Resume(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=13)
+    phone = models.CharField(max_length=20)
     email = models.EmailField(blank=True, null=True)
     cover_letter = models.TextField(blank=True, null=True)
     resume = models.FileField(upload_to='resume')

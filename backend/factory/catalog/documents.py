@@ -46,6 +46,7 @@ class ProductDocument(Document):
             'price',
             'sale',
             'rating_avg',
+            'available',
         ]
 
 
@@ -57,6 +58,7 @@ class ProductFacetedSearch(FacetedSearch):
     facets = generate_facets(schema=get_all_attributes_schemas())
 
     def query(self, search, query):
+        search = search.query("match", available=True)
         if not query:
             return search
         if query.get('search', 0):

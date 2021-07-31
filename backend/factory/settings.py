@@ -20,11 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = int(os.environ.get("DEBUG", default=1))
+DEBUG = False
 
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 ALLOWED_HOSTS = ["*"]
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'factory.order',
     'factory.vacancy',
     'factory.contact',
+
 
     'corsheaders',
     'mptt',
@@ -88,16 +89,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'factory.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'segers-factory',
+#         'USER': 'admin',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('SQL_DATABASE'),
-        'USER': os.environ.get('SQL_USER'),
-        'PASSWORD': os.environ.get('SQL_PASSWORD'),
-        'HOST': os.environ.get('SQL_HOST'),
-        'PORT': os.environ.get('SQL_PORT'),
-    }
-}
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432',
+    }}
 
 
 # Password validation
@@ -131,7 +141,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
@@ -152,11 +161,10 @@ SIMPLE_JWT = {
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'localhost:9200'
+        'hosts': 'elasticsearch:9200'
     },
 }
-
-HOST = os.environ.get("HOST"),
+HOST = "https://9706118f3495.eu.ngrok.io/"
 
 STATIC_URL = '/django_static/'
 STATIC_ROOT = BASE_DIR / 'server/django_static'
@@ -167,11 +175,12 @@ MEDIA_URL = '/media/'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-EMAIL_HOST = os.environ.get("EMAIL_HOST"),
-EMAIL_PORT = os.environ.get("EMAIL_PORT"),
-EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS"),
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER"),
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD"),
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '00mycola00@gmail.com'
+EMAIL_HOST_PASSWORD = 'ydqftwknkciiogrq'
 
 # CELERY STUFF
 BROKER_URL = 'redis://redis:6379'

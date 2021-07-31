@@ -10,6 +10,8 @@ def preparation_query_params(query_params: dict, facets: dict) -> dict:
     """
     filters = {}
     for key, value in query_params.items():
+        if key == "category" and not int(value):
+            continue
         # skip if query params not contains in facets
         if not facets.get(key, 0):
             continue
@@ -36,8 +38,7 @@ def generate_properties_for_json_text_fields() -> dict:
     """
     properties = {}
     for attr in get_all_attributes_schemas():
-        if attr['type'] == 'text':
-            properties[attr['name']] = fields.TextField(fielddata=True)
+        properties[attr['name']] = fields.TextField(fielddata=True)
     return properties
 
 
@@ -56,6 +57,8 @@ def get_options_in_needed_format(facets) -> list:
     """
     Return options list in needed format for frontend app
     """
+    if not facets:
+        return []
     options = []
     for facet_name in facets:
         element = {}
@@ -82,4 +85,5 @@ def extract_fields_from_faceted_response(response) -> list:
             'images': product.images.to_dict(),
             "rating_avg": product.rating_avg,
         })
+
     return products

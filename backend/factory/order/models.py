@@ -14,7 +14,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.CharField(max_length=13)
-    order_message = models.TextField()
+    order_message = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS, default="Waiting")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -49,7 +49,7 @@ class Delivery(models.Model):
         ('Delivered', 'Delivered'),
     ]
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="delivery")
-    message = models.TextField()
+    delivery_message = models.TextField()
     code = models.CharField(max_length=20, blank=True, null=True)
     street = models.CharField(max_length=255)
     house_number = models.CharField(max_length=255)
