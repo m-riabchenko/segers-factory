@@ -1,6 +1,8 @@
 import axiosAPI from "axios";
 
-const URL = 'http://127.0.0.1:8000/api/'
+const URL = '/api/'
+
+export const HOST = 'http://' + window.location.hostname
 
 const getTokenFromLocalStorage = () => {
     let authToken = localStorage.getItem("auth-token")
@@ -22,6 +24,13 @@ export const axiosWithCredentials = axiosAPI.create({
 export const axios = axiosAPI.create({
     baseURL: URL,
 })
+
+
+export const verify_token = async (queryParameters) => {
+    let authToken = localStorage.getItem("auth-token");
+    return await axios.post(`auth/jwt/verify/`, {"token":authToken })
+}
+
 
 export const setTokenInAxiosRequest = () => {
     let authToken = localStorage.getItem("auth-token");
