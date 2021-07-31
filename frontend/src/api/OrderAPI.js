@@ -1,10 +1,9 @@
-import {axiosWithCredentials} from "./utils";
+import {axios} from "./utils";
 
 
 const createOrder = async (data, delivery, cartItems) => {
-    console.log(cartItems)
     let order = {}
-    if (delivery) {
+    if (!delivery) {
         order = {
             first_name: data.firstName,
             last_name: data.lastName,
@@ -31,7 +30,7 @@ const createOrder = async (data, delivery, cartItems) => {
             }
         }
     }
-    return await axiosWithCredentials.post(`shop/orders/`, order)
+    return await axios.post(`shop/orders/`, order)
 }
 
 

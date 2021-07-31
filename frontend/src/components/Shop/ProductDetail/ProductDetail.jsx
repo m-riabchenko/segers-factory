@@ -7,13 +7,14 @@ import ReactStars from "react-rating-stars-component";
 import {useCart} from "react-use-cart";
 import {PacmanLoader} from "react-spinners";
 import {useAlert} from "react-alert";
+import {HOST} from "../../../api/utils";
 
 export const ProductDetail = (props) => {
     const [product, setProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
     const [on, toggle] = useToggle(true);
     const newAlert = useAlert()
-    const {addItem} = useCart();
+    const {addItem, updateItemQuantity} = useCart();
     const maxQty = 100
     const minQty = 1
 
@@ -41,8 +42,7 @@ export const ProductDetail = (props) => {
             setQuantity(Number(e.currentTarget.value))
         }
     }
-    const HOST = window.location.hostname
-
+    console.log(HOST)
     if (!product) return <PacmanLoader/>
 
     return (
@@ -56,10 +56,9 @@ export const ProductDetail = (props) => {
                                     {product && Object.entries(product.images).map(([key, value], index) => (
                                         <li role="presentation" className="pot-small-img"
                                             key={index}>
-                                            <a href="/#img-tab-2" role="tab" data-toggle="tab">
-                                                <img
-                                                    src={HOST + value}
-                                                    alt={"photo2"}/>
+                                            <a href={HOST + value} target="_blank">
+                                                <img src={HOST + value}
+                                                     alt={"photo2"}/>
                                             </a>
                                         </li>
                                     ))}
@@ -69,9 +68,12 @@ export const ProductDetail = (props) => {
                                         <div role="tabpanel"
                                              className="tab-pane fade in active product-video-position"
                                              id="img-tab-1">
-                                            <img
-                                                src={HOST + product.images['main-image']}
-                                                alt={"photo2"}/>
+                                            <a href={HOST + product.images['main-image']}
+                                               target="_blank">
+                                                <img
+                                                    src={HOST + product.images['main-image']}
+                                                    alt={"photo2"}/>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +96,7 @@ export const ProductDetail = (props) => {
                                         edit={false}
                                         activeColor="#ffd700"
                                     />
-                                    <span className="rat__qun">({product.rating_avg} Ratings)</span>
+                                    <span className="rat__qun">({product.rating_avg} Рейтинг)</span>
                                 </div>
                                 }
 
@@ -141,7 +143,7 @@ export const ProductDetail = (props) => {
                                                 <button onClick={quantityDecrement}
                                                         className={"btn btn-danger"}>-
                                                 </button>
-                                                <div className={"col-xs-4"}>
+                                                <div className={"col-xs-4 col-md-4"}>
                                                     <input className="form-control"
                                                            type="number"
                                                            name="quantity"
@@ -160,30 +162,30 @@ export const ProductDetail = (props) => {
                                 </div>
                                 <ul className="pro__dtl__btn">
                                     <li className="buy__now__btn"><a className={"cursor-pointer"}
-                                        onClick={() => {
-                                            console.log(quantity)
-                                            addItem(product, quantity)
-                                            newAlert.show('Товар доданий в корзину', {
-                                            type: 'success',
-                                            })
-                                        }}>buy now</a>
+                                                                     onClick={() => {
+                                                                         addItem(product, quantity)
+                                                                         updateItemQuantity(product.id, quantity)
+                                                                         newAlert.show('Товар доданий в корзину', {
+                                                                             type: 'success',
+                                                                         })
+                                                                     }}>Додати в кошик</a>
                                     </li>
-                                    <li><a href="/#"><span className="ti-heart"></span></a></li>
-                                    <li><a href="/#"><span className="ti-email"></span></a></li>
+                                    {/*<li><a href="/#"><span className="ti-heart"></span></a></li>*/}
+                                    {/*<li><a href="/#"><span className="ti-email"></span></a></li>*/}
                                 </ul>
-                                <div className="pro__social__share">
-                                    <h2>Share :</h2>
-                                    <ul className="pro__soaial__link">
-                                        <li><a href="/#"><i className="zmdi zmdi-twitter"></i></a>
-                                        </li>
-                                        <li><a href="/#"><i className="zmdi zmdi-instagram"></i></a>
-                                        </li>
-                                        <li><a href="/#"><i className="zmdi zmdi-facebook"></i></a>
-                                        </li>
-                                        <li><a href="/#"><i
-                                            className="zmdi zmdi-google-plus"></i></a></li>
-                                    </ul>
-                                </div>
+                                {/*<div className="pro__social__share">*/}
+                                {/*    <h2>Share :</h2>*/}
+                                {/*    <ul className="pro__soaial__link">*/}
+                                {/*        <li><a href="/#"><i className="zmdi zmdi-twitter"></i></a>*/}
+                                {/*        </li>*/}
+                                {/*        <li><a href="/#"><i className="zmdi zmdi-instagram"></i></a>*/}
+                                {/*        </li>*/}
+                                {/*        <li><a href="/#"><i className="zmdi zmdi-facebook"></i></a>*/}
+                                {/*        </li>*/}
+                                {/*        <li><a href="/#"><i*/}
+                                {/*            className="zmdi zmdi-google-plus"></i></a></li>*/}
+                                {/*    </ul>*/}
+                                {/*</div>*/}
                             </div>
                         </div>
                     </div>
@@ -196,12 +198,14 @@ export const ProductDetail = (props) => {
                         <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                             <ul className="product__deatils__tab mb--60" role="tablist">
                                 <li role="presentation" className={on ? "active" : "none"}>
-                                    <a onClick={() => toggle(true)} role="tab" className={"cursor-pointer"}
-                                       data-toggle="tab">Description</a>
+                                    <a onClick={() => toggle(true)} role="tab"
+                                       className={"cursor-pointer"}
+                                       data-toggle="tab">Характеристика</a>
                                 </li>
                                 <li role="presentation" className={!on ? "active" : "none"}>
-                                    <a onClick={() => toggle(false)} role="tab" className={"cursor-pointer"}
-                                       data-toggle="tab">Reviews</a>
+                                    <a onClick={() => toggle(false)} role="tab"
+                                       className={"cursor-pointer"}
+                                       data-toggle="tab">Відгуки</a>
                                 </li>
                             </ul>
                         </div>

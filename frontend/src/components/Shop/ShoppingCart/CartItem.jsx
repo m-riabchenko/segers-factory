@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {useAlert} from "react-alert";
+import {HOST} from "../../../api/utils";
 
 export const CartItem = ({
                              item,
@@ -11,7 +12,6 @@ export const CartItem = ({
     const [countItemsProduct, setCountItemsProduct] = useState(0)
     const maxQty = 100
     const minQty = 1
-    const HOST = window.location.hostname
     useEffect(() => {
         setCountItemsProduct(item.quantity)
     }, [item.quantity])
@@ -34,7 +34,6 @@ export const CartItem = ({
             setCountItemsProduct(1)
         }
     }
-    console.log(item)
     return (
         <>
             <tr key={item.id}>

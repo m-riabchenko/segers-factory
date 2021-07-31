@@ -8,6 +8,7 @@ import {categoryAPI} from "../../api/CategoryAPI";
 import {SidebarFilter} from "./SidebarFilter/SidebarFilter";
 import {useHistory} from "react-router";
 import qs from "qs";
+import {HOST} from "../../api/utils";
 
 
 export function Shop(props) {
@@ -22,7 +23,6 @@ export function Shop(props) {
 
     const [limit, setLimit] = useState(30)
     const [offset, setOffset] = useState(0)
-    const HOST = window.location.hostname
     const onHandleChangeOptionsSort = e => {
         if (e.currentTarget.value !== "default") {
             const value = e.currentTarget.value

@@ -23,11 +23,12 @@ import {Vacancy} from "./components/Vacancy/Vacancy";
 import {ContactUs} from "./components/Contact Us/ContactUs";
 import {AboutUs} from "./components/AboutUs/AboutUs";
 import {useEffect} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation, Switch} from "react-router-dom";
 import {CartProvider} from "react-use-cart";
 import {UpdateProduct} from "./components/Dashboard/Product/UpdateProduct";
 import {transitions, positions, Provider as AlertProvider} from 'react-alert'
 import {AlertTemplate} from "./components/Alert/AlertTemplate";
+
 
 function ScrollToTop() {
     const {pathname} = useLocation();
@@ -46,6 +47,13 @@ const options = {
     transition: transitions.SCALE
 }
 
+const NotFound = () => (
+  <div className={"center-block not-found"}>
+    <h1>404 - Not Found!</h1>
+    <Link to={"/"}> На Головну </Link>
+  </div>
+);
+
 
 const App = () => {
     return (
@@ -55,21 +63,26 @@ const App = () => {
                 <CartProvider>
                     <Header/>
                     <div className="body__overlay"></div>
-                    <Route exact path='/' render={() => <Main/>}/>
-                    <Route path='/register' render={() => <Register/>}/>
-                    <Route path='/login' render={() => <Login/>}/>
-                    <Route path='/shop' render={(props) => <Shop {...props}/>}/>
-                    <Route path='/cart' render={() => <ShoppingCart/>}/>
-                    <Route path='/order' render={() => <Order/>}/>
-                    <Route path='/vacancy' render={() => <Vacancy/>}/>
-                    <Route path='/about-us' render={() => <AboutUs/>}/>
-                    <Route path='/contact-us' render={() => <ContactUs/>}/>
-                    <Route path='/product/:productId'
-                           render={(props) => <ProductDetail {...props}/>}/>
-                    <Route path='/dashboard/category/' render={() => <AddCategory/>}/>
-                    <Route path='/dashboard/product-create/' render={() => <AddProduct/>}/>
-                    <Route path='/dashboard/product-update/:productId'
-                           render={(props) => <UpdateProduct {...props}/>}/>
+
+                    <Switch>
+                        <Route exact path='/' render={() => <Main/>}/>
+                        <Route path='/register' render={() => <Register/>}/>
+                        <Route path='/login' render={() => <Login/>}/>
+                        <Route path='/shop' render={(props) => <Shop {...props}/>}/>
+                        <Route path='/cart' render={() => <ShoppingCart/>}/>
+                        <Route path='/order' render={() => <Order/>}/>
+                        <Route path='/vacancy' render={() => <Vacancy/>}/>
+                        <Route path='/about-us' render={() => <AboutUs/>}/>
+                        <Route path='/contact-us' render={() => <ContactUs/>}/>
+                        <Route path='/product/:productId'
+                               render={(props) => <ProductDetail {...props}/>}/>
+                        <Route path='/dashboard/category/' render={() => <AddCategory/>}/>
+                        <Route path='/dashboard/product-create/' render={() => <AddProduct/>}/>
+                        <Route path='/dashboard/product-update/:productId'
+                               render={(props) => <UpdateProduct {...props}/>}/>
+
+                        <Route  render={() => <NotFound/>} />
+                    </Switch>
                     <Footer/>
                 </CartProvider>
             </AlertProvider>

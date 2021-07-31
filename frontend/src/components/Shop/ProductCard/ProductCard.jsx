@@ -16,7 +16,7 @@ export const ProductCard = ({product, HOST}) => {
                 <div className="product__inner">
                     <div className="pro__thumb">
                         <NavLink to={"/product/" + product.id}>
-                            <img src={HOST + product.images['main-image']} alt="product images"/>
+                            <img src={HOST + product.images['main-image']} alt="product images" className={"product_image"}/>
                         </NavLink>
                         {product.sale !== 0 && <div className={"on-sale"}>
                             <span>Sale {product.sale}%</span>

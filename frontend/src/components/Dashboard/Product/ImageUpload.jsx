@@ -1,12 +1,12 @@
 import ImageUploading from 'react-images-uploading';
 import React, {useEffect, useState} from "react";
 import {Controller} from "react-hook-form";
+import {HOST} from "../../../api/utils";
 
 export const ImageUpload = ({control, productImages}) => {
     const [images, setImages] = useState(null);
     const [currentNumImg, setCurrentNumImg] = useState(0)
     const maxNumberImg = 4;
-    const HOST = "http://127.0.0.1:8000"
 
     useEffect(() => {
         if (productImages) {

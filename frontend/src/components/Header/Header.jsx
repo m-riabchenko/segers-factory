@@ -40,9 +40,9 @@ export const Header = () => {
                                 <ul className="menu-extra">
                                     {/*<li className="search search__open hidden-xs"><span*/}
                                     {/*    className="ti-search"></span></li>*/}
-                                    <li><Link to={"/login"}><span
-                                        className="ti-user"></span></Link>
-                                    </li>
+                                    {/*<li><Link to={"/login"}><span*/}
+                                    {/*    className="ti-user"></span></Link>*/}
+                                    {/*</li>*/}
                                     <li className="cart__menu" onClick={setToggleCart}><span
                                         className="ti-shopping-cart"></span></li>
                                     <li className="toggle__menu visible-xs visible-sm"

@@ -6,6 +6,8 @@ export const CategoryBlock = ({categories, setUniversalQueryString, setQueryStri
     const onHandleChangeCheckBox = (categoryId) => {
         if (categoryId === isChecked) {
             setIsChecked(null)
+            setUniversalQueryString(prev => ({...prev, category: 0}))
+
         } else {
             setIsChecked(categoryId)
             setUniversalQueryString(prev => ({...prev, category: categoryId}))
@@ -17,18 +19,18 @@ export const CategoryBlock = ({categories, setUniversalQueryString, setQueryStri
         <>
             <div className="htc__shop__cat">
                 <h2 className="section-title-4">Категорії</h2>
-                    <ul className="sidebar__list">
-                        {
-                            categories.map((category) => <li key={category.id}>
-                                    <input type="checkbox"
-                                           checked={isChecked === category.id}
-                                           name={category.id}
-                                           onChange={() => onHandleChangeCheckBox(category.id)}/> {category.name}
-                                    <span> {category.quantity} </span>
-                                </li>
-                            )
-                        }
-                    </ul>
+                <ul className="sidebar__list">
+                    {
+                        categories.map((category) => <li key={category.id}>
+                                <input type="checkbox"
+                                       checked={isChecked === category.id}
+                                       name={category.id}
+                                       onChange={() => onHandleChangeCheckBox(category.id)}/> {category.name}
+                                <span> {category.quantity} </span>
+                            </li>
+                        )
+                    }
+                </ul>
             </div>
         </>
     )

@@ -3,12 +3,20 @@ import {Link} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {contactAPI} from "../../api/ContactAPI";
 import logo from "../../resources/images/logo.png"
+import {useAlert} from "react-alert";
 
 export const Footer = (props) => {
     const {register, errors, handleSubmit, reset} = useForm();
-
+    const newAlert = useAlert()
     const onSubmit = (data) => {
-        contactAPI.subscribe(data).then(reset())
+        contactAPI.subscribe(data).then(res => {
+            if (res.status === 201){
+                newAlert.show('Ви підписались на розсилку', {
+                type: 'success',
+            })
+            }
+            reset()
+        })
     }
 
     return (
@@ -31,16 +39,16 @@ export const Footer = (props) => {
                                                 <div className="address-icon">
                                                     <i className="zmdi zmdi-pin"></i>
                                                 </div>
-                                                <div className="address-text">
+                                                {/* <div className="address-text">
                                                     <p>194 Main Rd T, FS Rayed VIC 3057, USA</p>
-                                                </div>
+                                                </div> */}
                                             </li>
                                             <li>
                                                 <div className="address-icon">
                                                     <i className="zmdi zmdi-email"></i>
                                                 </div>
                                                 <div className="address-text">
-                                                    <p> info@example.com</p>
+                                                    <p> support@segers-ukraine.ua</p>
                                                 </div>
                                             </li>
                                             <li>
@@ -66,12 +74,10 @@ export const Footer = (props) => {
                                 <div className="ft__widget">
                                     <h2 className="ft__title"><b>Категорії</b></h2>
                                     <ul className="footer-categories">
-                                        <li><a className={"cursor-pointer"}>---</a></li>
-                                        <li><a className={"cursor-pointer"}>---</a></li>
-                                        <li><a className={"cursor-pointer"}>---</a></li>
-                                        <li><a className={"cursor-pointer"}>---</a></li>
-                                        <li><a className={"cursor-pointer"}>---</a></li>
-                                        <li><a className={"cursor-pointer"}>---</a></li>
+                                        <li><a className={"cursor-pointer"}>Костюм робочий</a></li>
+                                        <li><a className={"cursor-pointer"}>Кофта робоча</a></li>
+                                        <li><a className={"cursor-pointer"}>Штани робочі</a></li>
+                                        <li><a className={"cursor-pointer"}>Футболки</a></li>
                                     </ul>
                                 </div>
                             </div>
